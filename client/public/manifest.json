@@ -4,8 +4,8 @@
   "description": "Expert reviews of premium fitness equipment, smart devices, and supplements",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#16a34a",
+  "background_color": "#E8F0E8",
+  "theme_color": "#1B5E5E",
   "orientation": "portrait-primary",
   "icons": [
     {

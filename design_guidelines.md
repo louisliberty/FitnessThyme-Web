@@ -1,5 +1,37 @@
 # Fitness Thyme Design Guidelines
 
+## Brand Identity
+Fitness Thyme is a premium affiliate fitness equipment review site with a natural, wellness-focused aesthetic inspired by the thyme herb and a commitment to health.
+
+## Logo
+- Primary logo: Stylized thyme/leaf design with integrated human silhouette
+- Located at: `attached_assets/Fitness_Thyme_1768094141430.jpg`
+- Usage: Header, favicon, social sharing images
+
+## Color Palette
+
+### Primary Colors
+- **Deep Teal** (Primary): `hsl(174, 50%, 28%)` - #1B5E5E
+  - Used for: Primary buttons, links, key accents, headings
+- **Light Sage** (Background): `hsl(140, 20%, 96%)` - #E8F0E8
+  - Used for: Page backgrounds
+
+### Secondary Colors
+- **Medium Green** (Accent): `hsl(134, 35%, 58%)` - #7CB083
+  - Used for: Accent elements, highlights, badges
+- **Sage Muted**: `hsl(140, 15%, 90%)`
+  - Used for: Cards, secondary backgrounds
+
+### Text Colors
+- **Primary Text**: `hsl(174, 50%, 18%)` - Dark teal
+- **Secondary Text**: `hsl(174, 20%, 40%)` - Muted teal
+- **Light Text on Dark**: `hsl(140, 40%, 98%)` - Near white with green tint
+
+### Dark Mode
+- Background: `hsl(170, 20%, 8%)`
+- Cards: `hsl(170, 18%, 10%)`
+- Primary: `hsl(174, 45%, 42%)`
+
 ## Design Approach
 **Reference-Based:** Drawing from Wirecutter's authoritative review aesthetic + REI's product showcase + The Verge's editorial layout. Professional, trust-building design that positions the site as an expert authority while maintaining visual appeal that drives affiliate conversions.
 
@@ -92,3 +124,9 @@
 **Mobile Navigation:** Hamburger menu, bottom navigation bar for key actions (Home, Categories, Search, Saved).
 
 **Touch Targets:** Minimum 48px height for all interactive elements, generous spacing between tappable areas.
+
+## Accessibility
+- Sufficient color contrast (WCAG AA)
+- Semantic HTML structure
+- Alt text on all images
+- Focus states on interactive elements

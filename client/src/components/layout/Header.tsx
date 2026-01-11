@@ -4,6 +4,7 @@ import { Menu, X, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { categories } from "@shared/schema";
+import logoImage from "@assets/Fitness_Thyme_1768094141430.jpg";
 
 export function Header() {
   const [location] = useLocation();
@@ -16,12 +17,11 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg">F</span>
-            </div>
-            <span className="font-heading font-bold text-xl text-foreground hidden sm:block">
-              Fitness Thyme
-            </span>
+            <img 
+              src={logoImage} 
+              alt="Fitness Thyme" 
+              className="h-12 w-auto object-contain"
+            />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
