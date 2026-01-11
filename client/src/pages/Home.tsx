@@ -1,14 +1,14 @@
 import { Link } from "wouter";
-import { ArrowRight, Shield, Award, TrendingUp, RefreshCw } from "lucide-react";
+import { ArrowRight, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { BlogCard } from "@/components/BlogCard";
 import { SEO } from "@/components/SEO";
 import { categories } from "@shared/schema";
-import { getTrendingProducts, getFeaturedProducts, blogPosts } from "@/lib/products";
+import { getFeaturedProducts, guides, comparisons } from "@/lib/products";
 
 const categoryImages: Record<string, string> = {
   "exercise-equipment": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
@@ -18,91 +18,143 @@ const categoryImages: Record<string, string> = {
 };
 
 export default function Home() {
-  const trendingProducts = getTrendingProducts();
   const featuredProducts = getFeaturedProducts();
-  const latestPosts = blogPosts.slice(0, 2);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  
+  const nextSlide = () => {
+    setCarouselIndex((prev) => (prev + 1) % featuredProducts.length);
+  };
+  
+  const prevSlide = () => {
+    setCarouselIndex((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length);
+  };
 
   return (
     <Layout>
       <SEO
-        title="Fitness Thyme - High Ticket Home Gym Equipment Reviews & Deals 2026"
-        description="Expert reviews of premium fitness equipment, smart devices, and supplements. Compare treadmills, rowers, Whoop, Oura, Peloton and more. Unbiased recommendations for your home gym."
-        keywords="high ticket home gym equipment reviews, best treadmill 2026, rowing machine reviews, Whoop vs Oura, Peloton app review, Onnit supplements, home gym setup, fitness equipment comparison"
+        title="Fitness Thyme - Premium Fitness Product Directory 2026"
+        description="Discover premium wellness gear with real user reviews. Compare elite home gyms, smart devices, and nutrition products. Aggregated ratings from Amazon, Reddit, and Trustpilot."
+        keywords="premium home treadmill 2026, best rowing machine, WHOOP vs Oura, Peloton app review, home gym equipment, fitness tracker reviews"
         canonicalUrl="https://fitnessthyme.com"
       />
-      <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&h=1080&fit=crop')",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+      
+      <section className="relative min-h-[550px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-5" />
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <Badge className="mb-6 bg-primary/20 text-primary border-primary/30 backdrop-blur-md">
-            January 2026 Deals
+        <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 text-center">
+          <Badge variant="secondary" className="mb-6" data-testid="badge-hero">
+            Real User Reviews Included
           </Badge>
           
           <h1 
-            className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-6 max-w-4xl mx-auto leading-tight"
+            className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight"
             data-testid="text-hero-title"
           >
-            High Ticket Home Gym Equipment Reviews & Expert Buying Guides
+            Discover Premium Wellness Gear
           </h1>
           
-          <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-            Unbiased reviews of premium treadmills, rowers, smart devices, and supplements. 
-            Make informed decisions with our expert analysis.
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Elite Home Gyms, Smart Devices, Nutrition – with aggregated reviews from Amazon, Reddit & Trustpilot
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/category/exercise-equipment">
-              <Button size="lg" className="gap-2" data-testid="button-hero-cta">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/exercise-equipment">
+              <Button size="lg" className="gap-2" data-testid="button-browse-equipment">
                 Browse Equipment
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
-            <Link href="/blog">
-              <Button size="lg" variant="outline" className="backdrop-blur-md bg-white/10 border-white/30 text-white hover:bg-white/20" data-testid="button-hero-guides">
-                Read Buying Guides
+            <Link href="/comparisons/whoop-vs-oura">
+              <Button size="lg" variant="outline" data-testid="button-see-comparisons">
+                See Comparisons
               </Button>
             </Link>
           </div>
-
-          {featuredProducts.length > 0 && (
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-              <span className="text-white/60 text-sm">Featured Today:</span>
-              {featuredProducts.slice(0, 3).map((product) => (
-                <Link key={product.id} href={`/product/${product.slug}`}>
-                  <Badge className="backdrop-blur-md bg-white/10 border-white/20 text-white hover:bg-white/20 cursor-pointer">
-                    {product.name} - ${product.price.toLocaleString()}
-                  </Badge>
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
-      <section className="py-4 bg-primary">
+      <section className="py-12 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-primary-foreground text-sm font-medium">
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
-              <span>10,000+ Products Reviewed</span>
+          <div className="text-center mb-8">
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-2">
+              Featured Products
+            </h2>
+            <p className="text-muted-foreground">Top-rated gear with real user reviews</p>
+          </div>
+          
+          <div className="relative">
+            <div className="overflow-hidden">
+              <div 
+                className="flex transition-transform duration-300 ease-in-out"
+                style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+              >
+                {featuredProducts.map((product) => (
+                  <div key={product.id} className="w-full flex-shrink-0 px-4">
+                    <Card className="p-6 mx-auto max-w-2xl">
+                      <div className="flex flex-col md:flex-row gap-6 items-center">
+                        <img
+                          src={product.imageUrl}
+                          alt={product.name}
+                          className="w-48 h-48 object-cover rounded-lg"
+                        />
+                        <div className="flex-1 text-center md:text-left">
+                          <Badge variant="secondary" className="mb-2">{product.brand}</Badge>
+                          <h3 className="font-heading font-bold text-xl mb-2">{product.name}</h3>
+                          <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
+                            <div className="flex items-center gap-1">
+                              <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                              <span className="font-semibold">{product.aggregatedRating}</span>
+                            </div>
+                            <span className="text-muted-foreground text-sm">
+                              from {product.totalReviewCount.toLocaleString()} reviews
+                            </span>
+                          </div>
+                          <p className="text-2xl font-bold text-primary mb-4">
+                            ${product.price.toLocaleString()}
+                          </p>
+                          <Link href={`/product/${product.slug}`}>
+                            <Button data-testid={`button-featured-${product.slug}`}>
+                              View Details
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Award className="w-4 h-4" />
-              <span>Expert Analysis</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              <span>Unbiased Recommendations</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4" />
-              <span>Updated Daily</span>
+            
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 bg-background"
+              onClick={prevSlide}
+              data-testid="button-carousel-prev"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 bg-background"
+              onClick={nextSlide}
+              data-testid="button-carousel-next"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </Button>
+            
+            <div className="flex justify-center gap-2 mt-4">
+              {featuredProducts.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    index === carouselIndex ? "bg-primary" : "bg-muted-foreground/30"
+                  }`}
+                  onClick={() => setCarouselIndex(index)}
+                  data-testid={`button-carousel-dot-${index}`}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -110,37 +162,34 @@ export default function Home() {
 
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="font-heading font-bold text-3xl text-foreground mb-2" data-testid="text-categories-title">
-                Shop by Category
-              </h2>
-              <p className="text-muted-foreground">
-                Explore our curated selection of premium fitness products
-              </p>
-            </div>
+          <div className="text-center mb-10">
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-2">
+              Shop by Category
+            </h2>
+            <p className="text-muted-foreground">Find exactly what you need</p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {categories.map((category) => (
-              <Link key={category.id} href={`/category/${category.slug}`}>
-                <Card className="overflow-hidden hover-elevate group cursor-pointer h-full" data-testid={`card-category-${category.slug}`}>
-                  <div className="aspect-[4/3] relative overflow-hidden">
+              <Link key={category.id} href={`/${category.slug}`}>
+                <Card 
+                  className="group overflow-hidden hover-elevate cursor-pointer h-full"
+                  data-testid={`card-category-${category.slug}`}
+                >
+                  <div className="aspect-[4/3] overflow-hidden">
                     <img
                       src={categoryImages[category.id]}
-                      alt={`${category.name} - fitness equipment and products`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
+                      alt={category.name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-heading font-bold text-lg text-white mb-1">
-                        {category.name}
-                      </h3>
-                      <p className="text-white/80 text-sm">
-                        {category.productCount} products
-                      </p>
-                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-heading font-semibold text-lg text-foreground mb-1">
+                      {category.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {category.productCount} products
+                    </p>
                   </div>
                 </Card>
               </Link>
@@ -149,97 +198,99 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-card">
+      <section className="py-16 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-center justify-between mb-10">
             <div>
-              <h2 className="font-heading font-bold text-3xl text-foreground mb-2" data-testid="text-trending-title">
-                Trending Products
+              <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-2">
+                Popular Products
               </h2>
-              <p className="text-muted-foreground">
-                Top-rated fitness equipment our readers love
-              </p>
+              <p className="text-muted-foreground">Based on real user reviews</p>
             </div>
-            <Link href="/compare">
-              <Button variant="outline" className="gap-2 hidden sm:flex">
-                Compare All
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
           </div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trendingProducts.slice(0, 6).map((product) => (
+            {featuredProducts.slice(0, 6).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-          </div>
-
-          <div className="text-center mt-8 sm:hidden">
-            <Link href="/compare">
-              <Button variant="outline" className="gap-2">
-                Compare All Products
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
 
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="font-heading font-bold text-3xl text-foreground mb-2" data-testid="text-reviews-title">
-                Latest Reviews & Guides
-              </h2>
-              <p className="text-muted-foreground">
-                Expert analysis and buying advice for 2026
-              </p>
-            </div>
-            <Link href="/blog">
-              <Button variant="outline" className="gap-2 hidden sm:flex">
-                View All
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
+          <div className="text-center mb-10">
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-2">
+              Comparisons & Guides
+            </h2>
+            <p className="text-muted-foreground">Make informed decisions</p>
           </div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {latestPosts.map((post, i) => (
-              <BlogCard key={post.id} post={post} featured={i === 0} />
+            {comparisons.map((comparison) => (
+              <Link key={comparison.id} href={`/comparisons/${comparison.slug}`}>
+                <Card className="overflow-hidden hover-elevate cursor-pointer h-full" data-testid={`card-comparison-${comparison.slug}`}>
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={comparison.imageUrl}
+                      alt={comparison.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <Badge variant="outline" className="mb-2">Comparison</Badge>
+                    <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
+                      {comparison.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">{comparison.description}</p>
+                  </div>
+                </Card>
+              </Link>
             ))}
-          </div>
-
-          <div className="text-center mt-8 sm:hidden">
-            <Link href="/blog">
-              <Button variant="outline" className="gap-2">
-                View All Articles
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
+            
+            {guides.slice(0, 2).map((guide) => (
+              <Link key={guide.id} href={`/guides/${guide.slug}`}>
+                <Card className="overflow-hidden hover-elevate cursor-pointer h-full" data-testid={`card-guide-${guide.slug}`}>
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={guide.imageUrl}
+                      alt={guide.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <Badge variant="outline" className="mb-2">Guide</Badge>
+                    <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">{guide.excerpt}</p>
+                  </div>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-primary">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading font-bold text-3xl text-primary-foreground mb-4">
-            Get Exclusive Deals & Expert Tips
+      <section className="py-12 bg-primary text-primary-foreground">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="font-heading font-bold text-2xl md:text-3xl mb-4">
+            Stay Updated
           </h2>
-          <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Join 15,000+ fitness enthusiasts who get our weekly newsletter with the best deals, product drops, and expert buying advice.
+          <p className="text-primary-foreground/80 mb-6">
+            Get notified about new product reviews and exclusive deals
           </p>
-          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-md border-0 bg-white/10 text-primary-foreground placeholder:text-primary-foreground/60 focus:outline-none focus:ring-2 focus:ring-white/30"
-              data-testid="input-footer-email"
+              className="flex-1 px-4 py-3 rounded-md bg-primary-foreground text-foreground"
+              data-testid="input-newsletter"
             />
-            <Button variant="secondary" size="lg" data-testid="button-footer-subscribe">
+            <Button variant="secondary" size="lg" data-testid="button-subscribe">
               Subscribe
             </Button>
-          </form>
+          </div>
         </div>
       </section>
     </Layout>

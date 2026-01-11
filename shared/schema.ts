@@ -1,113 +1,139 @@
 import { z } from "zod";
 
-// Categories
-export const categories = [
-  { id: "exercise-equipment", name: "Exercise Equipment", slug: "exercise-equipment", description: "Premium treadmills, rowers, and home gym equipment", productCount: 4 },
-  { id: "smart-devices", name: "Smart Devices", slug: "smart-devices", description: "Fitness trackers and wearables from Whoop, Oura, and more", productCount: 2 },
-  { id: "digital-subscriptions", name: "Digital Subscriptions", slug: "digital-subscriptions", description: "Streaming fitness apps and workout programs", productCount: 2 },
-  { id: "nutrition-supplements", name: "Nutrition & Supplements", slug: "nutrition-supplements", description: "Premium supplements and nutrition products", productCount: 2 },
-] as const;
+export interface ReviewSource {
+  platform: "Amazon" | "Reddit" | "Trustpilot" | "YouTube";
+  rating: number;
+  reviewCount: number;
+  snippet?: string;
+  url?: string;
+}
 
-export type Category = (typeof categories)[number];
+export interface AffiliateLink {
+  store: string;
+  url: string;
+  price: number;
+}
 
-// Product schema
-export const productSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  slug: z.string(),
-  categoryId: z.string(),
-  shortDescription: z.string(),
-  price: z.number(),
-  originalPrice: z.number().optional(),
-  rating: z.number().min(0).max(5),
-  reviewCount: z.number(),
-  imageUrl: z.string(),
-  brand: z.string(),
-  features: z.array(z.string()),
-  pros: z.array(z.string()),
-  cons: z.array(z.string()),
-  affiliateLinks: z.array(z.object({
-    store: z.string(),
-    url: z.string(),
-    price: z.number(),
-  })),
-  specifications: z.record(z.string()),
-  isFeatured: z.boolean().default(false),
-  isTrending: z.boolean().default(false),
-  overallScore: z.number().min(0).max(10),
-  scores: z.object({
-    performance: z.number(),
-    value: z.number(),
-    quality: z.number(),
-    features: z.number(),
-  }),
-});
+export interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  categoryId: string;
+  subcategoryId?: string;
+  shortDescription: string;
+  price: number;
+  originalPrice?: number;
+  imageUrl: string;
+  brand: string;
+  features: string[];
+  pros: string[];
+  cons: string[];
+  affiliateLinks: AffiliateLink[];
+  specifications: Record<string, string>;
+  isFeatured: boolean;
+  isTrending: boolean;
+  aggregatedRating: number;
+  totalReviewCount: number;
+  reviewSources: ReviewSource[];
+}
 
-export type Product = z.infer<typeof productSchema>;
-export type InsertProduct = z.infer<typeof productSchema>;
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  productCount: number;
+  imageUrl?: string;
+  subcategories?: Subcategory[];
+}
 
-// Review schema (for full product reviews)
-export const reviewSchema = z.object({
-  id: z.string(),
-  productId: z.string(),
-  title: z.string(),
-  slug: z.string(),
-  excerpt: z.string(),
-  content: z.string(), // HTML content for 2000-word reviews
-  author: z.string(),
-  authorImage: z.string(),
-  publishedAt: z.string(),
-  readTime: z.number(),
-  imageUrl: z.string(),
-});
+export interface Subcategory {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  productCount: number;
+}
 
-export type Review = z.infer<typeof reviewSchema>;
+export interface Comparison {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  productIds: string[];
+  publishedAt: string;
+  imageUrl: string;
+}
 
-// Blog post schema
-export const blogPostSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  slug: z.string(),
-  excerpt: z.string(),
-  content: z.string(),
-  author: z.string(),
-  authorImage: z.string(),
-  publishedAt: z.string(),
-  readTime: z.number(),
-  imageUrl: z.string(),
-  category: z.string(),
-  tags: z.array(z.string()),
-  relatedProducts: z.array(z.string()),
-});
+export interface Guide {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  authorImage: string;
+  publishedAt: string;
+  readTime: number;
+  imageUrl: string;
+  relatedProducts: string[];
+  category: string;
+}
 
-export type BlogPost = z.infer<typeof blogPostSchema>;
+export interface Subscriber {
+  id: string;
+  email: string;
+  subscribedAt: Date;
+}
 
-// Email subscriber schema
-export const subscriberSchema = z.object({
-  id: z.string(),
+export const categories: Category[] = [
+  {
+    id: "exercise-equipment",
+    name: "Exercise Equipment",
+    slug: "exercise-equipment",
+    description: "Premium treadmills, rowers, power racks and strength training equipment for your home gym",
+    productCount: 4,
+    subcategories: [
+      { id: "treadmills", name: "Treadmills", slug: "treadmills", description: "Premium home treadmills with smart features", productCount: 2 },
+      { id: "rowers", name: "Rowing Machines", slug: "rowers", description: "Air, water, and magnetic rowers for full-body cardio", productCount: 1 },
+      { id: "strength", name: "Strength Equipment", slug: "strength", description: "Power racks, benches, and weight systems", productCount: 1 },
+    ],
+  },
+  {
+    id: "smart-devices",
+    name: "Smart Devices",
+    slug: "smart-devices",
+    description: "Wearable fitness trackers, smart watches, and recovery monitoring devices",
+    productCount: 2,
+    subcategories: [
+      { id: "wearables", name: "Wearables", slug: "wearables", description: "Fitness trackers and smart rings", productCount: 2 },
+    ],
+  },
+  {
+    id: "digital-subscriptions",
+    name: "Digital Subscriptions",
+    slug: "digital-subscriptions",
+    description: "Fitness apps, training programs, and digital coaching platforms",
+    productCount: 2,
+    subcategories: [
+      { id: "fitness-apps", name: "Fitness Apps", slug: "fitness-apps", description: "Workout and training apps", productCount: 2 },
+    ],
+  },
+  {
+    id: "nutrition-supplements",
+    name: "Nutrition & Supplements",
+    slug: "nutrition-supplements",
+    description: "Premium supplements, nootropics, and nutrition products",
+    productCount: 2,
+    subcategories: [
+      { id: "nootropics", name: "Nootropics", slug: "nootropics", description: "Cognitive enhancement supplements", productCount: 1 },
+      { id: "vitamins", name: "Vitamins & Stacks", slug: "vitamins", description: "Complete vitamin systems", productCount: 1 },
+    ],
+  },
+];
+
+export const insertSubscriberSchema = z.object({
   email: z.string().email(),
-  subscribedAt: z.string(),
 });
 
-export type Subscriber = z.infer<typeof subscriberSchema>;
-export const insertSubscriberSchema = subscriberSchema.pick({ email: true });
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
-
-// Keep existing user schema for compatibility
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-});
-
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
-
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;

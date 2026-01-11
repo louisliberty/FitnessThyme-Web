@@ -1,90 +1,112 @@
 import { Link } from "wouter";
-import { Star, Check } from "lucide-react";
+import { Star, Check, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { Product } from "@shared/schema";
 
 interface ProductCardProps {
   product: Product;
+  compact?: boolean;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
-  const discountPercent = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
+export function ProductCard({ product, compact = false }: ProductCardProps) {
+  const platformIcons: Record<string, string> = {
+    "Amazon": "A",
+    "Reddit": "R",
+    "Trustpilot": "T",
+    "YouTube": "Y",
+  };
 
   return (
-    <Card className="overflow-hidden hover-elevate group" data-testid={`card-product-${product.id}`}>
+    <Card 
+      className="overflow-hidden hover-elevate h-full flex flex-col"
+      data-testid={`card-product-${product.id}`}
+    >
       <Link href={`/product/${product.slug}`}>
-        <div className="aspect-square relative overflow-hidden bg-muted">
+        <div className="aspect-square overflow-hidden bg-muted relative">
           <img
             src={product.imageUrl}
-            alt={`${product.name} - ${product.brand} fitness equipment`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
           />
-          {discountPercent > 0 && (
+          {product.originalPrice && (
             <Badge className="absolute top-3 left-3 bg-destructive text-destructive-foreground">
-              {discountPercent}% OFF
-            </Badge>
-          )}
-          {product.isFeatured && (
-            <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
-              Editor's Choice
+              Save ${(product.originalPrice - product.price).toFixed(0)}
             </Badge>
           )}
         </div>
       </Link>
-
-      <div className="p-4">
-        <div className="text-sm text-muted-foreground mb-1">{product.brand}</div>
+      
+      <div className="p-4 flex-1 flex flex-col">
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <Badge variant="secondary" className="text-xs">{product.brand}</Badge>
+        </div>
+        
         <Link href={`/product/${product.slug}`}>
-          <h3 
-            className="font-heading font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors mb-2"
-            data-testid={`text-product-name-${product.id}`}
-          >
+          <h3 className="font-heading font-semibold text-lg text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">
             {product.name}
           </h3>
         </Link>
-
+        
         <div className="flex items-center gap-2 mb-3">
           <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium">{product.rating.toFixed(1)}</span>
+            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+            <span className="font-semibold text-sm">{product.aggregatedRating}</span>
           </div>
-          <span className="text-sm text-muted-foreground">
-            ({product.reviewCount.toLocaleString()} reviews)
+          <span className="text-muted-foreground text-xs">
+            ({product.totalReviewCount.toLocaleString()} reviews)
           </span>
         </div>
-
-        <ul className="space-y-1 mb-4">
-          {product.features.slice(0, 3).map((feature, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-              <span className="line-clamp-1">{feature}</span>
-            </li>
+        
+        <div className="flex gap-1 mb-3 flex-wrap">
+          {product.reviewSources.slice(0, 3).map((source) => (
+            <Badge 
+              key={source.platform} 
+              variant="outline" 
+              className="text-xs px-2 py-0.5"
+              title={`${source.rating} from ${source.reviewCount} reviews on ${source.platform}`}
+            >
+              {platformIcons[source.platform]} {source.rating}
+            </Badge>
           ))}
-        </ul>
-
-        <div className="flex items-end justify-between gap-2">
-          <div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-foreground" data-testid={`text-product-price-${product.id}`}>
+        </div>
+        
+        {!compact && (
+          <div className="space-y-1 mb-3">
+            {product.pros.slice(0, 2).map((pro, i) => (
+              <div key={i} className="flex items-start gap-2 text-sm">
+                <Check className="w-3 h-3 text-primary mt-1 shrink-0" />
+                <span className="text-muted-foreground line-clamp-1">{pro}</span>
+              </div>
+            ))}
+            {product.cons.slice(0, 1).map((con, i) => (
+              <div key={i} className="flex items-start gap-2 text-sm">
+                <X className="w-3 h-3 text-destructive mt-1 shrink-0" />
+                <span className="text-muted-foreground line-clamp-1">{con}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        
+        <div className="mt-auto pt-3 border-t border-border">
+          <div className="flex items-center justify-between gap-2">
+            <div>
+              <span className="text-xl font-bold text-foreground">
                 ${product.price.toLocaleString()}
               </span>
               {product.originalPrice && (
-                <span className="text-sm text-muted-foreground line-through">
+                <span className="text-sm text-muted-foreground line-through ml-2">
                   ${product.originalPrice.toLocaleString()}
                 </span>
               )}
             </div>
+            <Link href={`/product/${product.slug}`}>
+              <Button size="sm" data-testid={`button-view-${product.slug}`}>
+                View
+              </Button>
+            </Link>
           </div>
-          <Link href={`/product/${product.slug}`}>
-            <Button size="sm" data-testid={`button-view-${product.id}`}>
-              View Deal
-            </Button>
-          </Link>
         </div>
       </div>
     </Card>

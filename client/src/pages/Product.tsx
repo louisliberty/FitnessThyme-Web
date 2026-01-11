@@ -1,23 +1,16 @@
-import { useParams } from "wouter";
-import { Link } from "wouter";
-import { Check, X, Star, Clock, ChevronRight } from "lucide-react";
+import { useParams, Link } from "wouter";
+import { Check, X, Star, ChevronRight, ExternalLink } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { RatingStars } from "@/components/RatingStars";
-import { ScoreBar } from "@/components/ScoreBar";
-import { AffiliateButton } from "@/components/AffiliateButton";
-import { ComparisonTable } from "@/components/ComparisonTable";
 import { ProductCard } from "@/components/ProductCard";
 import { SEO } from "@/components/SEO";
-import { getProductBySlug, getReviewByProductId, getProductsByCategory, products } from "@/lib/products";
-import { categories } from "@shared/schema";
+import { getProductBySlug, getProductsByCategory, products, getCategoryBySlug } from "@/lib/products";
 
 export default function Product() {
   const { slug } = useParams<{ slug: string }>();
   const product = slug ? getProductBySlug(slug) : undefined;
-  const review = product ? getReviewByProductId(product.id) : undefined;
 
   if (!product) {
     return (
@@ -33,9 +26,9 @@ export default function Product() {
     );
   }
 
-  const category = categories.find(c => c.id === product.categoryId);
+  const category = getCategoryBySlug(product.categoryId);
+  const subcategory = category?.subcategories?.find(s => s.id === product.subcategoryId);
   const relatedProducts = getProductsByCategory(product.categoryId).filter(p => p.id !== product.id).slice(0, 3);
-  const compareProducts = products.filter(p => p.categoryId === product.categoryId).slice(0, 3);
 
   const discountPercent = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -45,8 +38,8 @@ export default function Product() {
     <Layout>
       <SEO
         title={`${product.name} Review 2026 - ${product.brand} | Fitness Thyme`}
-        description={`${product.shortDescription}. Read our in-depth ${product.name} review with pros, cons, specs, and where to buy at the best price.`}
-        keywords={`${product.name} review, ${product.brand} ${category?.name || ''}, buy ${product.name}, ${product.name} price, ${product.name} vs`}
+        description={`${product.shortDescription}. ${product.aggregatedRating}/5 from ${product.totalReviewCount.toLocaleString()} reviews on Amazon, Reddit & Trustpilot.`}
+        keywords={`${product.name} review, ${product.brand} ${category?.name || ''}, buy ${product.name}, ${product.name} price, ${product.name} rating`}
         canonicalUrl={`https://fitnessthyme.com/product/${product.slug}`}
         ogImage={product.imageUrl}
         ogType="product"
@@ -63,8 +56,9 @@ export default function Product() {
             brand: { "@type": "Brand", name: product.brand },
             aggregateRating: {
               "@type": "AggregateRating",
-              ratingValue: product.rating,
-              reviewCount: product.reviewCount,
+              ratingValue: product.aggregatedRating,
+              reviewCount: product.totalReviewCount,
+              bestRating: 5,
             },
             offers: {
               "@type": "Offer",
@@ -72,16 +66,6 @@ export default function Product() {
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
             },
-            review: review ? {
-              "@type": "Review",
-              author: { "@type": "Person", name: review.author },
-              datePublished: review.publishedAt,
-              reviewRating: {
-                "@type": "Rating",
-                ratingValue: product.overallScore,
-                bestRating: 10,
-              },
-            } : undefined,
           }),
         }}
       />
@@ -94,8 +78,16 @@ export default function Product() {
           <ChevronRight className="w-4 h-4" />
           {category && (
             <>
-              <Link href={`/category/${category.slug}`}>
+              <Link href={`/${category.slug}`}>
                 <span className="hover:text-foreground transition-colors">{category.name}</span>
+              </Link>
+              <ChevronRight className="w-4 h-4" />
+            </>
+          )}
+          {subcategory && (
+            <>
+              <Link href={`/${category?.slug}/${subcategory.slug}`}>
+                <span className="hover:text-foreground transition-colors">{subcategory.name}</span>
               </Link>
               <ChevronRight className="w-4 h-4" />
             </>
@@ -107,7 +99,7 @@ export default function Product() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="grid lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3">
-            <div className="relative aspect-square rounded-lg overflow-hidden bg-muted mb-4">
+            <div className="relative aspect-square rounded-lg overflow-hidden bg-muted mb-6">
               <img
                 src={product.imageUrl}
                 alt={`${product.name} - ${product.brand} ${category?.name || 'fitness equipment'}`}
@@ -120,37 +112,52 @@ export default function Product() {
               )}
               {product.isFeatured && (
                 <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground">
-                  Editor's Choice
+                  Top Pick
                 </Badge>
               )}
             </div>
 
-            {review && (
-              <Card className="p-6 bg-accent/50 border-accent-border mb-8">
-                <h3 className="font-heading font-bold text-lg text-foreground mb-4 flex items-center gap-2">
-                  <Star className="w-5 h-5 text-primary" />
-                  Executive Summary
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {review.excerpt} After extensive testing, the {product.name} earns an overall score of{" "}
-                  <strong className="text-primary">{product.overallScore}/10</strong>. 
-                  It excels in {Object.entries(product.scores).sort((a, b) => b[1] - a[1])[0][0]} 
-                  ({Object.entries(product.scores).sort((a, b) => b[1] - a[1])[0][1]}/10) 
-                  and offers solid performance across all categories.
-                </p>
-              </Card>
-            )}
+            <Card className="p-6 mb-6">
+              <h2 className="font-heading font-semibold text-xl text-foreground mb-4 flex items-center gap-2">
+                <Star className="w-5 h-5 text-primary" />
+                Real User Reviews
+              </h2>
+              <p className="text-muted-foreground mb-4">
+                Aggregated from {product.totalReviewCount.toLocaleString()} reviews across multiple platforms
+              </p>
+              <div className="space-y-4">
+                {product.reviewSources.map((source) => (
+                  <div key={source.platform} className="border border-border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline">{source.platform}</Badge>
+                        <span className="text-sm text-muted-foreground">
+                          {source.reviewCount.toLocaleString()} reviews
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        <span className="font-semibold">{source.rating}</span>
+                      </div>
+                    </div>
+                    {source.snippet && (
+                      <p className="text-muted-foreground text-sm italic">"{source.snippet}"</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
 
-            <div className="grid sm:grid-cols-2 gap-6 mb-8">
+            <div className="grid sm:grid-cols-2 gap-6 mb-6">
               <Card className="p-5">
                 <h3 className="font-heading font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <Check className="w-5 h-5 text-green-500" />
+                  <Check className="w-5 h-5 text-primary" />
                   Pros
                 </h3>
                 <ul className="space-y-3">
                   {product.pros.map((pro, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-1" />
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-1" />
                       <span className="text-muted-foreground">{pro}</span>
                     </li>
                   ))}
@@ -159,13 +166,13 @@ export default function Product() {
 
               <Card className="p-5">
                 <h3 className="font-heading font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <X className="w-5 h-5 text-red-500" />
+                  <X className="w-5 h-5 text-destructive" />
                   Cons
                 </h3>
                 <ul className="space-y-3">
                   {product.cons.map((con, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <X className="w-4 h-4 text-red-500 shrink-0 mt-1" />
+                      <X className="w-4 h-4 text-destructive shrink-0 mt-1" />
                       <span className="text-muted-foreground">{con}</span>
                     </li>
                   ))}
@@ -173,38 +180,25 @@ export default function Product() {
               </Card>
             </div>
 
-            {review && (
-              <div className="prose prose-lg max-w-none">
-                <h2 className="font-heading font-bold text-2xl text-foreground mb-4" id="review">
-                  {review.title}
-                </h2>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={review.authorImage}
-                      alt={review.author}
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                    <span>{review.author}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{review.readTime} min read</span>
-                  </div>
-                  <span>{new Date(review.publishedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
-                </div>
-                <div 
-                  className="text-muted-foreground leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: review.content }}
-                />
-              </div>
-            )}
+            <Card className="p-6 mb-6">
+              <h3 className="font-heading font-semibold text-xl text-foreground mb-4">
+                Key Features
+              </h3>
+              <ul className="grid sm:grid-cols-2 gap-3">
+                {product.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-muted-foreground">
+                    <Check className="w-4 h-4 text-primary shrink-0 mt-1" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
           </div>
 
           <aside className="lg:col-span-2">
             <div className="sticky top-20 space-y-6">
               <Card className="p-6">
-                <div className="text-sm text-muted-foreground mb-1">{product.brand}</div>
+                <Badge variant="secondary" className="mb-2">{product.brand}</Badge>
                 <h1 
                   className="font-heading font-bold text-2xl text-foreground mb-4"
                   data-testid="text-product-title"
@@ -213,10 +207,25 @@ export default function Product() {
                 </h1>
 
                 <div className="flex items-center gap-3 mb-4">
-                  <RatingStars rating={product.rating} showNumber />
+                  <div className="flex items-center gap-1">
+                    <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                    <span className="font-bold text-lg">{product.aggregatedRating}</span>
+                  </div>
                   <span className="text-muted-foreground text-sm">
-                    ({product.reviewCount.toLocaleString()} reviews)
+                    from {product.totalReviewCount.toLocaleString()} reviews
                   </span>
+                </div>
+
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {product.reviewSources.map((source) => (
+                    <Badge 
+                      key={source.platform} 
+                      variant="outline" 
+                      className="text-xs"
+                    >
+                      {source.platform}: {source.rating}
+                    </Badge>
+                  ))}
                 </div>
 
                 <div className="flex items-baseline gap-3 mb-6">
@@ -232,31 +241,23 @@ export default function Product() {
 
                 <div className="space-y-3 mb-6">
                   {product.affiliateLinks.map((link, i) => (
-                    <AffiliateButton
+                    <Button
                       key={link.store}
-                      store={link.store}
-                      url={link.url}
-                      price={link.price}
-                      primary={i === 0}
-                    />
+                      className="w-full gap-2"
+                      variant={i === 0 ? "default" : "outline"}
+                      asChild
+                    >
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" data-testid={`button-buy-${link.store.toLowerCase()}`}>
+                        Buy on {link.store} - ${link.price.toLocaleString()}
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </Button>
                   ))}
                 </div>
 
                 <p className="text-xs text-muted-foreground text-center">
                   Prices updated daily. We may earn a commission on purchases.
                 </p>
-              </Card>
-
-              <Card className="p-6">
-                <h3 className="font-heading font-semibold text-foreground mb-4">
-                  Our Score: {product.overallScore}/10
-                </h3>
-                <div className="space-y-4">
-                  <ScoreBar label="Performance" score={product.scores.performance} />
-                  <ScoreBar label="Value" score={product.scores.value} />
-                  <ScoreBar label="Quality" score={product.scores.quality} />
-                  <ScoreBar label="Features" score={product.scores.features} />
-                </div>
               </Card>
 
               <Card className="p-6">
@@ -277,22 +278,8 @@ export default function Product() {
         </div>
       </section>
 
-      {compareProducts.length > 1 && (
-        <section className="py-12 bg-card">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-heading font-bold text-2xl text-foreground mb-6">
-              Compare {category?.name}
-            </h2>
-            <ComparisonTable 
-              products={compareProducts} 
-              bestProductId={compareProducts.reduce((best, p) => p.overallScore > best.overallScore ? p : best).id}
-            />
-          </div>
-        </section>
-      )}
-
       {relatedProducts.length > 0 && (
-        <section className="py-12">
+        <section className="py-12 bg-muted/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="font-heading font-bold text-2xl text-foreground mb-6">
               Related Products
