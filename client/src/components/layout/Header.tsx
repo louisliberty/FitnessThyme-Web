@@ -4,7 +4,7 @@ import { Menu, X, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { categories } from "@shared/schema";
-import logoImage from "@assets/generated_images/sleek_fitness_thyme_luxury_logo.png";
+import logoImage from "@assets/generated_images/bold_fitness_thyme_large_text_logo.png";
 
 export function Header() {
   const [location] = useLocation();
@@ -20,7 +20,7 @@ export function Header() {
             <img 
               src={logoImage} 
               alt="Fitness Thyme" 
-              className="h-12 sm:h-14 w-auto object-contain"
+              className="h-10 sm:h-12 max-w-[200px] sm:max-w-[280px] object-contain"
             />
           </Link>
 

@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { categories } from "@shared/schema";
-import logoImage from "@assets/generated_images/sleek_fitness_thyme_luxury_logo.png";
+import logoImage from "@assets/generated_images/bold_fitness_thyme_large_text_logo.png";
 
 export function Footer() {
   return (
