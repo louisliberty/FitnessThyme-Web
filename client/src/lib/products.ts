@@ -42,7 +42,7 @@ export const products: Product[] = [
     name: "Concept2 RowErg",
     slug: "concept2-rowerg",
     categoryId: "exercise-equipment",
-    subcategoryId: "rowers",
+    subcategoryId: "rowing-machines",
     shortDescription: "The gold standard in indoor rowing machines used by Olympic athletes worldwide",
     price: 1095,
     imageUrl: "https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?w=600&h=600&fit=crop",
@@ -75,7 +75,7 @@ export const products: Product[] = [
     name: "Titan Fitness T-3 Series Power Rack",
     slug: "titan-fitness-t3-power-rack",
     categoryId: "exercise-equipment",
-    subcategoryId: "strength",
+    subcategoryId: "weight-racks",
     shortDescription: "Commercial-grade power rack for serious home gym enthusiasts at an excellent value",
     price: 469,
     originalPrice: 549,
@@ -143,7 +143,7 @@ export const products: Product[] = [
     name: "WHOOP 4.0",
     slug: "whoop-4",
     categoryId: "smart-devices",
-    subcategoryId: "wearables",
+    subcategoryId: "fitness-trackers",
     shortDescription: "Advanced fitness and health wearable with 24/7 monitoring and personalized insights",
     price: 239,
     imageUrl: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=600&h=600&fit=crop",
@@ -173,9 +173,9 @@ export const products: Product[] = [
   {
     id: "6",
     name: "Oura Ring Gen 3",
-    slug: "oura-ring-gen3",
+    slug: "oura-ring-gen-3",
     categoryId: "smart-devices",
-    subcategoryId: "wearables",
+    subcategoryId: "fitness-trackers",
     shortDescription: "Smart ring for sleep, activity, and readiness tracking in an elegant form factor",
     price: 299,
     imageUrl: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=600&h=600&fit=crop",
@@ -206,7 +206,7 @@ export const products: Product[] = [
   {
     id: "7",
     name: "Peloton App Membership",
-    slug: "peloton-app-membership",
+    slug: "peloton",
     categoryId: "digital-subscriptions",
     subcategoryId: "fitness-apps",
     shortDescription: "World-class fitness classes from strength to yoga, accessible on any device",
@@ -238,29 +238,30 @@ export const products: Product[] = [
     id: "8",
     name: "LADDER by Arnold",
     slug: "ladder-by-arnold",
-    categoryId: "digital-subscriptions",
-    subcategoryId: "fitness-apps",
-    shortDescription: "Arnold Schwarzenegger's science-backed fitness app with personalized training",
-    price: 19.99,
+    categoryId: "nutrition-supplements",
+    subcategoryId: "protein",
+    shortDescription: "Arnold Schwarzenegger's science-backed protein and supplement line for serious athletes",
+    price: 49.99,
     imageUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=600&fit=crop",
     brand: "LADDER",
-    features: ["Personalized Programs", "Expert Coaches", "Nutrition Guidance", "Arnold's Insights"],
-    pros: ["Science-backed programming", "Detailed exercise demos", "Nutrition integration", "Motivating content from Arnold"],
-    cons: ["Newer platform - smaller community", "Higher price point", "Less content than competitors"],
+    features: ["NSF Certified", "Clean Ingredients", "Arnold Approved", "Performance Tested"],
+    pros: ["Science-backed formulas", "Clean ingredient profile", "Great taste", "Trusted by pro athletes"],
+    cons: ["Premium price point", "Limited flavor options", "Not widely available in stores"],
     affiliateLinks: [
-      { store: "LADDER", url: "https://ladder.sport/placeholder", price: 19.99 },
+      { store: "LADDER", url: "https://ladder.sport/placeholder", price: 49.99 },
+      { store: "Amazon", url: "https://amazon.com/dp/placeholder", price: 49.99 },
     ],
     specifications: {
-      "Program Types": "Strength, Hypertrophy, Athletic",
-      "Platforms": "iOS, Android",
-      "Personalization": "Yes",
+      "Protein Per Serving": "26g",
+      "Servings": "20",
+      "Certification": "NSF Certified for Sport",
     },
     isFeatured: false,
     isTrending: false,
     aggregatedRating: 4.3,
     totalReviewCount: 1892,
     reviewSources: [
-      { platform: "Amazon", rating: 4.2, reviewCount: 892, snippet: "Great programs from Arnold's team" },
+      { platform: "Amazon", rating: 4.2, reviewCount: 892, snippet: "Great protein from Arnold's team" },
       { platform: "Reddit", rating: 4.4, reviewCount: 687, snippet: "Quality over quantity" },
       { platform: "YouTube", rating: 4.3, reviewCount: 313, snippet: "Solid science-based approach" },
     ],
@@ -270,7 +271,7 @@ export const products: Product[] = [
     name: "Onnit Alpha Brain",
     slug: "onnit-alpha-brain",
     categoryId: "nutrition-supplements",
-    subcategoryId: "nootropics",
+    subcategoryId: "vitamins",
     shortDescription: "Flagship nootropic for focus, memory, and mental clarity without caffeine",
     price: 79.95,
     originalPrice: 89.95,
@@ -442,4 +443,13 @@ export function getCategoryBySlug(slug: string): Category | undefined {
 export function getSubcategoryBySlug(categorySlug: string, subcategorySlug: string): Subcategory | undefined {
   const category = getCategoryBySlug(categorySlug);
   return category?.subcategories?.find(s => s.slug === subcategorySlug);
+}
+
+export function getProductUrl(product: Product): string {
+  const category = categories.find(c => c.id === product.categoryId);
+  const subcategory = category?.subcategories?.find(s => s.id === product.subcategoryId);
+  if (category && subcategory) {
+    return `/${category.slug}/${subcategory.slug}/${product.slug}`;
+  }
+  return `/${category?.slug || 'products'}/${product.slug}`;
 }

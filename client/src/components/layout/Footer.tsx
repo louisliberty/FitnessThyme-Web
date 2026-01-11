@@ -12,7 +12,7 @@ export function Footer() {
               {categories.map((cat) => (
                 <li key={cat.id}>
                   <Link 
-                    href={`/category/${cat.slug}`}
+                    href={`/${cat.slug}`}
                     className="text-muted-foreground hover:text-foreground transition-colors text-sm"
                     data-testid={`footer-category-${cat.slug}`}
                   >
@@ -28,29 +28,38 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="/blog"
+                  href="/guides"
                   className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  data-testid="footer-blog"
+                  data-testid="footer-guides"
                 >
                   Buying Guides
                 </Link>
               </li>
               <li>
                 <Link 
-                  href="/compare"
+                  href="/product-comparisons"
                   className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  data-testid="footer-compare"
+                  data-testid="footer-comparisons"
                 >
-                  Product Comparison
+                  Product Comparisons
                 </Link>
               </li>
               <li>
                 <Link 
-                  href="/blog"
+                  href="/trends"
                   className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  data-testid="footer-reviews"
+                  data-testid="footer-trends"
                 >
-                  Expert Reviews
+                  Trending Products
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/deals"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                  data-testid="footer-deals"
+                >
+                  Deals
                 </Link>
               </li>
             </ul>
@@ -78,10 +87,22 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="text-muted-foreground text-sm">Affiliate Disclosure</span>
+                <Link 
+                  href="/disclosure"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                  data-testid="footer-disclosure"
+                >
+                  Affiliate Disclosure
+                </Link>
               </li>
               <li>
-                <span className="text-muted-foreground text-sm">Privacy Policy</span>
+                <Link 
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                  data-testid="footer-privacy"
+                >
+                  Privacy Policy
+                </Link>
               </li>
             </ul>
           </div>

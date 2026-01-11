@@ -1,10 +1,10 @@
 import { useParams, Link } from "wouter";
 import { Clock, ChevronRight } from "lucide-react";
-import { Layout } from "@/components/layout/Layout";
+import Layout from "@/components/layout/Layout";
 import { Badge } from "@/components/ui/badge";
-import { ProductCard } from "@/components/ProductCard";
-import { SEO } from "@/components/SEO";
-import { getGuideBySlug, getProductById } from "@/lib/products";
+import ProductCard from "@/components/ProductCard";
+import SEO from "@/components/SEO";
+import { getGuideBySlug, getProductById, getProductUrl } from "@/lib/products";
 
 export default function GuidePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -44,7 +44,9 @@ export default function GuidePage() {
             <span className="hover:text-foreground transition-colors">Home</span>
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <span>Guides</span>
+          <Link href="/guides">
+            <span className="hover:text-foreground transition-colors">Guides</span>
+          </Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-foreground">{guide.title}</span>
         </nav>
@@ -115,7 +117,7 @@ export default function GuidePage() {
             <h2 className="font-heading font-bold text-2xl mb-6">Recommended Products</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {relatedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} productUrl={getProductUrl(product)} />
               ))}
             </div>
           </section>

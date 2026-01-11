@@ -95,8 +95,9 @@ export const categories: Category[] = [
     productCount: 4,
     subcategories: [
       { id: "treadmills", name: "Treadmills", slug: "treadmills", description: "Premium home treadmills with smart features", productCount: 2 },
-      { id: "rowers", name: "Rowing Machines", slug: "rowers", description: "Air, water, and magnetic rowers for full-body cardio", productCount: 1 },
-      { id: "strength", name: "Strength Equipment", slug: "strength", description: "Power racks, benches, and weight systems", productCount: 1 },
+      { id: "rowing-machines", name: "Rowing Machines", slug: "rowing-machines", description: "Air, water, and magnetic rowers for full-body cardio", productCount: 1 },
+      { id: "home-gyms", name: "Home Gyms", slug: "home-gyms", description: "Complete home gym systems and multi-stations", productCount: 0 },
+      { id: "weight-racks", name: "Weight Racks", slug: "weight-racks", description: "Power racks, squat stands, and weight storage", productCount: 1 },
     ],
   },
   {
@@ -106,7 +107,9 @@ export const categories: Category[] = [
     description: "Wearable fitness trackers, smart watches, and recovery monitoring devices",
     productCount: 2,
     subcategories: [
-      { id: "wearables", name: "Wearables", slug: "wearables", description: "Fitness trackers and smart rings", productCount: 2 },
+      { id: "fitness-trackers", name: "Fitness Trackers", slug: "fitness-trackers", description: "Wearable fitness and recovery trackers", productCount: 2 },
+      { id: "scales", name: "Smart Scales", slug: "scales", description: "Connected scales with body composition analysis", productCount: 0 },
+      { id: "wearables", name: "Wearables", slug: "wearables", description: "Smart watches and connected fitness gear", productCount: 0 },
     ],
   },
   {
@@ -114,20 +117,23 @@ export const categories: Category[] = [
     name: "Digital Subscriptions",
     slug: "digital-subscriptions",
     description: "Fitness apps, training programs, and digital coaching platforms",
-    productCount: 2,
+    productCount: 1,
     subcategories: [
-      { id: "fitness-apps", name: "Fitness Apps", slug: "fitness-apps", description: "Workout and training apps", productCount: 2 },
+      { id: "fitness-apps", name: "Fitness Apps", slug: "fitness-apps", description: "Workout and training apps", productCount: 1 },
+      { id: "coaching", name: "Coaching", slug: "coaching", description: "Online personal training and coaching services", productCount: 0 },
+      { id: "streaming", name: "Streaming", slug: "streaming", description: "Fitness video streaming platforms", productCount: 0 },
     ],
   },
   {
     id: "nutrition-supplements",
     name: "Nutrition & Supplements",
     slug: "nutrition-supplements",
-    description: "Premium supplements, nootropics, and nutrition products",
-    productCount: 2,
+    description: "Premium supplements, protein, and nutrition products",
+    productCount: 3,
     subcategories: [
-      { id: "nootropics", name: "Nootropics", slug: "nootropics", description: "Cognitive enhancement supplements", productCount: 1 },
-      { id: "vitamins", name: "Vitamins & Stacks", slug: "vitamins", description: "Complete vitamin systems", productCount: 1 },
+      { id: "protein", name: "Protein", slug: "protein", description: "Protein powders and supplements", productCount: 1 },
+      { id: "vitamins", name: "Vitamins", slug: "vitamins", description: "Vitamins, nootropics, and supplement stacks", productCount: 2 },
+      { id: "meal-replacements", name: "Meal Replacements", slug: "meal-replacements", description: "Complete nutrition shakes and bars", productCount: 0 },
     ],
   },
 ];

@@ -56,7 +56,7 @@ export function Header() {
               {categoryDropdownOpen && (
                 <div className="absolute top-full left-0 w-64 bg-popover border border-popover-border rounded-md shadow-lg py-2 mt-1">
                   {categories.map((cat) => (
-                    <Link key={cat.id} href={`/category/${cat.slug}`}>
+                    <Link key={cat.id} href={`/${cat.slug}`}>
                       <div 
                         className="px-4 py-2 hover-elevate cursor-pointer"
                         data-testid={`nav-category-${cat.slug}`}
@@ -70,23 +70,43 @@ export function Header() {
               )}
             </div>
 
-            <Link href="/blog">
+            <Link href="/guides">
               <Button 
-                variant={location.startsWith("/blog") ? "secondary" : "ghost"} 
+                variant={location.startsWith("/guides") ? "secondary" : "ghost"} 
                 size="sm"
-                data-testid="nav-blog"
+                data-testid="nav-guides"
               >
-                Blog
+                Guides
               </Button>
             </Link>
 
-            <Link href="/compare">
+            <Link href="/product-comparisons">
               <Button 
-                variant={location === "/compare" ? "secondary" : "ghost"} 
+                variant={location.startsWith("/product-comparisons") ? "secondary" : "ghost"} 
                 size="sm"
-                data-testid="nav-compare"
+                data-testid="nav-comparisons"
               >
-                Compare
+                Comparisons
+              </Button>
+            </Link>
+
+            <Link href="/trends">
+              <Button 
+                variant={location === "/trends" ? "secondary" : "ghost"} 
+                size="sm"
+                data-testid="nav-trends"
+              >
+                Trends
+              </Button>
+            </Link>
+
+            <Link href="/deals">
+              <Button 
+                variant={location === "/deals" ? "secondary" : "ghost"} 
+                size="sm"
+                data-testid="nav-deals"
+              >
+                Deals
               </Button>
             </Link>
           </nav>
@@ -142,7 +162,7 @@ export function Header() {
               <div className="py-2">
                 <div className="px-4 text-sm font-medium text-muted-foreground mb-2">Categories</div>
                 {categories.map((cat) => (
-                  <Link key={cat.id} href={`/category/${cat.slug}`} onClick={() => setMobileMenuOpen(false)}>
+                  <Link key={cat.id} href={`/${cat.slug}`} onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start pl-8" data-testid={`mobile-nav-category-${cat.slug}`}>
                       {cat.name}
                     </Button>
@@ -150,15 +170,27 @@ export function Header() {
                 ))}
               </div>
 
-              <Link href="/blog" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start" data-testid="mobile-nav-blog">
-                  Blog
+              <Link href="/guides" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start" data-testid="mobile-nav-guides">
+                  Guides
                 </Button>
               </Link>
 
-              <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start" data-testid="mobile-nav-compare">
-                  Compare
+              <Link href="/product-comparisons" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start" data-testid="mobile-nav-comparisons">
+                  Comparisons
+                </Button>
+              </Link>
+
+              <Link href="/trends" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start" data-testid="mobile-nav-trends">
+                  Trends
+                </Button>
+              </Link>
+
+              <Link href="/deals" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start" data-testid="mobile-nav-deals">
+                  Deals
                 </Button>
               </Link>
             </div>

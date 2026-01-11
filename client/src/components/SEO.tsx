@@ -10,7 +10,7 @@ interface SEOProps {
   noIndex?: boolean;
 }
 
-export function SEO({
+export default function SEO({
   title,
   description,
   keywords,

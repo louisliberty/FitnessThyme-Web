@@ -1,0 +1,80 @@
+This is the full list of URLs for the website.
+
+/
+/about
+/exercise-equipment
+/exercise-equipment/treadmills
+/exercise-equipment/treadmills/bowflex-treadmill-22
+/exercise-equipment/treadmills/nordictrack-commercial-2950
+/exercise-equipment/rowing-machines
+/exercise-equipment/rowing-machines/concept2-rowerg
+/exercise-equipment/home-gyms
+/exercise-equipment/weight-racks
+/exercise-equipment/weight-racks/titan-fitness-t3-power-rack
+/smart-devices
+/smart-devices/fitness-trackers
+/smart-devices/fitness-trackers/whoop-4
+/smart-devices/fitness-trackers/oura-ring-gen-3
+/smart-devices/scales
+/smart-devices/wearables
+/digital-subscriptions
+/digital-subscriptions/fitness-apps
+/digital-subscriptions/fitness-apps/peloton
+/digital-subscriptions/coaching
+/digital-subscriptions/streaming
+/nutrition-supplements
+/nutrition-supplements/protein
+/nutrition-supplements/protein/ladder-by-arnold
+/nutrition-supplements/vitamins
+/nutrition-supplements/vitamins/onnit-alpha-brain
+/nutrition-supplements/vitamins/onnit-total-human
+/nutrition-supplements/vitamins/nootropics
+/nutrition-supplements/meal-replacements
+/product-comparisons
+/product-comparisons/bowflex-vs-nordictrack-treadmills
+/product-comparisons/whoop-vs-oura
+/guides
+/guides/home-gym-setup-2026
+/guides/best-treadmills-2026
+/guides/recovery-tracking-guide
+/trends
+/deals
+/contact
+/privacy
+/disclosure
+
+
+These are the current URLs that you created that will remain unchanged:
+/exercise-equipment
+/exercise-equipment/treadmills
+/exercise-equipment/rowing-machines
+/smart-devices
+/smart-devices/fitness-trackers
+/digital-subscriptions
+/digital-subscriptions/fitness-apps
+/digital-subscriptions/streaming
+/nutrition-supplements
+/nutrition-supplements/protein
+/nutrition-supplements/vitamins
+/guides/home-gym-setup-2026
+/guides/best-treadmills-2026
+/guides/recovery-tracking-guide
+
+These are the current URLs that will be updated to new URLs:
+/product/bowflex-treadmill-22 will be updated to /exercise-equipment/treadmills/bowflex-treadmill-22
+/product/nordictrack-commercial-2950 will be updated to /exercise-equipment/treadmills/nordictrack-commercial-2950
+/product/concept2-rowerg will be updated to /exercise-equipment/rowing-machines/concept2-rowerg
+/product/titan-fitness-t3-power-rack will be updated to /exercise-equipment/weight-racks/titan-fitness-t3-power-rack
+/product/whoop-4 will be updated to /smart-devices/fitness-trackers/whoop-4
+/product/oura-ring-gen-3 will be updated to /smart-devices/fitness-trackers/oura-ring-gen-3
+/smart-devices/recovery-wearables will be updated to /smart-devices/wearables
+/product/peloton-app-membership will be updated to /digital-subscriptions/fitness-apps/peloton
+/product/ladder-by-arnold will be updated to /nutrition-supplements/protein/ladder-by-arnold
+/product/onnit-alpha-brain will be updated to /nutrition-supplements/vitamins/onnit-alpha-brain
+/product/onnit-total-human will be updated to /nutrition-supplements/vitamins/onnit-total-human
+/nutrition-supplements/nootropics will be updated to /nutrition-supplements/vitamins/nootropics
+/comparisons/bowflex-vs-nordictrack-treadmills will be updated to /product-comparisons/bowflex-vs-nordictrack-treadmills
+/comparisons/whoop-vs-oura will be updated to /product-comparisons/whoop-vs-oura
+
+Delete this page:
+/exercise-equipment/strength-training

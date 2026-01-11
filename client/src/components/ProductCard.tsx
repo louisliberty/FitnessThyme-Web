@@ -4,13 +4,15 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@shared/schema";
+import { getProductUrl } from "@/lib/products";
 
 interface ProductCardProps {
   product: Product;
+  productUrl?: string;
   compact?: boolean;
 }
 
-export function ProductCard({ product, compact = false }: ProductCardProps) {
+export default function ProductCard({ product, productUrl, compact = false }: ProductCardProps) {
   const platformIcons: Record<string, string> = {
     "Amazon": "A",
     "Reddit": "R",
@@ -18,12 +20,14 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
     "YouTube": "Y",
   };
 
+  const href = productUrl || getProductUrl(product);
+
   return (
     <Card 
       className="overflow-hidden hover-elevate h-full flex flex-col"
       data-testid={`card-product-${product.id}`}
     >
-      <Link href={`/product/${product.slug}`}>
+      <Link href={href}>
         <div className="aspect-square overflow-hidden bg-muted relative">
           <img
             src={product.imageUrl}
@@ -43,7 +47,7 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
           <Badge variant="secondary" className="text-xs">{product.brand}</Badge>
         </div>
         
-        <Link href={`/product/${product.slug}`}>
+        <Link href={href}>
           <h3 className="font-heading font-semibold text-lg text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">
             {product.name}
           </h3>
@@ -101,7 +105,7 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
                 </span>
               )}
             </div>
-            <Link href={`/product/${product.slug}`}>
+            <Link href={href}>
               <Button size="sm" data-testid={`button-view-${product.slug}`}>
                 View
               </Button>

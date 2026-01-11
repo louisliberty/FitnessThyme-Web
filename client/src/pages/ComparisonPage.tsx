@@ -1,11 +1,11 @@
 import { useParams, Link } from "wouter";
 import { Star, Check, X, ExternalLink } from "lucide-react";
-import { Layout } from "@/components/layout/Layout";
+import Layout from "@/components/layout/Layout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { SEO } from "@/components/SEO";
-import { getComparisonBySlug, getProductById } from "@/lib/products";
+import SEO from "@/components/SEO";
+import { getComparisonBySlug, getProductById, getProductUrl } from "@/lib/products";
 
 export default function ComparisonPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -35,7 +35,7 @@ export default function ComparisonPage() {
         title={comparison.title}
         description={comparison.description}
         keywords={products.map(p => p?.name).join(", ") + " comparison 2026"}
-        canonicalUrl={`https://fitnessthyme.com/comparisons/${comparison.slug}`}
+        canonicalUrl={`https://fitnessthyme.com/product-comparisons/${comparison.slug}`}
         ogImage={comparison.imageUrl}
       />
 
@@ -46,7 +46,11 @@ export default function ComparisonPage() {
               <span className="hover:text-foreground transition-colors">Home</span>
             </Link>
             <span>/</span>
-            <span className="text-foreground">Comparisons</span>
+            <Link href="/product-comparisons">
+              <span className="hover:text-foreground transition-colors">Product Comparisons</span>
+            </Link>
+            <span>/</span>
+            <span className="text-foreground">{comparison.title}</span>
           </nav>
           
           <Badge variant="secondary" className="mb-4">Comparison</Badge>
@@ -154,7 +158,7 @@ export default function ComparisonPage() {
               out ahead with a {winner?.aggregatedRating} rating from {winner?.totalReviewCount.toLocaleString()} reviews. 
               Both are excellent choices, but {winner?.name} offers the best overall value for most users.
             </p>
-            <Link href={`/product/${winner?.slug}`}>
+            <Link href={winner ? getProductUrl(winner) : '/'}>
               <Button>View Full Details</Button>
             </Link>
           </Card>

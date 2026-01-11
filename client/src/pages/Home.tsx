@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Layout } from "@/components/layout/Layout";
-import { ProductCard } from "@/components/ProductCard";
-import { SEO } from "@/components/SEO";
+import Layout from "@/components/layout/Layout";
+import ProductCard from "@/components/ProductCard";
+import SEO from "@/components/SEO";
 import { categories } from "@shared/schema";
-import { getFeaturedProducts, guides, comparisons } from "@/lib/products";
+import { getFeaturedProducts, guides, comparisons, getProductUrl } from "@/lib/products";
 
 const categoryImages: Record<string, string> = {
   "exercise-equipment": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
@@ -64,7 +64,7 @@ export default function Home() {
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
-            <Link href="/comparisons/whoop-vs-oura">
+            <Link href="/product-comparisons/whoop-vs-oura">
               <Button size="lg" variant="outline" data-testid="button-see-comparisons">
                 See Comparisons
               </Button>
@@ -112,7 +112,7 @@ export default function Home() {
                           <p className="text-2xl font-bold text-primary mb-4">
                             ${product.price.toLocaleString()}
                           </p>
-                          <Link href={`/product/${product.slug}`}>
+                          <Link href={getProductUrl(product)}>
                             <Button data-testid={`button-featured-${product.slug}`}>
                               View Details
                             </Button>
@@ -211,7 +211,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProducts.slice(0, 6).map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} productUrl={getProductUrl(product)} />
             ))}
           </div>
         </div>
@@ -228,7 +228,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {comparisons.map((comparison) => (
-              <Link key={comparison.id} href={`/comparisons/${comparison.slug}`}>
+              <Link key={comparison.id} href={`/product-comparisons/${comparison.slug}`}>
                 <Card className="overflow-hidden hover-elevate cursor-pointer h-full" data-testid={`card-comparison-${comparison.slug}`}>
                   <div className="aspect-[16/9] overflow-hidden">
                     <img

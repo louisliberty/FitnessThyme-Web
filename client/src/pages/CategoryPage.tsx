@@ -1,10 +1,9 @@
 import { useParams, Link } from "wouter";
-import { Layout } from "@/components/layout/Layout";
-import { ProductCard } from "@/components/ProductCard";
-import { SEO } from "@/components/SEO";
+import Layout from "@/components/layout/Layout";
+import ProductCard from "@/components/ProductCard";
+import SEO from "@/components/SEO";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { getCategoryBySlug, getProductsByCategory } from "@/lib/products";
+import { getCategoryBySlug, getProductsByCategory, getProductUrl } from "@/lib/products";
 
 const categoryImages: Record<string, string> = {
   "exercise-equipment": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&h=400&fit=crop",
@@ -36,8 +35,6 @@ export default function CategoryPage() {
       <SEO
         title={`${categoryData.name} - Premium Products 2026 | Fitness Thyme`}
         description={`${categoryData.description}. Browse ${categoryData.productCount} products with aggregated reviews from Amazon, Reddit, and Trustpilot.`}
-        keywords={`best ${categoryData.name.toLowerCase()} 2026, ${categoryData.name.toLowerCase()} reviews, premium ${categoryData.name.toLowerCase()}`}
-        canonicalUrl={`https://fitnessthyme.com/${categoryData.slug}`}
       />
 
       <section className="relative h-64 flex items-center justify-center overflow-hidden">
@@ -96,7 +93,7 @@ export default function CategoryPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} productUrl={getProductUrl(product)} />
             ))}
           </div>
         </div>

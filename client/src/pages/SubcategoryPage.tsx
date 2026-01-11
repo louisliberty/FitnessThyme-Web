@@ -1,14 +1,14 @@
 import { useParams, Link } from "wouter";
-import { Layout } from "@/components/layout/Layout";
-import { ProductCard } from "@/components/ProductCard";
-import { SEO } from "@/components/SEO";
-import { getCategoryBySlug, getSubcategoryBySlug, getProductsBySubcategory } from "@/lib/products";
+import Layout from "@/components/layout/Layout";
+import ProductCard from "@/components/ProductCard";
+import SEO from "@/components/SEO";
+import { getCategoryBySlug, getSubcategoryBySlug, getProductsBySubcategory, getProductUrl } from "@/lib/products";
 
 export default function SubcategoryPage() {
   const { category, subcategory } = useParams<{ category: string; subcategory: string }>();
   const categoryData = category ? getCategoryBySlug(category) : undefined;
   const subcategoryData = category && subcategory ? getSubcategoryBySlug(category, subcategory) : undefined;
-  const products = subcategory ? getProductsBySubcategory(subcategory) : [];
+  const products = subcategoryData ? getProductsBySubcategory(subcategoryData.id) : [];
 
   if (!categoryData || !subcategoryData) {
     return (
@@ -28,8 +28,6 @@ export default function SubcategoryPage() {
       <SEO
         title={`Best ${subcategoryData.name} 2026 - Reviews & Comparison | Fitness Thyme`}
         description={`${subcategoryData.description}. Compare ${subcategoryData.productCount} premium ${subcategoryData.name.toLowerCase()} with real user reviews.`}
-        keywords={`best ${subcategoryData.name.toLowerCase()} 2026, premium ${subcategoryData.name.toLowerCase()}, ${subcategoryData.name.toLowerCase()} reviews`}
-        canonicalUrl={`https://fitnessthyme.com/${categoryData.slug}/${subcategoryData.slug}`}
       />
 
       <section className="py-12 bg-muted/30">
@@ -63,7 +61,7 @@ export default function SubcategoryPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} productUrl={getProductUrl(product)} />
             ))}
           </div>
           
