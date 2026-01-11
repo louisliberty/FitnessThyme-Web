@@ -20,7 +20,7 @@ export function Header() {
             <img 
               src={logoImage} 
               alt="Fitness Thyme" 
-              className="h-10 sm:h-12 max-w-[200px] sm:max-w-[280px] object-contain"
+              className="h-14 sm:h-16 max-w-[240px] sm:max-w-[320px] object-contain"
             />
           </Link>
 

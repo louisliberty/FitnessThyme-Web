@@ -117,7 +117,7 @@ export function Footer() {
               <img 
                 src={logoImage} 
                 alt="Fitness Thyme" 
-                className="h-10 w-auto object-contain"
+                className="h-12 max-w-[200px] object-contain"
               />
             </Link>
           </div>
