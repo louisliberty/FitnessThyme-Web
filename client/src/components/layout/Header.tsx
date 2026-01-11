@@ -16,12 +16,15 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Link href="/" className="flex items-center gap-3 shrink-0">
             <img 
               src={logoImage} 
-              alt="Fitness Thyme" 
-              className="h-12 w-auto object-contain"
+              alt="Fitness Thyme Logo" 
+              className="h-10 w-auto object-contain rounded-md bg-white p-1"
             />
+            <span className="font-heading font-bold text-xl text-foreground hidden sm:block">
+              Fitness Thyme
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
