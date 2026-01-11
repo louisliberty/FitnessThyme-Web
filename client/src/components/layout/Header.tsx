@@ -24,11 +24,11 @@ export function Header() {
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-2">
             <Link href="/">
               <Button 
                 variant={location === "/" ? "secondary" : "ghost"} 
-                size="sm"
+                className="text-base"
                 data-testid="nav-home"
               >
                 Home
@@ -42,12 +42,11 @@ export function Header() {
             >
               <Button 
                 variant="ghost" 
-                size="sm" 
-                className="gap-1"
+                className="gap-1 text-base"
                 data-testid="nav-categories"
               >
                 Categories
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-5 h-5" />
               </Button>
 
               {categoryDropdownOpen && (
@@ -70,7 +69,7 @@ export function Header() {
             <Link href="/guides">
               <Button 
                 variant={location.startsWith("/guides") ? "secondary" : "ghost"} 
-                size="sm"
+                className="text-base"
                 data-testid="nav-guides"
               >
                 Guides
@@ -80,7 +79,7 @@ export function Header() {
             <Link href="/product-comparisons">
               <Button 
                 variant={location.startsWith("/product-comparisons") ? "secondary" : "ghost"} 
-                size="sm"
+                className="text-base"
                 data-testid="nav-comparisons"
               >
                 Comparisons
@@ -90,7 +89,7 @@ export function Header() {
             <Link href="/trends">
               <Button 
                 variant={location === "/trends" ? "secondary" : "ghost"} 
-                size="sm"
+                className="text-base"
                 data-testid="nav-trends"
               >
                 Trends
@@ -100,7 +99,7 @@ export function Header() {
             <Link href="/deals">
               <Button 
                 variant={location === "/deals" ? "secondary" : "ghost"} 
-                size="sm"
+                className="text-base"
                 data-testid="nav-deals"
               >
                 Deals
