@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { categories } from "@shared/schema";
+import logoImage from "@assets/generated_images/sleek_fitness_thyme_luxury_logo.png";
 
 export function Footer() {
   return (
@@ -112,12 +113,13 @@ export function Footer() {
             <p className="text-muted-foreground text-sm mb-4">
               Get the best deals and expert fitness tips delivered to your inbox.
             </p>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-lg">F</span>
-              </div>
-              <span className="font-heading font-bold text-foreground">Fitness Thyme</span>
-            </div>
+            <Link href="/" className="block">
+              <img 
+                src={logoImage} 
+                alt="Fitness Thyme" 
+                className="h-8 w-auto object-contain"
+              />
+            </Link>
           </div>
         </div>
 
