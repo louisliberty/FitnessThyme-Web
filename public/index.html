@@ -1048,11 +1048,11 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand"><h3>🌿 Fitness<span>Thyme</span></h3><p>Connecting people with the right fitness guidance at the right time.</p></div>
-    <div class="footer-col"><h4>For Clients</h4><a onclick="navTo('browse')">Find a Trainer</a><a onclick="startQuiz()">Take the Quiz</a><a onclick="openInfo('matching')">How Matching Works</a><a onclick="openInfo('stories')">Success Stories</a></div>
-    <div class="footer-col"><h4>For Trainers</h4><a onclick="navTo('register')">List Your Practice</a><a onclick="openInfo('resources')">Trainer Resources</a><a onclick="openInfo('pricing')">Pricing & Plans</a><a onclick="openInfo('community')">Trainer Community</a></div>
-    <div class="footer-col"><h4>Company</h4><a onclick="openInfo('about')">About Us</a><a onclick="openInfo('blog')">Blog</a><a onclick="openInfo('careers')">Careers</a><a onclick="openInfo('contact')">Contact</a></div>
+    <div class="footer-col"><h4>For Clients</h4><a href="/find-a-trainer">Find a Trainer</a><a href="/take-the-quiz">Take the Quiz</a><a href="/matching">How Matching Works</a><a href="/stories">Success Stories</a></div>
+    <div class="footer-col"><h4>For Trainers</h4><a href="/list-your-practice">List Your Practice</a><a href="/resources">Trainer Resources</a><a href="/pricing">Pricing & Plans</a><a href="/community">Trainer Community</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="/about">About Us</a><a href="/blog">Blog</a><a href="/careers">Careers</a><a href="/contact">Contact</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 FitnessThyme. All rights reserved.</span><span><a onclick="openInfo('privacy')" style="cursor:pointer;">Privacy</a> · <a onclick="openInfo('terms')" style="cursor:pointer;">Terms</a> · <a onclick="openInfo('accessibility')" style="cursor:pointer;">Accessibility</a></span></div>
+  <div class="footer-bottom"><span>© 2026 FitnessThyme. All rights reserved.</span><span><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/accessibility">Accessibility</a></span></div>
 </footer>
 
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
@@ -1186,6 +1186,16 @@ function routeFromPath(){
   showPage('home');
 }
 window.addEventListener('popstate', routeFromPath);
+document.addEventListener('click', (e)=>{
+  const a = e.target.closest('a[href^="/"]');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  e.preventDefault();
+  if (href === '/take-the-quiz') { history.pushState({}, '', href); startQuiz(); return; }
+  history.pushState({}, '', href);
+  routeFromPath();
+});
 
 function markSignedIn(){ setStored(KEY.signed, true); refreshNav(); }
 function refreshNav(){
