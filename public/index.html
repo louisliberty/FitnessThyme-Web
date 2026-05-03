@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitnessThyme — Find Your Perfect Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #5a7a5a;
+    --sage-light: #8aab8a;
+    --sage-pale: #eef4ee;
+    --sage-dark: #2d4a2d;
+    --earth: #c8a87a;
+    --earth-light: #f0e0c4;
+    --earth-dark: #8a6840;
+    --cream: #faf8f3;
+    --dark: #1a1f1a;
+    --gray: #6b7280;
+    --gray-light: #f3f4f6;
+    --white: #ffffff;
+    --red: #e55a5a;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --shadow: 0 4px 24px rgba(42,62,42,0.10);
+    --shadow-lg: 0 12px 48px rgba(42,62,42,0.14);
+  }
+
+  body { font-family: var(--font-body); background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+
+  /* ── PAGE SECTIONS ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,248,243,0.96); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(90,122,90,0.15);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 64px;
+  }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--sage-dark); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .nav-logo span { color: var(--earth); }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-btn { background: none; border: none; font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--gray); cursor: pointer; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; }
+  .nav-btn:hover { background: var(--sage-pale); color: var(--sage-dark); }
+  .nav-btn.primary { background: var(--sage); color: white; }
+  .nav-btn.primary:hover { background: var(--sage-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--sage-dark) 0%, #3d5e3d 50%, #4a6e4a 100%);
+    color: white; padding: 100px 32px 80px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,168,122,0.25); border: 1px solid rgba(200,168,122,0.4); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500; color: var(--earth-light); margin-bottom: 24px; }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(36px, 6vw, 68px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+  .hero h1 em { color: var(--earth); font-style: normal; }
+  .hero p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 540px; margin: 0 auto 40px; line-height: 1.6; }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-family: var(--font-body); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
+  .btn-primary { background: var(--earth); color: var(--dark); }
+  .btn-primary:hover { background: #d4a060; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,168,122,0.4); }
+  .btn-outline { background: rgba(255,255,255,0.1); color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+  .btn-outline:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+  .btn-sage { background: var(--sage); color: white; }
+  .btn-sage:hover { background: var(--sage-dark); transform: translateY(-1px); }
+  .btn-sm { padding: 10px 20px; font-size: 14px; }
+
+  .hero-stats { display: flex; justify-content: center; gap: 48px; }
+  .hero-stat { text-align: center; }
+  .hero-stat-num { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--earth); }
+  .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  /* ── SECTION ── */
+  .section { padding: 80px 32px; max-width: 1120px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-tag { display: inline-block; background: var(--sage-pale); color: var(--sage); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 6px; margin-bottom: 16px; }
+  .section h2 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+  .section p.lead { font-size: 17px; color: var(--gray); max-width: 560px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── SEARCH BAR ── */
+  .search-section { background: white; border-bottom: 1px solid rgba(90,122,90,0.1); padding: 28px 32px; }
+  .search-inner { max-width: 960px; margin: 0 auto; }
+  .search-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .search-field { flex: 1; min-width: 180px; }
+  .search-field label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray); margin-bottom: 6px; }
+  .search-field select, .search-field input {
+    width: 100%; padding: 11px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px;
+    font-family: var(--font-body); font-size: 14px; color: var(--dark); background: var(--cream);
+    appearance: none; outline: none; transition: border-color 0.2s;
+  }
+  .search-field select:focus, .search-field input:focus { border-color: var(--sage); }
+  .search-submit { padding: 11px 28px; background: var(--sage); color: white; border: none; border-radius: 10px; font-family: var(--font-body); font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .search-submit:hover { background: var(--sage-dark); }
+
+  /* ── TRAINER CARDS ── */
+  .trainers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .trainer-card {
+    background: white; border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--shadow); transition: all 0.3s; cursor: pointer;
+    border: 1.5px solid transparent;
+  }
+  .trainer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--sage-light); }
+  .card-top { position: relative; height: 180px; background: linear-gradient(135deg, var(--sage-dark), var(--sage)); display: flex; align-items: center; justify-content: center; }
+  .card-avatar { width: 88px; height: 88px; border-radius: 50%; background: var(--earth); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 28px; font-weight: 700; color: white; border: 4px solid rgba(255,255,255,0.3); }
+  .card-badges { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
+  .badge-virtual { background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(8px); }
+  .badge-inperson { background: rgba(200,168,122,0.3); color: var(--earth-light); }
+  .badge-new { background: var(--earth); color: var(--dark); }
+  .badge-top { background: rgba(255,255,255,0.9); color: var(--sage-dark); }
+  .card-body { padding: 20px; }
+  .card-name { font-family: var(--font-display); font-size: 19px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+  .card-title { font-size: 13px; color: var(--sage); font-weight: 500; margin-bottom: 10px; }
+  .card-meta { display: flex; gap: 16px; font-size: 12px; color: var(--gray); margin-bottom: 12px; }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+  .stars { color: var(--earth); font-size: 13px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; background: var(--sage-pale); color: var(--sage-dark); }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--gray-light); padding-top: 14px; }
+  .card-price { font-size: 13px; color: var(--gray); }
+  .card-price strong { font-size: 17px; color: var(--dark); font-weight: 600; }
+
+  /* ── HOW IT WORKS ── */
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+  .step-card { text-align: center; padding: 36px 24px; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow); position: relative; }
+  .step-num { width: 52px; height: 52px; border-radius: 50%; background: var(--sage); color: white; font-family: var(--font-display); font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .step-icon { font-size: 32px; margin-bottom: 12px; }
+  .step-card h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .step-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+  /* ── CATEGORIES ── */
+  .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  .cat-card {
+    background: white; border-radius: var(--radius); padding: 24px 16px; text-align: center;
+    box-shadow: var(--shadow); cursor: pointer; border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .cat-card:hover, .cat-card.active { border-color: var(--sage); background: var(--sage-pale); }
+  .cat-icon { font-size: 28px; margin-bottom: 8px; }
+  .cat-card h4 { font-size: 13px; font-weight: 600; color: var(--dark); }
+  .cat-card p { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* ── PROFILE PAGE ── */
+  .profile-header { background: linear-gradient(135deg, var(--sage-dark), #3d5e3d); color: white; padding: 40px 32px; }
+  .profile-inner { max-width: 1000px; margin: 0 auto; display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .profile-avatar { width: 120px; height: 120px; border-radius: 50%; background: var(--earth); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 40px; font-weight: 700; color: white; border: 5px solid rgba(255,255,255,0.3); flex-shrink: 0; }
+  .profile-info { flex: 1; min-width: 200px; }
+  .profile-info h1 { font-family: var(--font-display); font-size: 32px; font-weight: 900; margin-bottom: 4px; }
+  .profile-info .subtitle { color: rgba(255,255,255,0.8); font-size: 15px; margin-bottom: 12px; }
+  .profile-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: rgba(255,255,255,0.7); }
+  .profile-meta span { display: flex; align-items: center; gap: 5px; }
+  .profile-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+  .profile-body { max-width: 1000px; margin: 0 auto; padding: 32px; display: grid; grid-template-columns: 2fr 1fr; gap: 28px; }
+  @media (max-width: 700px) { .profile-body { grid-template-columns: 1fr; } .hero-stats { gap: 24px; } .search-bar { flex-direction: column; } .profile-inner { flex-direction: column; } }
+
+  .card-section { background: white; border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+  .card-section h3 { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-light); }
+
+  .review-card { padding: 16px; background: var(--gray-light); border-radius: 10px; margin-bottom: 12px; }
+  .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .reviewer { font-weight: 600; font-size: 14px; }
+  .review-goal { font-size: 11px; color: var(--sage); font-weight: 500; background: var(--sage-pale); padding: 2px 8px; border-radius: 6px; }
+  .review-text { font-size: 14px; color: #374151; line-height: 1.5; }
+
+  .availability-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .avail-day { text-align: center; }
+  .avail-label { font-size: 10px; font-weight: 600; color: var(--gray); text-transform: uppercase; margin-bottom: 4px; }
+  .avail-slot { height: 28px; border-radius: 6px; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; margin-bottom: 4px; }
+  .avail-open { background: var(--sage-pale); color: var(--sage-dark); font-weight: 500; }
+  .avail-open:hover { background: var(--sage); color: white; }
+  .avail-busy { background: var(--gray-light); color: #ccc; cursor: default; }
+
+  .booking-btn { width: 100%; padding: 14px; background: var(--sage); color: white; border: none; border-radius: 10px; font-family: var(--font-body); font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 12px; }
+  .booking-btn:hover { background: var(--sage-dark); }
+
+  /* ── MODAL ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: var(--radius-lg); max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px; box-shadow: var(--shadow-lg); }
+  .modal h2 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .modal .sub { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: var(--gray-light); border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .modal { position: relative; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 10px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px;
+    font-family: var(--font-body); font-size: 14px; color: var(--dark);
+    outline: none; transition: border-color 0.2s; resize: vertical;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--sage); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .session-types { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+  .session-type { padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .session-type.selected { border-color: var(--sage); background: var(--sage-pale); }
+  .session-type h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .session-type p { font-size: 12px; color: var(--gray); }
+
+  .goals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; }
+  .goal-chip { padding: 8px 10px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .goal-chip.selected { border-color: var(--sage); background: var(--sage-pale); color: var(--sage-dark); }
+
+  .success-state { text-align: center; padding: 20px 0; }
+  .success-icon { width: 64px; height: 64px; background: var(--sage-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
+  .success-state h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .success-state p { font-size: 15px; color: var(--gray); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--dark); color: rgba(255,255,255,0.6); padding: 48px 32px 28px; }
+  .footer-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  @media (max-width: 700px) { .footer-inner { grid-template-columns: 1fr 1fr; } .trainers-grid { grid-template-columns: 1fr; } .cats-grid { grid-template-columns: repeat(3, 1fr); } }
+  .footer-brand h3 { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: white; margin-bottom: 8px; }
+  .footer-brand span { color: var(--earth); }
+  .footer-brand p { font-size: 14px; line-height: 1.6; }
+  .footer-col h4 { font-size: 13px; font-weight: 600; color: white; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 8px; cursor: pointer; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--earth); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; font-size: 13px; flex-wrap: gap; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; border-bottom: 2px solid var(--gray-light); margin-bottom: 24px; }
+  .tab { padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--gray); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; font-family: var(--font-body); }
+  .tab.active { color: var(--sage-dark); border-bottom-color: var(--sage); font-weight: 600; }
+
+  /* ── MISC ── */
+  .divider { height: 1px; background: rgba(90,122,90,0.1); margin: 0 32px; }
+  .bg-sage-pale { background: var(--sage-pale); }
+  .bg-white { background: white; }
+  .text-center { text-align: center; }
+  .specialty-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .specialty-chip { padding: 10px 14px; background: var(--sage-pale); border-radius: 8px; text-align: center; font-size: 13px; font-weight: 500; color: var(--sage-dark); cursor: pointer; transition: all 0.2s; border: 1.5px solid transparent; }
+  .specialty-chip:hover { border-color: var(--sage); }
+  .specialty-chip.selected { background: var(--sage); color: white; border-color: var(--sage); }
+
+  .intro-video-box { background: var(--sage-dark); border-radius: var(--radius); height: 140px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden; }
+  .play-btn { width: 52px; height: 52px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--sage-dark); transition: transform 0.2s; }
+  .intro-video-box:hover .play-btn { transform: scale(1.1); }
+  .video-label { position: absolute; bottom: 12px; left: 14px; font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 500; }
+
+  .trial-banner { background: linear-gradient(135deg, var(--earth-light), #f8ead8); border: 1.5px solid var(--earth); border-radius: var(--radius); padding: 16px; margin-top: 16px; }
+  .trial-banner h4 { font-size: 14px; font-weight: 700; color: var(--earth-dark); margin-bottom: 4px; }
+  .trial-banner p { font-size: 13px; color: var(--earth-dark); opacity: 0.8; margin-bottom: 10px; }
+  .trial-btn { background: var(--earth); color: var(--dark); border: none; padding: 9px 18px; border-radius: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+  .trial-btn:hover { background: #d4a060; }
+
+  .trainer-reg { max-width: 640px; margin: 0 auto; padding: 48px 32px; }
+  .trainer-reg h1 { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--sage-dark); margin-bottom: 8px; }
+  .trainer-reg p.sub { font-size: 16px; color: var(--gray); margin-bottom: 36px; line-height: 1.6; }
+  .reg-card { background: white; border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow); margin-bottom: 20px; }
+  .reg-card h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--sage-dark); }
+
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 16px 32px; background: var(--gray-light); border-bottom: 1px solid #e5e7eb; }
+  .filter-chip { padding: 6px 14px; background: white; border: 1.5px solid #e5e7eb; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .filter-chip:hover, .filter-chip.active { background: var(--sage); color: white; border-color: var(--sage); }
+  .results-meta { padding: 16px 32px; font-size: 14px; color: var(--gray); }
+  .results-meta strong { color: var(--dark); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">🌿 Fitness<span>Thyme</span></div>
+  <div class="nav-links">
+    <button class="nav-btn" onclick="showPage('browse')">Find a Trainer</button>
+    <button class="nav-btn" onclick="showPage('register')">List Your Practice</button>
+    <button class="nav-btn" onclick="openModal('signin')">Sign In</button>
+    <button class="nav-btn primary" onclick="openModal('signup')">Get Started</button>
+  </div>
+</nav>
+
+<!-- ══ HOME PAGE ══ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">✦ The smarter way to find your fitness match</div>
+    <h1>Find a trainer who <em>actually</em> gets you</h1>
+    <p>Match with certified trainers, yoga instructors, and gyms based on your goals, training style, and schedule — in-person or online.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="showPage('browse')">Find My Trainer →</button>
+      <button class="btn btn-outline" onclick="showPage('register')">List Your Practice</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">4,200+</div><div class="hero-stat-label">Verified Trainers</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">98%</div><div class="hero-stat-label">Match Satisfaction</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">52k+</div><div class="hero-stat-label">Goals Achieved</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">Free</div><div class="hero-stat-label">Intro Sessions</div></div>
+    </div>
+  </div>
+
+  <!-- QUICK SEARCH -->
+  <div class="search-section">
+    <div class="search-inner">
+      <div class="search-bar">
+        <div class="search-field">
+          <label>What are you looking for?</label>
+          <select id="hs-type">
+            <option>All Types</option>
+            <option>Personal Trainer</option>
+            <option>Yoga Instructor</option>
+            <option>Fitness Center</option>
+            <option>Gym</option>
+            <option>Pilates Instructor</option>
+            <option>Nutritionist</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Your goal</label>
+          <select>
+            <option>Any Goal</option>
+            <option>Weight Loss</option>
+            <option>Build Muscle</option>
+            <option>Improve Flexibility</option>
+            <option>Athletic Performance</option>
+            <option>Stress Relief</option>
+            <option>Injury Recovery</option>
+            <option>Prenatal Fitness</option>
+            <option>Senior Fitness</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Session type</label>
+          <select>
+            <option>In-Person or Virtual</option>
+            <option>In-Person Only</option>
+            <option>Virtual Only</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Location</label>
+          <input type="text" placeholder="City or zip code" />
+        </div>
+        <button class="search-submit" onclick="showPage('browse')">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section" style="padding-bottom: 40px;">
+    <div class="section-header">
+      <div class="section-tag">Browse by specialty</div>
+      <h2>What kind of support are you looking for?</h2>
+      <p class="lead">Whether you want to lift heavier, move more mindfully, or just feel better — we've got someone for that.</p>
+    </div>
+    <div class="cats-grid">
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🏋️</div><h4>Strength Training</h4><p>620 trainers</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🧘</div><h4>Yoga & Mindfulness</h4><p>480 instructors</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🏃</div><h4>Running & Cardio</h4><p>310 coaches</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🤸</div><h4>Pilates</h4><p>215 instructors</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🥊</div><h4>Boxing & MMA</h4><p>180 coaches</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🤰</div><h4>Prenatal Fitness</h4><p>140 specialists</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🦽</div><h4>Adaptive Fitness</h4><p>95 coaches</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🏊</div><h4>Aqua Fitness</h4><p>88 instructors</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🧓</div><h4>Senior Fitness</h4><p>210 specialists</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🥗</div><h4>Nutrition Coaching</h4><p>290 coaches</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🏥</div><h4>Injury Rehab</h4><p>165 specialists</p></div>
+      <div class="cat-card" onclick="showPage('browse')"><div class="cat-icon">🏆</div><h4>Competition Prep</h4><p>130 coaches</p></div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="background: var(--sage-pale); padding: 80px 32px;">
+    <div style="max-width: 1120px; margin: 0 auto;">
+      <div class="section-header">
+        <div class="section-tag">How it works</div>
+        <h2>From search to first session in minutes</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon">🎯</div>
+          <h3>Share your goals</h3>
+          <p>Tell us what you want to achieve, your fitness level, schedule, and how you like to train.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon">🔍</div>
+          <h3>Browse matched trainers</h3>
+          <p>See trainers ranked by match quality. Read reviews, watch intro videos, and compare styles.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon">☕</div>
+          <h3>Book a free intro</h3>
+          <p>Schedule a free 15-minute intro call — no commitment, no card required. Just a conversation.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-icon">🚀</div>
+          <h3>Start your journey</h3>
+          <p>Book sessions, track progress, and message your trainer — all in one place.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED TRAINERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">Featured trainers</div>
+      <h2>Highly rated coaches this week</h2>
+    </div>
+    <div class="trainers-grid">
+      <div class="trainer-card" onclick="showProfile('maya')">
+        <div class="card-top" style="background: linear-gradient(135deg,#2d5a4a,#4a8a6a);">
+          <div class="card-avatar">MR</div>
+          <div class="card-badges"><span class="badge badge-top">⭐ Top Rated</span><span class="badge badge-virtual">📹 Virtual</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Maya Rodriguez</div>
+          <div class="card-title">Certified Personal Trainer · Prenatal Specialist</div>
+          <div class="card-meta">
+            <span><span class="stars">★★★★★</span> 4.9 (127)</span>
+            <span>📍 Austin, TX</span>
+            <span>💪 6 yrs exp.</span>
+          </div>
+          <div class="card-tags">
+            <span class="tag">Prenatal</span><span class="tag">Strength</span><span class="tag">Postpartum</span><span class="tag">Mobility</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">From <strong>$75</strong><span style="color:var(--gray);font-size:12px;">/session</span></div>
+            <button class="btn btn-sage btn-sm">View Profile</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="trainer-card" onclick="showProfile('james')">
+        <div class="card-top" style="background: linear-gradient(135deg,#3a4a2a,#6a7a3a);">
+          <div class="card-avatar" style="background:var(--sage-dark);">JK</div>
+          <div class="card-badges"><span class="badge badge-inperson">🏠 In-Person</span><span class="badge badge-virtual">📹 Virtual</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">James Kwon</div>
+          <div class="card-title">Olympic Lifting Coach · Competition Prep</div>
+          <div class="card-meta">
+            <span><span class="stars">★★★★★</span> 4.8 (89)</span>
+            <span>📍 Chicago, IL</span>
+            <span>💪 10 yrs exp.</span>
+          </div>
+          <div class="card-tags">
+            <span class="tag">Olympic Lifting</span><span class="tag">Powerlifting</span><span class="tag">Comp Prep</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">From <strong>$110</strong><span style="color:var(--gray);font-size:12px;">/session</span></div>
+            <button class="btn btn-sage btn-sm">View Profile</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="trainer-card" onclick="showProfile('priya')">
+        <div class="card-top" style="background: linear-gradient(135deg,#4a2a5a,#8a4a9a);">
+          <div class="card-avatar" style="background:#7a3a8a;">PS</div>
+          <div class="card-badges"><span class="badge badge-virtual">📹 Virtual</span><span class="badge badge-new">✨ New</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Priya Sharma</div>
+          <div class="card-title">500hr Yoga Teacher · Meditation Guide</div>
+          <div class="card-meta">
+            <span><span class="stars">★★★★★</span> 5.0 (34)</span>
+            <span>📍 Online Only</span>
+            <span>💪 8 yrs exp.</span>
+          </div>
+          <div class="card-tags">
+            <span class="tag">Hatha Yoga</span><span class="tag">Meditation</span><span class="tag">Breathwork</span><span class="tag">Restorative</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">From <strong>$55</strong><span style="color:var(--gray);font-size:12px;">/session</span></div>
+            <button class="btn btn-sage btn-sm">View Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top:36px;">
+      <button class="btn btn-sage" onclick="showPage('browse')">Browse All Trainers →</button>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div style="background: var(--sage-dark); padding: 80px 32px; color: white;">
+    <div style="max-width:960px; margin: 0 auto; text-align:center;">
+      <div class="section-tag" style="background:rgba(255,255,255,0.1);color:var(--earth-light);">Real results</div>
+      <h2 style="font-family:var(--font-display);font-size:36px;font-weight:900;margin:16px 0 40px;">Goals met. Lives changed.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;text-align:left;">
+        <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;">
+          <div class="stars" style="margin-bottom:12px;font-size:16px;">★★★★★</div>
+          <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">"I'd tried 3 trainers before FitnessThyme. The matching actually worked — Maya understood exactly what I needed postpartum. First trainer I've stuck with for over a year."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--earth);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;">SL</div>
+            <div><div style="font-weight:600;font-size:14px;">Sarah L.</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">Goal: Postpartum fitness</div></div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;">
+          <div class="stars" style="margin-bottom:12px;font-size:16px;">★★★★★</div>
+          <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">"The free intro call was a game changer. I knew within 10 minutes whether James was the right fit — and he was. Hit my first powerlifting total in 6 months."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;">DM</div>
+            <div><div style="font-weight:600;font-size:14px;">David M.</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">Goal: Competition prep</div></div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;">
+          <div class="stars" style="margin-bottom:12px;font-size:16px;">★★★★★</div>
+          <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">"As a trainer, I've doubled my client base in 4 months. The two-way matching means I only work with people I can genuinely help — better for them, better for me."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#7a3a8a;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;">PS</div>
+            <div><div style="font-weight:600;font-size:14px;">Priya S. (Trainer)</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">Yoga & meditation coach</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end home -->
+
+<!-- ══ BROWSE PAGE ══ -->
+<div id="page-browse" class="page">
+  <div style="background:var(--sage-dark);padding:32px;color:white;">
+    <div style="max-width:960px;margin:0 auto;">
+      <h1 style="font-family:var(--font-display);font-size:28px;font-weight:900;margin-bottom:6px;">Find your perfect trainer</h1>
+      <p style="color:rgba(255,255,255,0.7);font-size:15px;">Showing matches based on your goals and preferences</p>
+    </div>
+  </div>
+  <div class="search-section" style="padding:20px 32px;">
+    <div class="search-bar" style="max-width:960px;margin:0 auto;">
+      <div class="search-field"><label>Type</label><select><option>All Types</option><option>Personal Trainer</option><option>Yoga Instructor</option><option>Pilates</option><option>Gym</option></select></div>
+      <div class="search-field"><label>Goal</label><select><option>Any Goal</option><option>Weight Loss</option><option>Build Muscle</option><option>Flexibility</option><option>Stress Relief</option><option>Rehab</option></select></div>
+      <div class="search-field"><label>Session</label><select><option>Any Format</option><option>In-Person</option><option>Virtual</option></select></div>
+      <div class="search-field"><label>Price</label><select><option>Any Price</option><option>Under $50</option><option>$50–$100</option><option>$100+</option></select></div>
+      <button class="search-submit">Update</button>
+    </div>
+  </div>
+  <div class="filter-row">
+    <span style="font-size:13px;font-weight:600;color:var(--gray);line-height:2;">Filter by specialty:</span>
+    <span class="filter-chip active" onclick="toggleFilter(this)">All</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Strength</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Yoga</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Cardio</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Pilates</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Prenatal</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Senior</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Rehab</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Nutrition</span>
+    <span class="filter-chip" onclick="toggleFilter(this)">Competition</span>
+  </div>
+  <div class="results-meta">Showing <strong>48 trainers</strong> · Sorted by best match</div>
+  <div style="max-width:1120px;margin:0 auto;padding:0 32px 60px;">
+    <div class="trainers-grid">
+      <div class="trainer-card" onclick="showProfile('maya')">
+        <div class="card-top"><div class="card-avatar">MR</div><div class="card-badges"><span class="badge badge-top">⭐ Top Match</span><span class="badge badge-virtual">📹 Virtual</span></div></div>
+        <div class="card-body"><div class="card-name">Maya Rodriguez</div><div class="card-title">Personal Trainer · Prenatal Specialist</div><div class="card-meta"><span><span class="stars">★★★★★</span> 4.9</span><span>📍 Austin, TX</span></div><div class="card-tags"><span class="tag">Prenatal</span><span class="tag">Strength</span><span class="tag">Postpartum</span></div><div class="card-footer"><div class="card-price">From <strong>$75</strong>/session</div><button class="btn btn-sage btn-sm">View</button></div></div>
+      </div>
+      <div class="trainer-card" onclick="showProfile('james')">
+        <div class="card-top" style="background:linear-gradient(135deg,#3a4a2a,#6a7a3a);"><div class="card-avatar" style="background:var(--sage-dark);">JK</div><div class="card-badges"><span class="badge badge-inperson">🏠 In-Person</span></div></div>
+        <div class="card-body"><div class="card-name">James Kwon</div><div class="card-title">Olympic Lifting Coach</div><div class="card-meta"><span><span class="stars">★★★★★</span> 4.8</span><span>📍 Chicago, IL</span></div><div class="card-tags"><span class="tag">Olympic Lifting</span><span class="tag">Comp Prep</span></div><div class="card-footer"><div class="card-price">From <strong>$110</strong>/session</div><button class="btn btn-sage btn-sm">View</button></div></div>
+      </div>
+      <div class="trainer-card" onclick="showProfile('priya')">
+        <div class="card-top" style="background:linear-gradient(135deg,#4a2a5a,#8a4a9a);"><div class="card-avatar" style="background:#7a3a8a;">PS</div><div class="card-badges"><span class="badge badge-virtual">📹 Virtual</span><span class="badge badge-new">✨ New</span></div></div>
+        <div class="card-body"><div class="card-name">Priya Sharma</div><div class="card-title">500hr Yoga Teacher</div><div class="card-meta"><span><span class="stars">★★★★★</span> 5.0</span><span>📍 Online</span></div><div class="card-tags"><span class="tag">Hatha</span><span class="tag">Meditation</span><span class="tag">Breathwork</span></div><div class="card-footer"><div class="card-price">From <strong>$55</strong>/session</div><button class="btn btn-sage btn-sm">View</button></div></div>
+      </div>
+      <div class="trainer-card" onclick="showProfile('marcus')">
+        <div class="card-top" style="background:linear-gradient(135deg,#5a3a1a,#a06a2a);"><div class="card-avatar" style="background:#8a5a20;">MT</div><div class="card-badges"><span class="badge badge-inperson">🏠 In-Person</span><span class="badge badge-virtual">📹 Virtual</span></div></div>
+        <div class="card-body"><div class="card-name">Marcus Taylor</div><div class="card-title">NASM-CPT · Boxing & HIIT</div><div class="card-meta"><span><span class="stars">★★★★☆</span> 4.7</span><span>📍 Miami, FL</span></div><div class="card-tags"><span class="tag">Boxing</span><span class="tag">HIIT</span><span class="tag">Weight Loss</span></div><div class="card-footer"><div class="card-price">From <strong>$85</strong>/session</div><button class="btn btn-sage btn-sm">View</button></div></div>
+      </div>
+      <div class="trainer-card" onclick="showProfile('elena')">
+        <div class="card-top" style="background:linear-gradient(135deg,#1a4a5a,#2a7a8a);"><div class="card-avatar" style="background:#1a6a7a;">EC</div><div class="card-badges"><span class="badge badge-virtual">📹 Virtual</span></div></div>
+        <div class="card-body"><div class="card-name">Elena Chen</div><div class="card-title">Physical Therapist · Adaptive Fitness</div><div class="card-meta"><span><span class="stars">★★★★★</span> 4.9</span><span>📍 Seattle, WA</span></div><div class="card-tags"><span class="tag">Adaptive</span><span class="tag">Rehab</span><span class="tag">Seniors</span></div><div class="card-footer"><div class="card-price">From <strong>$95</strong>/session</div><button class="btn btn-sage btn-sm">View</button></div></div>
+      </div>
+      <div class="trainer-card" onclick="showProfile('raj')">
+        <div class="card-top" style="background:linear-gradient(135deg,#3a2a5a,#6a4a9a);"><div class="card-avatar" style="background:#5a3a8a;">RN</div><div class="card-badges"><span class="badge badge-inperson">🏠 In-Person</span><span class="badge badge-top">⭐ Rising</span></div></div>
+        <div class="card-body"><div class="card-name">Raj Nair</div><div class="card-title">RD · Sports Nutritionist</div><div class="card-meta"><span><span class="stars">★★★★★</span> 4.8</span><span>📍 NYC, NY</span></div><div class="card-tags"><span class="tag">Nutrition</span><span class="tag">Meal Planning</span><span class="tag">Performance</span></div><div class="card-footer"><div class="card-price">From <strong>$65</strong>/session</div><button class="btn btn-sage btn-sm">View</button></div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- end browse -->
+
+<!-- ══ PROFILE PAGE ══ -->
+<div id="page-profile" class="page">
+  <div class="profile-header">
+    <div class="profile-inner">
+      <div class="profile-avatar" id="prof-avatar">MR</div>
+      <div class="profile-info">
+        <h1 id="prof-name">Maya Rodriguez</h1>
+        <div class="subtitle" id="prof-title">Certified Personal Trainer · Prenatal & Postpartum Specialist</div>
+        <div class="profile-meta">
+          <span>⭐ <strong style="color:white;">4.9</strong> · 127 reviews</span>
+          <span>📍 Austin, TX (+ Virtual)</span>
+          <span>💪 6 years experience</span>
+          <span>✓ Verified credentials</span>
+        </div>
+        <div class="profile-actions">
+          <button class="btn btn-primary" onclick="openModal('book')">Book a Session</button>
+          <button class="btn btn-outline" onclick="openModal('trial')">Free 15-Min Intro ☕</button>
+          <button class="btn btn-outline">💬 Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <!-- LEFT COLUMN -->
+    <div>
+      <div class="card-section">
+        <div class="intro-video-box">
+          <div class="play-btn">▶</div>
+          <div class="video-label">▶ Watch Maya's 90-second intro</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>About Maya</h3>
+        <p style="font-size:15px;line-height:1.7;color:#374151;">I'm a NASM-certified personal trainer with a specialty in prenatal and postpartum fitness. I've helped over 200 women stay strong and confident through pregnancy and return to full strength after birth — in a way that feels empowering, not overwhelming.</p>
+        <p style="font-size:15px;line-height:1.7;color:#374151;margin-top:12px;">My approach blends evidence-based strength training with mobility work and breathwork. I'm passionate about making every client feel heard and understood — not pushed through a cookie-cutter program.</p>
+      </div>
+
+      <div class="card-section">
+        <h3>Specialties</h3>
+        <div class="specialty-grid">
+          <div class="specialty-chip selected">Prenatal Fitness</div>
+          <div class="specialty-chip selected">Postpartum Recovery</div>
+          <div class="specialty-chip selected">Strength Training</div>
+          <div class="specialty-chip selected">Core Rehab</div>
+          <div class="specialty-chip selected">Mobility</div>
+          <div class="specialty-chip selected">Breathwork</div>
+          <div class="specialty-chip">Diastasis Recti</div>
+          <div class="specialty-chip">Pelvic Floor</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Client Reviews</h3>
+        <div class="tabs">
+          <button class="tab active">All Reviews</button>
+          <button class="tab">Prenatal</button>
+          <button class="tab">Postpartum</button>
+          <button class="tab">Strength</button>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer">★★★★★ Sarah L.</div>
+            <span class="review-goal">Goal: Postpartum recovery</span>
+          </div>
+          <p class="review-text">"Maya changed my relationship with my body after having my second baby. She's knowledgeable, patient, and adapts every session to how I'm feeling. 14 months in and I feel stronger than before pregnancy."</p>
+          <p style="font-size:12px;color:var(--gray);margin-top:8px;">Did you achieve your goal? <strong style="color:var(--sage);">Yes ✓</strong> · Best for: <em>New moms, women rebuilding after birth</em></p>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer">★★★★★ Amanda R.</div>
+            <span class="review-goal">Goal: Prenatal fitness</span>
+          </div>
+          <p class="review-text">"I was nervous about exercising during pregnancy but Maya made it feel completely safe and even fun. She communicated with my OB and tailored everything perfectly."</p>
+          <p style="font-size:12px;color:var(--gray);margin-top:8px;">Did you achieve your goal? <strong style="color:var(--sage);">Yes ✓</strong> · Best for: <em>Pregnant women who want to stay active</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <div class="card-section">
+        <h3>Book a Session</h3>
+        <div style="font-size:13px;color:var(--gray);margin-bottom:14px;">Select session type</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+          <div class="session-type selected" onclick="selectType(this)"><h4>📹 Virtual</h4><p>Via Zoom or Google Meet</p></div>
+          <div class="session-type" onclick="selectType(this)"><h4>🏠 In-Person</h4><p>Austin, TX studio</p></div>
+        </div>
+        <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:10px;">Availability this week</div>
+        <div class="availability-grid">
+          <div class="avail-day"><div class="avail-label">M</div><div class="avail-slot avail-open" onclick="selectSlot(this)">9am</div><div class="avail-slot avail-open" onclick="selectSlot(this)">11am</div><div class="avail-slot avail-busy">2pm</div></div>
+          <div class="avail-day"><div class="avail-label">T</div><div class="avail-slot avail-busy">9am</div><div class="avail-slot avail-open" onclick="selectSlot(this)">11am</div><div class="avail-slot avail-open" onclick="selectSlot(this)">3pm</div></div>
+          <div class="avail-day"><div class="avail-label">W</div><div class="avail-slot avail-open" onclick="selectSlot(this)">10am</div><div class="avail-slot avail-busy">1pm</div><div class="avail-slot avail-open" onclick="selectSlot(this)">4pm</div></div>
+          <div class="avail-day"><div class="avail-label">T</div><div class="avail-slot avail-busy">9am</div><div class="avail-slot avail-busy">11am</div><div class="avail-slot avail-open" onclick="selectSlot(this)">2pm</div></div>
+          <div class="avail-day"><div class="avail-label">F</div><div class="avail-slot avail-open" onclick="selectSlot(this)">9am</div><div class="avail-slot avail-open" onclick="selectSlot(this)">10am</div><div class="avail-slot avail-busy">3pm</div></div>
+          <div class="avail-day"><div class="avail-label">S</div><div class="avail-slot avail-open" onclick="selectSlot(this)">10am</div><div class="avail-slot avail-busy">12pm</div><div class="avail-slot avail-busy">2pm</div></div>
+          <div class="avail-day"><div class="avail-label">S</div><div class="avail-slot avail-busy">10am</div><div class="avail-slot avail-busy">12pm</div><div class="avail-slot avail-busy">2pm</div></div>
+        </div>
+        <button class="booking-btn" onclick="openModal('book')">Confirm & Book Session</button>
+        <div class="trial-banner">
+          <h4>☕ New to Maya?</h4>
+          <p>Book a free 15-minute intro call first — no payment required.</p>
+          <button class="trial-btn" onclick="openModal('trial')">Schedule Free Intro</button>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Pricing</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--gray-light);border-radius:8px;">
+            <div><div style="font-weight:600;font-size:14px;">Single Session</div><div style="font-size:12px;color:var(--gray);">60 minutes</div></div>
+            <div style="font-weight:700;font-size:16px;">$75</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--sage-pale);border-radius:8px;border:1.5px solid var(--sage-light);">
+            <div><div style="font-weight:600;font-size:14px;">4-Session Pack ⭐ Popular</div><div style="font-size:12px;color:var(--gray);">Save 15%</div></div>
+            <div style="font-weight:700;font-size:16px;">$255</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--gray-light);border-radius:8px;">
+            <div><div style="font-weight:600;font-size:14px;">Monthly (8 sessions)</div><div style="font-size:12px;color:var(--gray);">Save 25% · Most popular</div></div>
+            <div style="font-weight:700;font-size:16px;">$450</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Ideal Client</h3>
+        <p style="font-size:14px;color:var(--gray);line-height:1.6;">Maya works best with women who are pregnant or in the postpartum period, or anyone seeking a mindful, holistic approach to strength and recovery. She prefers clients who are ready to commit to 2–3 sessions per week.</p>
+      </div>
+
+      <div class="card-section">
+        <h3>Credentials</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--sage);">✓</span> NASM Certified Personal Trainer</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--sage);">✓</span> Pre/Postnatal Fitness Specialist (CPPS)</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--sage);">✓</span> CPR / AED Certified</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--sage);">✓</span> BS in Kinesiology, UT Austin</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--sage);">✓</span> Background check verified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end profile -->
+
+<!-- ══ REGISTER PAGE ══ -->
+<div id="page-register" class="page">
+  <div class="trainer-reg">
+    <h1>Grow your practice 🌿</h1>
+    <p class="sub">Join 4,200+ fitness professionals who use FitnessThyme to find motivated, matched clients — and build practices that last.</p>
+
+    <div class="reg-card">
+      <h3>Your Practice Info</h3>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="First name" /></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Last name" /></div>
+      </div>
+      <div class="form-group"><label>Professional Title</label><input type="text" placeholder="e.g. Certified Personal Trainer, Yoga Instructor..." /></div>
+      <div class="form-group"><label>Type of Practice</label>
+        <select>
+          <option>Personal Trainer</option>
+          <option>Yoga Instructor</option>
+          <option>Pilates Instructor</option>
+          <option>Fitness Center</option>
+          <option>Gym</option>
+          <option>Nutritionist / Dietitian</option>
+          <option>Sports Coach</option>
+          <option>Physical Therapist</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Bio (tell clients what makes you unique)</label><textarea rows="4" placeholder="Describe your approach, your passion, who you work best with..."></textarea></div>
+    </div>
+
+    <div class="reg-card">
+      <h3>Your Specialties</h3>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:14px;">Select all that apply — this powers our matching algorithm</p>
+      <div class="specialty-grid" id="reg-specialties">
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Strength Training</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Weight Loss</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Yoga</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Pilates</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Prenatal</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Postpartum</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Senior Fitness</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Adaptive Fitness</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Boxing / MMA</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">HIIT / Cardio</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Injury Rehab</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Comp Prep</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Nutrition</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Mobility</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Meditation</div>
+        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Running</div>
+      </div>
+    </div>
+
+    <div class="reg-card">
+      <h3>Ideal Client Profile</h3>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:14px;">Tell us who you work best with — this improves match quality for both you and your clients</p>
+      <div class="form-group"><label>Fitness Level</label>
+        <select><option>All levels welcome</option><option>Beginners</option><option>Intermediate</option><option>Advanced / Athletes</option></select>
+      </div>
+      <div class="form-group"><label>Client Goals I Excel With</label><textarea rows="2" placeholder="e.g. Clients who want sustainable lifestyle change, not quick fixes..."></textarea></div>
+      <div class="form-group"><label>Session Format</label>
+        <div style="display:flex;gap:10px;margin-top:6px;">
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;cursor:pointer;"><input type="checkbox" checked /> In-Person</label>
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;cursor:pointer;"><input type="checkbox" checked /> Virtual</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="reg-card">
+      <h3>Credentials & Certifications</h3>
+      <div class="form-group"><label>Primary Certification</label><input type="text" placeholder="e.g. NASM-CPT, ACE, RYT-200, RD..." /></div>
+      <div class="form-group"><label>Additional Certifications</label><textarea rows="2" placeholder="List any additional credentials, specializations, or degrees..."></textarea></div>
+      <div class="form-group"><label>Years of Experience</label>
+        <select><option>1–2 years</option><option>3–5 years</option><option>6–10 years</option><option>10+ years</option></select>
+      </div>
+    </div>
+
+    <div class="reg-card">
+      <h3>Pricing</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Single session rate (USD)</label><input type="number" placeholder="$75" /></div>
+        <div class="form-group"><label>Session length</label><select><option>30 min</option><option>45 min</option><option>60 min</option><option>90 min</option></select></div>
+      </div>
+      <div class="form-group"><label>Do you offer package pricing?</label>
+        <div style="display:flex;gap:16px;margin-top:6px;">
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;cursor:pointer;"><input type="radio" name="pkg" checked /> Yes</label>
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;cursor:pointer;"><input type="radio" name="pkg" /> No</label>
+        </div>
+      </div>
+      <div class="form-group"><label>Do you offer a free intro session or call?</label>
+        <div style="display:flex;gap:16px;margin-top:6px;">
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;cursor:pointer;"><input type="radio" name="trial" checked /> Yes (highly recommended ⭐)</label>
+          <label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:14px;cursor:pointer;"><input type="radio" name="trial" /> No</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-sage" style="width:100%;padding:16px;font-size:16px;justify-content:center;" onclick="openModal('reg-success')">Create My Profile →</button>
+  </div>
+</div><!-- end register -->
+
+<!-- ══ MODALS ══ -->
+
+<!-- Book modal -->
+<div class="modal-overlay" id="modal-book">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('book')">✕</button>
+    <h2>Book a session with Maya</h2>
+    <p class="sub">Choose your session details below</p>
+    <div class="form-group"><label>Session Type</label>
+      <div class="session-types">
+        <div class="session-type selected" onclick="selectType(this)"><h4>📹 Virtual</h4><p>Zoom / Google Meet</p></div>
+        <div class="session-type" onclick="selectType(this)"><h4>🏠 In-Person</h4><p>Austin, TX</p></div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Preferred Date</label><input type="date" /></div>
+      <div class="form-group"><label>Preferred Time</label><select><option>9:00 AM</option><option>11:00 AM</option><option>2:00 PM</option><option>4:00 PM</option></select></div>
+    </div>
+    <div class="form-group"><label>Package</label>
+      <select><option>Single Session — $75</option><option>4-Pack — $255 (save 15%)</option><option>Monthly (8 sessions) — $450</option></select>
+    </div>
+    <div class="form-group"><label>Notes for Maya (optional)</label><textarea rows="3" placeholder="Any injuries, goals, or things you'd like Maya to know before your session..."></textarea></div>
+    <button class="booking-btn" onclick="closeModal('book');openModal('book-success')">Confirm Booking →</button>
+  </div>
+</div>
+
+<!-- Trial intro modal -->
+<div class="modal-overlay" id="modal-trial">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('trial')">✕</button>
+    <h2>☕ Free 15-Min Intro Call</h2>
+    <p class="sub">Get to know Maya before committing — no card required</p>
+    <div class="form-row">
+      <div class="form-group"><label>Your Name</label><input type="text" placeholder="First name" /></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" /></div>
+    </div>
+    <div class="form-group"><label>Your main fitness goal</label>
+      <div class="goals-grid">
+        <div class="goal-chip" onclick="this.classList.toggle('selected')">Weight loss</div>
+        <div class="goal-chip" onclick="this.classList.toggle('selected')">Muscle gain</div>
+        <div class="goal-chip" onclick="this.classList.toggle('selected')">Prenatal</div>
+        <div class="goal-chip" onclick="this.classList.toggle('selected')">Postpartum</div>
+        <div class="goal-chip" onclick="this.classList.toggle('selected')">Flexibility</div>
+        <div class="goal-chip" onclick="this.classList.toggle('selected')">General health</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Preferred date</label><input type="date" /></div>
+      <div class="form-group"><label>Preferred time</label><select><option>Morning (9–12)</option><option>Afternoon (12–5)</option><option>Evening (5–8)</option></select></div>
+    </div>
+    <button class="booking-btn" onclick="closeModal('trial');openModal('trial-success')">Schedule Free Intro →</button>
+  </div>
+</div>
+
+<!-- Signup modal -->
+<div class="modal-overlay" id="modal-signup">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('signup')">✕</button>
+    <h2>Create your account</h2>
+    <p class="sub">Find and book trainers that match your goals</p>
+    <div class="form-row">
+      <div class="form-group"><label>First Name</label><input type="text" /></div>
+      <div class="form-group"><label>Last Name</label><input type="text" /></div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+    <div class="form-group"><label>Password</label><input type="password" placeholder="Create a password" /></div>
+    <div class="form-group"><label>I am a...</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;">
+        <div class="session-type selected" onclick="selectType(this)"><h4>🧍 Client</h4><p>Looking for a trainer</p></div>
+        <div class="session-type" onclick="selectType(this)"><h4>💪 Trainer</h4><p>Building my practice</p></div>
+      </div>
+    </div>
+    <button class="booking-btn" onclick="closeModal('signup');showPage('browse')">Create Account →</button>
+    <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:14px;">Already have an account? <a href="#" onclick="closeModal('signup');openModal('signin')" style="color:var(--sage);text-decoration:none;font-weight:500;">Sign in</a></p>
+  </div>
+</div>
+
+<!-- Signin modal -->
+<div class="modal-overlay" id="modal-signin">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('signin')">✕</button>
+    <h2>Welcome back 🌿</h2>
+    <p class="sub">Sign in to your FitnessThyme account</p>
+    <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+    <div class="form-group"><label>Password</label><input type="password" placeholder="Your password" /></div>
+    <button class="booking-btn" onclick="closeModal('signin');showPage('browse')">Sign In →</button>
+    <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:14px;">New here? <a href="#" onclick="closeModal('signin');openModal('signup')" style="color:var(--sage);text-decoration:none;font-weight:500;">Create an account</a></p>
+  </div>
+</div>
+
+<!-- Book success -->
+<div class="modal-overlay" id="modal-book-success">
+  <div class="modal">
+    <div class="success-state">
+      <div class="success-icon">✅</div>
+      <h3>Session booked!</h3>
+      <p>You're confirmed with Maya Rodriguez. Check your email for the calendar invite and Zoom link.</p>
+      <button class="booking-btn" style="margin-top:20px;" onclick="closeModal('book-success')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trial success -->
+<div class="modal-overlay" id="modal-trial-success">
+  <div class="modal">
+    <div class="success-state">
+      <div class="success-icon">☕</div>
+      <h3>Intro call scheduled!</h3>
+      <p>Maya will reach out within 24 hours to confirm your free 15-minute intro call. No payment needed — just a conversation.</p>
+      <button class="booking-btn" style="margin-top:20px;" onclick="closeModal('trial-success')">Back to Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reg success -->
+<div class="modal-overlay" id="modal-reg-success">
+  <div class="modal">
+    <div class="success-state">
+      <div class="success-icon">🌿</div>
+      <h3>Profile created!</h3>
+      <p>Welcome to FitnessThyme! Your profile is under review and will go live within 24 hours. We'll email you next steps.</p>
+      <button class="booking-btn" style="margin-top:20px;" onclick="closeModal('reg-success');showPage('home')">Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>🌿 Fitness<span>Thyme</span></h3>
+      <p>Connecting people with the right fitness guidance at the right time. Because the best workout is the one that actually fits your life.</p>
+    </div>
+    <div class="footer-col">
+      <h4>For Clients</h4>
+      <a onclick="showPage('browse')">Find a Trainer</a>
+      <a onclick="showPage('browse')">Browse by Specialty</a>
+      <a>How Matching Works</a>
+      <a>Success Stories</a>
+    </div>
+    <div class="footer-col">
+      <h4>For Trainers</h4>
+      <a onclick="showPage('register')">List Your Practice</a>
+      <a>Trainer Resources</a>
+      <a>Pricing & Plans</a>
+      <a>Trainer Community</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a>About Us</a>
+      <a>Blog</a>
+      <a>Careers</a>
+      <a>Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 FitnessThyme. All rights reserved.</span>
+    <span>Privacy · Terms · Accessibility</span>
+  </div>
+</footer>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('open');
+  }
+
+  function closeModal(id) {
+    document.getElementById('modal-' + id).classList.remove('open');
+  }
+
+  document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+  });
+
+  function showProfile(trainer) {
+    const profiles = {
+      maya: { avatar: 'MR', name: 'Maya Rodriguez', title: 'Certified Personal Trainer · Prenatal & Postpartum Specialist' },
+      james: { avatar: 'JK', name: 'James Kwon', title: 'Olympic Lifting Coach · Competition Prep Specialist' },
+      priya: { avatar: 'PS', name: 'Priya Sharma', title: '500hr Yoga Teacher · Meditation & Breathwork Guide' },
+      marcus: { avatar: 'MT', name: 'Marcus Taylor', title: 'NASM-CPT · Boxing & HIIT Specialist' },
+      elena: { avatar: 'EC', name: 'Elena Chen', title: 'Physical Therapist · Adaptive Fitness Specialist' },
+      raj: { avatar: 'RN', name: 'Raj Nair', title: 'Registered Dietitian · Sports Nutritionist' }
+    };
+    const p = profiles[trainer] || profiles.maya;
+    document.getElementById('prof-avatar').textContent = p.avatar;
+    document.getElementById('prof-name').textContent = p.name;
+    document.getElementById('prof-title').textContent = p.title;
+    showPage('profile');
+  }
+
+  function selectType(el) {
+    el.closest('.session-types, .profile-body, .modal') && el.closest('div').querySelectorAll('.session-type').forEach(t => t.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectSlot(el) {
+    if (!el.classList.contains('avail-open')) return;
+    document.querySelectorAll('.avail-slot').forEach(s => s.style.background = '');
+    el.style.background = 'var(--sage)';
+    el.style.color = 'white';
+  }
+
+  function toggleFilter(el) {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
