@@ -1367,7 +1367,16 @@ function showProfile(id){
   `).join('');
   showPage('profile');
 }
-function openProfileMessage(){ navTo('messages'); }
+function openProfileMessage(){
+  activeConvo = currentTrainer;
+  const chats = getChats();
+  if (!chats[currentTrainer]) {
+    const t = TRAINERS.find(x=>x.id===currentTrainer);
+    chats[currentTrainer] = [{ from:'trainer', text:`Hi! I'm ${t.name.split(' ')[0]} — happy to answer any questions before you book. What are you working on?`, t:'Just now' }];
+    saveChats(chats);
+  }
+  navTo('messages');
+}
 
 /* ════════ BOOKING ════════ */
 function selectType(el){
@@ -1433,7 +1442,8 @@ function saveChats(c){ setStored(KEY.chats, c); }
 
 function renderMessages(){
   const chats = getChats();
-  const trainers = ['maya','james'];
+  const trainers = Object.keys(chats).filter(id => TRAINERS.some(t=>t.id===id));
+  if (!trainers.includes(activeConvo) && trainers.length) activeConvo = trainers[0];
   document.getElementById('convoList').innerHTML = trainers.map(id=>{
     const t = TRAINERS.find(x=>x.id===id);
     const msgs = chats[id]||[];
@@ -1559,6 +1569,8 @@ window.addEventListener('scroll', ()=>{
 renderFeatured();
 renderTicker();
 refreshNav();
+const initHash = location.hash.replace('#','');
+if (['browse','messages','dashboard','profile','register'].includes(initHash)) showPage(initHash);
 </script>
 </body>
 </html>
