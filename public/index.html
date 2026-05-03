@@ -1130,13 +1130,16 @@ function showPage(id){
   if (id==='messages') renderMessages();
   if (id==='dashboard') renderDashboard();
 }
-const PAGE_HASHES = ['home','browse','messages','dashboard','profile','register'];
+const PAGE_PATHS = {
+  home: '/', browse: '/find-a-trainer', messages: '/messages',
+  dashboard: '/dashboard', profile: '/profile', register: '/list-your-practice'
+};
+const PATH_TO_PAGE = Object.fromEntries(Object.entries(PAGE_PATHS).map(([k,v])=>[v,k]));
 function navTo(id){
-  const hash = id==='home' ? '' : '#'+id;
-  if (location.hash !== hash) { suppressHash = true; location.hash = hash; suppressHash = false; }
+  const path = PAGE_PATHS[id] || '/';
+  if (location.pathname !== path) history.pushState({}, '', path);
   showPage(id);
 }
-let suppressHash = false;
 
 const INFO_CONTENT = {
   matching: { title:'How Matching Works', sub:'Our 2-minute quiz finds your best-fit trainers in three steps.',
@@ -1169,20 +1172,20 @@ function openInfo(key){
   document.getElementById('info-title').textContent = c.title;
   document.getElementById('info-sub').textContent = c.sub;
   document.getElementById('info-body').innerHTML = c.body;
-  const hash = '#'+key;
-  if (location.hash !== hash) { suppressHash = true; location.hash = hash; suppressHash = false; }
+  const path = '/'+key;
+  if (location.pathname !== path) history.pushState({}, '', path);
   document.title = c.title + ' · FitnessThyme';
   showPage('info');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function routeFromHash(){
-  const h = location.hash.replace('#','');
-  if (!h) { showPage('home'); return; }
-  if (INFO_CONTENT[h]) { openInfo(h); return; }
-  if (PAGE_HASHES.includes(h)) { showPage(h); return; }
+function routeFromPath(){
+  const p = location.pathname;
+  if (PATH_TO_PAGE[p]) { showPage(PATH_TO_PAGE[p]); return; }
+  const key = p.replace(/^\//,'');
+  if (INFO_CONTENT[key]) { openInfo(key); return; }
   showPage('home');
 }
-window.addEventListener('hashchange', ()=>{ if (!suppressHash) routeFromHash(); });
+window.addEventListener('popstate', routeFromPath);
 
 function markSignedIn(){ setStored(KEY.signed, true); refreshNav(); }
 function refreshNav(){
@@ -1630,7 +1633,7 @@ window.addEventListener('scroll', ()=>{
 renderFeatured();
 renderTicker();
 refreshNav();
-routeFromHash();
+routeFromPath();
 </script>
 </body>
 </html>
