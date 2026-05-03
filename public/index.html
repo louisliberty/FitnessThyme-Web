@@ -453,7 +453,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" onclick="showPage('home')">🌿 Fitness<span>Thyme</span></div>
+  <div class="nav-logo" onclick="navTo('home')">🌿 Fitness<span>Thyme</span></div>
   <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
   <div class="nav-links" id="navLinks">
     <button class="nav-btn" onclick="navTo('browse')">Find a Trainer</button>
@@ -1130,7 +1130,13 @@ function showPage(id){
   if (id==='messages') renderMessages();
   if (id==='dashboard') renderDashboard();
 }
-function navTo(id){ showPage(id); }
+const PAGE_HASHES = ['home','browse','messages','dashboard','profile','register'];
+function navTo(id){
+  const hash = id==='home' ? '' : '#'+id;
+  if (location.hash !== hash) { suppressHash = true; location.hash = hash; suppressHash = false; }
+  showPage(id);
+}
+let suppressHash = false;
 
 const INFO_CONTENT = {
   matching: { title:'How Matching Works', sub:'Our 2-minute quiz finds your best-fit trainers in three steps.',
@@ -1163,9 +1169,20 @@ function openInfo(key){
   document.getElementById('info-title').textContent = c.title;
   document.getElementById('info-sub').textContent = c.sub;
   document.getElementById('info-body').innerHTML = c.body;
+  const hash = '#'+key;
+  if (location.hash !== hash) { suppressHash = true; location.hash = hash; suppressHash = false; }
+  document.title = c.title + ' · FitnessThyme';
   showPage('info');
   window.scrollTo({top:0,behavior:'smooth'});
 }
+function routeFromHash(){
+  const h = location.hash.replace('#','');
+  if (!h) { showPage('home'); return; }
+  if (INFO_CONTENT[h]) { openInfo(h); return; }
+  if (PAGE_HASHES.includes(h)) { showPage(h); return; }
+  showPage('home');
+}
+window.addEventListener('hashchange', ()=>{ if (!suppressHash) routeFromHash(); });
 
 function markSignedIn(){ setStored(KEY.signed, true); refreshNav(); }
 function refreshNav(){
@@ -1613,8 +1630,7 @@ window.addEventListener('scroll', ()=>{
 renderFeatured();
 renderTicker();
 refreshNav();
-const initHash = location.hash.replace('#','');
-if (['browse','messages','dashboard','profile','register'].includes(initHash)) showPage(initHash);
+routeFromHash();
 </script>
 </body>
 </html>
