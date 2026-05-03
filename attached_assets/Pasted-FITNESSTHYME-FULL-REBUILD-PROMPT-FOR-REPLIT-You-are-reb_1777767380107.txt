@@ -1,0 +1,89 @@
+FITNESSTHYME — FULL REBUILD PROMPT FOR REPLIT
+
+You are rebuilding FitnessThyme, a two-sided fitness marketplace that matches clients with trainers, yoga instructors, Pilates teachers, nutritionists, gyms, and specialty coaches. The current site is a single static HTML file with inline CSS and vanilla JavaScript. You are upgrading it into a fully featured, industry-leading connection platform. Keep the existing design system exactly as-is: sage-green and tan palette, Playfair Display for headlines, DM Sans for body text, the 🌿 logo, and the warm earthy brand voice. Do not change the visual identity. Only add, upgrade, and wire up new functionality on top of it.
+
+SECTION 1 — MATCHING QUIZ (build this first, it is the most important feature)
+When a new client lands on the site or clicks "Find My Trainer" or "Get Started," before showing them the browse page, show them a full-screen onboarding quiz. This quiz should feel smooth and progressive — one question per screen with an animated transition between steps. Do not show all questions at once.
+The quiz steps are:
+Step 1 — "What's your primary goal?" (single select with icon cards): Lose weight / Build muscle / Improve flexibility / Reduce stress / Prenatal fitness / Postpartum recovery / Injury rehabilitation / Train for competition / Senior fitness / General health and wellness
+Step 2 — "What's your current fitness level?" (single select): Complete beginner / Some experience / Intermediate / Advanced / Athlete
+Step 3 — "How do you prefer to train?" (multi-select): One-on-one sessions / Small group / I like structure and a plan / I prefer flexibility / I want accountability check-ins / I learn best by watching / I want someone who pushes me hard / I prefer a gentler, supportive style
+Step 4 — "What format works best for you?" (single select with icons): In-person only / Virtual only / Either works for me
+Step 5 — "What's your weekly availability?" (multi-select days + time of day): Days: Mon / Tue / Wed / Thu / Fri / Sat / Sun. Time: Early morning (6–9am) / Morning (9am–12pm) / Afternoon (12–5pm) / Evening (5–9pm)
+Step 6 — "What's your budget per session?" (single select): Under $50 / $50–$75 / $75–$100 / $100–$150 / $150+
+Step 7 — "Anything else we should know?" (optional free text field with placeholder: "injuries, preferences, things that haven't worked before...")
+After Step 7 show a "Finding your matches..." loading screen for 1.5 seconds with an animated progress bar, then redirect to the browse page with results pre-filtered and each trainer card showing a Match Score percentage badge (e.g. "94% Match") calculated from how well the trainer's profile aligns with the client's quiz answers. Store the quiz answers in localStorage so the experience is remembered across the session.
+Add a "Retake Quiz" button on the browse page that resets localStorage and restarts the quiz.
+
+SECTION 2 — TRAINER CARDS — ADD VIDEO THUMBNAILS AND MOMENTUM SIGNALS
+Update every trainer card in the browse grid to include:
+A video thumbnail in the card header area (where the colored gradient currently sits). Show a dark overlay with a play button (white circle with triangle) and the label "90-sec intro." When clicked, open a modal with an embedded video player (use a placeholder iframe pointing to a YouTube embed — use https://www.youtube.com/embed/dQw4w9WgXcQ as a placeholder for all trainers for now).
+Below the trainer name and title, add a momentum signal line in small text with an amber or sage color: examples — "Booked 6 times this week" / "4 spots left this month" / "2 new reviews this week." Randomize these across cards so they feel organic.
+Keep all existing card elements (rating, location, experience, price, tags, badges, View button) exactly as they are.
+
+SECTION 3 — STRUCTURED OUTCOME REVIEWS
+On every trainer profile page, update the review system as follows:
+Each review card must include five structured fields displayed in this order:
+
+Reviewer name and star rating (existing)
+Goal tag (existing — e.g. "Goal: Postpartum recovery")
+Review text (existing)
+Outcome statement — a bold one-line result in sage green, formatted like: "Result: Lost 22 lbs over 4 months" or "Result: Completed first 5K at age 61" or "Result: Returned to lifting 6 weeks postpartum." Display this prominently below the review text.
+Best for — small italic text: "Best for: [type of client]"
+
+Add at least 4 sample reviews per profile with realistic, specific outcome statements. Add a review summary bar at the top of the reviews section showing: average star rating as a large number, a 5-row star breakdown bar chart (5 stars / 4 stars / etc. with percentage fill bars in sage green), and total review count.
+
+SECTION 4 — IN-PLATFORM MESSAGING
+Add a Messages section accessible from the nav bar (add a "Messages" link between "Find a Trainer" and "List Your Practice"). This should be a full page (id="page-messages") with a two-panel layout: left panel is a conversation list, right panel is the active chat thread.
+The conversation list shows: trainer avatar (initials circle), trainer name, last message preview, and timestamp. Pre-populate with 2 sample conversations — one with Maya Rodriguez and one with James Kwon.
+The chat panel shows: a header with the trainer's name and a "View Profile" button, a scrollable message thread with alternating left (trainer) and right (client) bubbles, and a message input bar at the bottom with a send button.
+Messages should be functional within the session — typing and pressing Send or hitting Enter should add the message to the thread as a right-aligned bubble. Store messages in localStorage so they persist across page navigations within the same session.
+Style the chat bubbles: client messages in sage green with white text, trainer messages in light gray with dark text. Use DM Sans throughout.
+
+SECTION 5 — CLIENT DASHBOARD
+Add a Dashboard page (id="page-dashboard") accessible from the nav when "signed in." Add a "Dashboard" link to the nav bar that appears after the user completes the quiz or signs up. The dashboard has four sections laid out in a clean grid:
+Section A — Upcoming Sessions: Show 2 sample upcoming sessions as cards. Each card shows: trainer avatar, trainer name, session type (Virtual or In-Person), date and time, a "Join Session" button (for virtual) or "Get Directions" button (for in-person), and a "Reschedule" link.
+Section B — Saved Trainers: Show 3 trainer cards in a horizontal scroll row (the same card format as browse, but compact). Add a heart/bookmark icon to every trainer card on the browse page and profile page — clicking it adds them to this saved section.
+Section C — Progress Notes: A simple personal journal. Show a text area with the placeholder "How did today's session go? Note your energy, what you worked on, how you felt..." and a "Save Note" button. Below show saved notes as timestamped cards in reverse chronological order. Store in localStorage.
+Section D — My Match Profile: Show the client's quiz answers as a summary card with an "Edit / Retake Quiz" button that restarts the quiz flow.
+
+SECTION 6 — TRAINER VALUE HOOK ON REGISTRATION PAGE
+At the very top of the trainer registration page (before the form), add a full-width banner section with a sage-dark background. It should contain:
+A headline: "Trainers on FitnessThyme average 8 new client inquiries in their first 30 days."
+Three stat blocks side by side: "4,200+ Active Trainers" / "52,000+ Sessions Booked" / "98% Match Satisfaction."
+One trainer testimonial card with avatar initials, name, specialty, and quote. Use: "Since joining FitnessThyme I've replaced every cold inquiry with pre-matched clients who already understand my approach. My retention rate went from 60% to over 90%." — Priya S., Yoga & Meditation Coach.
+A "See how it works" anchor link that smoothly scrolls down to the registration form.
+
+SECTION 7 — REFERRAL MECHANIC
+Add a referral banner to the client dashboard (Section A area, above upcoming sessions). The banner should have a sage-pale background with an earth-colored border and contain:
+Headline: "Give a friend their first session free 🎁"
+Subtext: "When they book their first session, you get $20 credit toward your next one."
+A referral link input field showing a fake generated link (e.g. "fitnessthyme.com/join?ref=USER123") with a "Copy Link" button that copies to clipboard and changes its label to "Copied! ✓" for 2 seconds.
+A "Share via Email" button that opens the user's mail client with a pre-filled subject and body.
+
+SECTION 8 — STRIPE PAYMENTS UI (frontend only — no real Stripe keys)
+On the booking modal, after the user selects their session type, date, time, and package, add a payment section with:
+A "Payment Details" heading.
+Card number input (formatted with spaces every 4 digits as the user types).
+A row with Expiry (MM/YY format) and CVV inputs side by side.
+A "Name on card" input.
+A lock icon and the text "Secured by Stripe" in small muted text below the inputs.
+Logos for Visa, Mastercard, and Amex as simple text badges styled as pill labels.
+The "Confirm Booking" button should validate that all fields are filled (no real validation needed beyond non-empty). On submit, show the existing booking success modal.
+This is UI-only. Do not import Stripe.js or make any real API calls. Just build the payment form interface so it looks and feels production-ready.
+
+SECTION 9 — SCARCITY AND SOCIAL PROOF SIGNALS
+Add the following small but high-impact UI signals throughout the site:
+On the browse page, above the trainer grid, add a subtle animated ticker bar (scrolling marquis style, slow and smooth) showing: "🌿 Sarah in Austin just booked with Maya · David in Chicago completed his first session with James · Priya just received a 5-star review · Elena added 3 new availability slots · 12 people are browsing trainers right now" — loop this continuously.
+On each trainer profile, just below the booking button, add a small line: "👀 7 people viewed this profile today" (vary the number per trainer).
+On the free intro modal, add a soft urgency line below the submit button: "Maya typically responds within 2 hours."
+On the trainer registration banner, add: "🟢 47 new clients joined FitnessThyme this week looking for a trainer like you."
+
+SECTION 10 — GENERAL POLISH AND NAVIGATION UPDATES
+Update the nav bar to include: Logo / Find a Trainer / Messages / List Your Practice / Dashboard / Sign In / Get Started. On mobile, collapse these into a hamburger menu.
+Add smooth scroll-triggered fade-in animations to all section headers and card grids on the home page as the user scrolls down. Use IntersectionObserver for this — no external libraries.
+Add a floating "Back to top" button that appears after the user scrolls 400px down, styled as a small sage-green circle with an up arrow.
+Add a cookie/session-aware state: if the user has completed the quiz, replace the "Get Started" nav button with a "My Dashboard" button and show their first quiz answer (goal) as a small personalized greeting in the hero: "Welcome back. Still working toward [their goal]? Your matches are waiting."
+Ensure all modals can be closed by clicking the overlay background or pressing Escape.
+Make the availability grid on the profile page interactive: clicking an open slot highlights it in sage green and auto-populates the date/time field in the booking modal when it's opened.
+Keep all existing pages, styles, trainer profiles, category cards, footer, and brand identity exactly as built. Only add to and enhance what exists.
