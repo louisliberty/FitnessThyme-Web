@@ -62,7 +62,7 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 32px; height: 64px;
   }
-  .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--sage-dark); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--sage-dark); cursor: pointer; display: flex; align-items: center; gap: 4px; }
   .nav-logo .wm span { color: var(--sage); }
   .nav-links { display: flex; align-items: center; gap: 8px; }
   .nav-btn { background: none; border: none; font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--gray); cursor: pointer; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; }
@@ -295,6 +295,9 @@
   footer { background: var(--dark); color: rgba(255,255,255,0.6); padding: 48px 32px 28px; }
   .footer-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
   @media (max-width: 700px) { .footer-inner { grid-template-columns: 1fr 1fr; } .trainers-grid { grid-template-columns: 1fr; } .cats-grid { grid-template-columns: repeat(3, 1fr); } }
+  .footer-brand h3.wm-foot { display:flex; align-items:center; gap:4px; }
+  .footer-brand h3.wm-foot .wm { color: white; }
+  .footer-brand h3.wm-foot .wm span { color: var(--sage-light); }
   .footer-brand h3 { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: white; margin-bottom: 8px; }
   .footer-brand span { color: var(--earth); }
   .footer-brand p { font-size: 14px; line-height: 1.6; }
@@ -725,7 +728,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand"><h3>🌿 Fitness<span>Thyme</span></h3><p>Connecting people with the right fitness guidance at the right time.</p></div>
+    <div class="footer-brand"><h3 class="wm-foot"><span aria-hidden="true">🌿</span><span class="wm">Fitness<span>Thyme</span></span></h3><p>Connecting people with the right fitness guidance at the right time.</p></div>
     <div class="footer-col"><h4>For clients</h4><a href="/find-a-trainer">Join the waitlist</a><a href="/take-the-quiz">Take the quiz</a><a href="/matching">How it works</a><a href="/guides">Guides</a></div>
     <div class="footer-col"><h4>For trainers</h4><a href="/list-your-practice">Apply as a founding trainer</a></div>
     <div class="footer-col"><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a></div>
