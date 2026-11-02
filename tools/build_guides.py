@@ -161,7 +161,7 @@ GUIDES = [
 <p>Whether a particular coach is a good fit for you. Whichever you consider, use the questions in our <a href="/guides/how-to-choose-an-online-personal-trainer/">selection checklist</a>, ask about cancellation, and test response time during any trial. Price and plan details may differ from what is listed here, so check each provider’s own site.</p>
 """},
 {
- "slug": "questions-to-ask-before-hiring-an-online-coach",
+ "slug": "questions-before-hiring-an-online-coach",
  "title": "10 Questions to Ask Before Hiring an Online Coach",
  "desc": "Ten questions to ask any online fitness coach or coaching company before you pay, covering credentials, communication, pricing, cancellation and switching coaches.",
  "blurb": "Ten questions to ask before you pay: credentials, communication, pricing, cancellation.",
