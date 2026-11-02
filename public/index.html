@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FitnessThyme — Find a Trainer Who Actually Gets You</title>
-<meta name="description" content="Find a personal trainer, yoga or Pilates instructor, or gym that fits your goals, training style and schedule. Take a short quiz, compare matches, and book a free intro call.">
+<meta name="description" content="FitnessThyme is opening early access. Trainers, instructors and gyms can apply as founding members, and anyone looking for a trainer can join the waitlist to be matched by goals, style and schedule.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#2d4a2d">
 <link rel="canonical" href="https://fitnessthyme.com/">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FitnessThyme">
 <meta property="og:title" content="FitnessThyme — Find a Trainer Who Actually Gets You">
-<meta property="og:description" content="Match with trainers, yoga and Pilates instructors, and gyms based on your goals, training style and schedule. In person or online.">
+<meta property="og:description" content="Early access now open. Match with trainers, yoga and Pilates instructors and gyms by goals, training style and schedule, in person or online.">
 <meta property="og:url" content="https://fitnessthyme.com/">
 <meta property="og:image" content="https://fitnessthyme.com/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -465,6 +465,33 @@
 
   .scarcity-line { font-size: 12px; color: var(--gray); text-align: center; margin-top: 10px; }
   .urgency-line { font-size: 12px; color: var(--earth-dark); text-align: center; margin-top: 10px; font-weight: 500; }
+
+  /* ── EARLY ACCESS ── */
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .consent { font-size: 12.5px; color: var(--gray); line-height: 1.55; margin-top: 12px; }
+  .consent a { color: var(--sage); font-weight: 500; text-decoration: underline; cursor: pointer; }
+  .form-msg { font-size: 14px; margin-top: 12px; display: none; padding: 10px 14px; border-radius: 10px; }
+  .form-msg.error { display: block; background: #fdecec; color: #9b2c2c; }
+  .btn:disabled, .quiz-next:disabled { opacity: .6; cursor: wait; }
+  .thanks { text-align: center; padding: 28px 12px; }
+  .thanks .success-icon { margin: 0 auto 14px; }
+  .thanks h3 { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--sage-dark); }
+  .thanks p { font-size: 15px; color: var(--gray); line-height: 1.6; max-width: 440px; margin: 0 auto 18px; }
+  .ea-split { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ea-card { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 32px; }
+  .ea-card h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--sage-dark); }
+  .ea-card p { font-size: 15px; color: var(--gray); line-height: 1.6; margin-bottom: 20px; }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; text-align: left; }
+  .why-card { background: rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 26px; }
+  .why-card h3 { font-family: var(--font-display); font-size: 19px; margin-bottom: 8px; }
+  .why-card p { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.8); }
+  .info-box { background: white; border: 1px solid rgba(90,122,90,0.15); border-radius: 16px; padding: 40px; line-height: 1.7; color: var(--dark); }
+  .info-box h3 { font-family: var(--font-display); color: var(--sage-dark); margin: 24px 0 8px; font-size: 19px; }
+  .info-box h3:first-child { margin-top: 0; }
+  .info-box p, .info-box ul { margin-bottom: 14px; }
+  .info-box ul { padding-left: 22px; }
+  .info-note { background: var(--earth-light); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--earth-dark); margin-bottom: 24px; }
+  @media (max-width: 760px) { .ea-split { grid-template-columns: 1fr; } .info-box { padding: 24px; } }
 </style>
 </head>
 <body>
@@ -472,578 +499,195 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="navTo('home')">🌿 Fitness<span>Thyme</span></div>
-  <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
   <div class="nav-links" id="navLinks">
-    <button class="nav-btn" onclick="navTo('browse')">Find a Trainer</button>
-    <button class="nav-btn" onclick="navTo('messages')">Messages</button>
-    <button class="nav-btn" onclick="navTo('register')">List Your Practice</button>
-    <button class="nav-btn hidden" id="nav-dashboard" onclick="navTo('dashboard')">Dashboard</button>
-    <button class="nav-btn" onclick="openModal('signin')">Sign In</button>
-    <button class="nav-btn primary" id="nav-cta" onclick="startQuiz()">Get Started</button>
+    <button class="nav-btn" onclick="openInfo('matching')">How it works</button>
+    <button class="nav-btn" onclick="navTo('register')">For trainers</button>
+    <button class="nav-btn primary" onclick="navTo('browse')">Join the waitlist</button>
   </div>
 </nav>
 
-<!-- ══ HOME PAGE ══ -->
+<!-- ══ HOME ══ -->
 <div id="page-home" class="page active">
 
-  <!-- HERO -->
   <div class="hero">
-    <div class="hero-greeting" id="hero-greeting"></div>
-    <div class="hero-badge">✦ The smarter way to find your fitness match</div>
+    <div class="hero-badge">✦ Early access — founding trainers welcome</div>
     <h1>Find a trainer who <em>actually</em> gets you</h1>
-    <p>Match with certified trainers, yoga instructors, and gyms based on your goals, training style, and schedule — in-person or online.</p>
+    <p>FitnessThyme is a new way to match with personal trainers, yoga and Pilates instructors, and gyms based on your goals, training style, and schedule — in person or online. We're opening early access now.</p>
     <div class="hero-cta">
-      <button class="btn btn-primary" onclick="startQuiz()">Find My Trainer →</button>
-      <button class="btn btn-outline" onclick="navTo('register')">List Your Practice</button>
+      <button class="btn btn-primary" onclick="startQuiz()">I'm looking for a trainer →</button>
+      <button class="btn btn-outline" onclick="navTo('register')">I'm a trainer or gym</button>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-num">4,200+</div><div class="hero-stat-label">Verified Trainers</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">98%</div><div class="hero-stat-label">Match Satisfaction</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">52k+</div><div class="hero-stat-label">Goals Achieved</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">Free</div><div class="hero-stat-label">Intro Sessions</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">Goal-first</div><div class="hero-stat-label">matching</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">In person</div><div class="hero-stat-label">and online</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">Free intro</div><div class="hero-stat-label">calls, at launch</div></div>
     </div>
   </div>
 
-  <!-- QUICK SEARCH -->
-  <div class="search-section">
-    <div class="search-inner">
-      <div class="search-bar">
-        <div class="search-field">
-          <label>What are you looking for?</label>
-          <select><option>All Types</option><option>Personal Trainer</option><option>Yoga Instructor</option><option>Fitness Center</option><option>Gym</option><option>Pilates Instructor</option><option>Nutritionist</option></select>
-        </div>
-        <div class="search-field">
-          <label>Your goal</label>
-          <select><option>Any Goal</option><option>Weight Loss</option><option>Build Muscle</option><option>Improve Flexibility</option><option>Stress Relief</option><option>Injury Recovery</option><option>Prenatal Fitness</option><option>Senior Fitness</option></select>
-        </div>
-        <div class="search-field">
-          <label>Session type</label>
-          <select><option>In-Person or Virtual</option><option>In-Person Only</option><option>Virtual Only</option></select>
-        </div>
-        <div class="search-field">
-          <label>Location</label>
-          <input type="text" placeholder="City or zip code" />
-        </div>
-        <button class="search-submit" onclick="navTo('browse')">Search</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CATEGORIES -->
   <div class="section reveal" style="padding-bottom: 40px;">
     <div class="section-header">
-      <div class="section-tag">Browse by specialty</div>
+      <div class="section-tag">Specialties we're building for</div>
       <h2>What kind of support are you looking for?</h2>
-      <p class="lead">Whether you want to lift heavier, move more mindfully, or just feel better — we've got someone for that.</p>
+      <p class="lead">Whether you want to lift heavier, move more mindfully, or just feel better, tell us your goal and we'll match you when trainers open up.</p>
     </div>
     <div class="cats-grid">
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏋️</div><h4>Strength Training</h4><p>620 trainers</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🧘</div><h4>Yoga & Mindfulness</h4><p>480 instructors</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏃</div><h4>Running & Cardio</h4><p>310 coaches</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🤸</div><h4>Pilates</h4><p>215 instructors</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🥊</div><h4>Boxing & MMA</h4><p>180 coaches</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🤰</div><h4>Prenatal Fitness</h4><p>140 specialists</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🦽</div><h4>Adaptive Fitness</h4><p>95 coaches</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏊</div><h4>Aqua Fitness</h4><p>88 instructors</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🧓</div><h4>Senior Fitness</h4><p>210 specialists</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🥗</div><h4>Nutrition Coaching</h4><p>290 coaches</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏥</div><h4>Injury Rehab</h4><p>165 specialists</p></div>
-      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏆</div><h4>Competition Prep</h4><p>130 coaches</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏋️</div><h4>Strength Training</h4><p>Build strength safely</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🧘</div><h4>Yoga & Mindfulness</h4><p>Move and breathe</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏃</div><h4>Running & Cardio</h4><p>Endurance and pacing</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🤸</div><h4>Pilates</h4><p>Core and control</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🥊</div><h4>Boxing & MMA</h4><p>Skills and conditioning</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🤰</div><h4>Prenatal Fitness</h4><p>Training while pregnant</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🦽</div><h4>Adaptive Fitness</h4><p>Coaching for every body</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏊</div><h4>Aqua Fitness</h4><p>Low-impact in the water</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🧓</div><h4>Senior Fitness</h4><p>Strength and balance</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🥗</div><h4>Nutrition Coaching</h4><p>Food that fits your life</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏥</div><h4>Injury Rehab</h4><p>Return to training</p></div>
+      <div class="cat-card" onclick="navTo('browse')"><div class="cat-icon">🏆</div><h4>Competition Prep</h4><p>Peak for race day</p></div>
     </div>
   </div>
 
-  <!-- HOW IT WORKS -->
   <div style="background: var(--sage-pale); padding: 80px 32px;" class="reveal">
     <div style="max-width: 1120px; margin: 0 auto;">
       <div class="section-header">
-        <div class="section-tag">How it works</div>
-        <h2>From search to first session in minutes</h2>
+        <div class="section-tag">How it will work</div>
+        <h2>From goals to first session</h2>
       </div>
       <div class="steps-grid">
-        <div class="step-card"><div class="step-num">1</div><div class="step-icon">🎯</div><h3>Share your goals</h3><p>Tell us what you want to achieve, your fitness level, schedule, and how you like to train.</p></div>
-        <div class="step-card"><div class="step-num">2</div><div class="step-icon">🔍</div><h3>Browse matched trainers</h3><p>See trainers ranked by match quality. Read reviews, watch intro videos, and compare styles.</p></div>
-        <div class="step-card"><div class="step-num">3</div><div class="step-icon">☕</div><h3>Book a free intro</h3><p>Schedule a free 15-minute intro call — no commitment, no card required. Just a conversation.</p></div>
-        <div class="step-card"><div class="step-num">4</div><div class="step-icon">🚀</div><h3>Start your journey</h3><p>Book sessions, track progress, and message your trainer — all in one place.</p></div>
+        <div class="step-card"><div class="step-num">1</div><div class="step-icon">🎯</div><h3>Share your goals</h3><p>Tell us what you want to achieve, your fitness level, and how you like to train.</p></div>
+        <div class="step-card"><div class="step-num">2</div><div class="step-icon">🔍</div><h3>See matched trainers</h3><p>Trainers are ranked by fit, so you can compare specialties, styles, formats and prices.</p></div>
+        <div class="step-card"><div class="step-num">3</div><div class="step-icon">☕</div><h3>Try a free intro</h3><p>Request a short intro call to see if it's a fit before you commit to anything.</p></div>
+        <div class="step-card"><div class="step-num">4</div><div class="step-icon">🚀</div><h3>Start your journey</h3><p>Book sessions in person or online and keep everything with your trainer in one place.</p></div>
       </div>
     </div>
   </div>
 
-  <!-- FEATURED TRAINERS -->
   <div class="section reveal">
     <div class="section-header">
-      <div class="section-tag">Featured trainers</div>
-      <h2>Highly rated coaches this week</h2>
+      <div class="section-tag">Get in early</div>
+      <h2>Join us at the start</h2>
+      <p class="lead">We're signing up our first trainers and building the waitlist of people who want to be matched.</p>
     </div>
-    <div class="trainers-grid" id="featured-trainers"></div>
-    <div style="text-align:center;margin-top:36px;">
-      <button class="btn btn-sage" onclick="navTo('browse')">Browse All Trainers →</button>
+    <div class="ea-split">
+      <div class="ea-card">
+        <h3>I'm looking for a trainer</h3>
+        <p>Answer a few quick questions about your goals and preferences, and we'll reach out as trainers come on board.</p>
+        <button class="btn btn-sage" onclick="startQuiz()">Take the 2-minute quiz →</button>
+      </div>
+      <div class="ea-card">
+        <h3>I'm a trainer, instructor or gym</h3>
+        <p>Apply to be a founding member. Describe your specialties and who you work best with, and we'll be in touch.</p>
+        <button class="btn btn-sage" onclick="navTo('register')">Apply as a founding trainer →</button>
+      </div>
     </div>
   </div>
 
-  <!-- TESTIMONIALS -->
   <div style="background: var(--sage-dark); padding: 80px 32px; color: white;" class="reveal">
-    <div style="max-width:960px; margin: 0 auto; text-align:center;">
-      <div class="section-tag" style="background:rgba(255,255,255,0.1);color:var(--earth-light);">Real results</div>
-      <h2 style="font-family:var(--font-display);font-size:36px;font-weight:900;margin:16px 0 40px;">Goals met. Lives changed.</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;text-align:left;">
-        <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;">
-          <div class="stars" style="margin-bottom:12px;font-size:16px;">★★★★★</div>
-          <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">"I'd tried 3 trainers before FitnessThyme. The matching actually worked — Maya understood exactly what I needed postpartum. First trainer I've stuck with for over a year."</p>
-          <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:var(--earth);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;">SL</div><div><div style="font-weight:600;font-size:14px;">Sarah L.</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">Goal: Postpartum fitness</div></div></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;">
-          <div class="stars" style="margin-bottom:12px;font-size:16px;">★★★★★</div>
-          <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">"The free intro call was a game changer. I knew within 10 minutes whether James was the right fit — and he was. Hit my first powerlifting total in 6 months."</p>
-          <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;">DM</div><div><div style="font-weight:600;font-size:14px;">David M.</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">Goal: Competition prep</div></div></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;">
-          <div class="stars" style="margin-bottom:12px;font-size:16px;">★★★★★</div>
-          <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:16px;">"As a trainer, I've doubled my client base in 4 months. The two-way matching means I only work with people I can genuinely help — better for them, better for me."</p>
-          <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:#7a3a8a;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;">PS</div><div><div style="font-weight:600;font-size:14px;">Priya S. (Trainer)</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">Yoga & meditation coach</div></div></div>
-        </div>
+    <div style="max-width:1000px; margin: 0 auto; text-align:center;">
+      <div class="section-tag" style="background:rgba(255,255,255,0.1);color:var(--earth-light);">What makes it different</div>
+      <h2 style="font-family:var(--font-display);font-size:36px;font-weight:900;margin:16px 0 40px;">Built around fit, not just a list</h2>
+      <div class="why-grid">
+        <div class="why-card"><h3>Matching both ways</h3><p>Clients share their goals and style. Trainers share who they work best with. Both sides help find the fit.</p></div>
+        <div class="why-card"><h3>Specialty depth</h3><p>Prenatal, adaptive, rehab, senior fitness and competition prep sit alongside strength, yoga and Pilates.</p></div>
+        <div class="why-card"><h3>Intro before commitment</h3><p>A short, free intro call lets you check the fit before you spend time or money.</p></div>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- ══ BROWSE PAGE ══ -->
+<!-- ══ CLIENT WAITLIST (route: /find-a-trainer) ══ -->
 <div id="page-browse" class="page">
-  <div style="background:var(--sage-dark);padding:32px;color:white;">
-    <div style="max-width:960px;margin:0 auto;">
-      <h1 style="font-family:var(--font-display);font-size:28px;font-weight:900;margin-bottom:6px;">Find your perfect trainer</h1>
-      <p style="color:rgba(255,255,255,0.7);font-size:15px;">Showing matches based on your goals and preferences</p>
-    </div>
+  <div class="reg-banner">
+    <h1>Get matched when trainers <em>open up</em></h1>
+    <p class="reg-banner-sub">We're signing up our first trainers now. Join the waitlist and we'll contact you as matches become available.</p>
+    <div><button class="btn btn-primary" onclick="startQuiz()">Take the 2-minute quiz →</button></div>
   </div>
-
-  <div class="ticker">
-    <div class="ticker-track" id="tickerTrack"></div>
-  </div>
-
-  <div class="search-section" style="padding:20px 32px;">
-    <div class="search-bar" style="max-width:960px;margin:0 auto;">
-      <div class="search-field"><label>Type</label><select><option>All Types</option><option>Personal Trainer</option><option>Yoga Instructor</option><option>Pilates</option><option>Gym</option></select></div>
-      <div class="search-field"><label>Goal</label><select><option>Any Goal</option><option>Weight Loss</option><option>Build Muscle</option><option>Flexibility</option><option>Stress Relief</option><option>Rehab</option></select></div>
-      <div class="search-field"><label>Session</label><select><option>Any Format</option><option>In-Person</option><option>Virtual</option></select></div>
-      <div class="search-field"><label>Price</label><select><option>Any Price</option><option>Under $50</option><option>$50–$100</option><option>$100+</option></select></div>
-      <button class="search-submit">Update</button>
-    </div>
-  </div>
-  <div class="filter-row">
-    <span style="font-size:13px;font-weight:600;color:var(--gray);line-height:2;">Filter by specialty:</span>
-    <span class="filter-chip active" onclick="toggleFilter(this)">All</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Strength</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Yoga</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Cardio</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Pilates</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Prenatal</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Senior</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Rehab</span>
-    <span class="filter-chip" onclick="toggleFilter(this)">Nutrition</span>
-  </div>
-  <div class="results-meta">
-    <div><strong id="resultCount">6</strong> matches found <span id="matchedTagline" style="color:var(--sage);font-weight:600;display:none;"> · personalized for you</span></div>
-    <button class="retake-btn" id="retakeBtn" onclick="retakeQuiz()" style="display:none;">↻ Retake Quiz</button>
-  </div>
-  <div class="section" style="padding-top:0;">
-    <div class="trainers-grid" id="browse-trainers"></div>
+  <div class="trainer-reg" id="client-form">
+    <form class="reg-card" onsubmit="submitSignup(event,'client')" novalidate>
+      <h3>Or just join the waitlist</h3>
+      <div class="form-row">
+        <div class="form-group"><label for="c-first">First name</label><input id="c-first" name="first_name" type="text" autocomplete="given-name" required maxlength="80"></div>
+        <div class="form-group"><label for="c-last">Last name</label><input id="c-last" name="last_name" type="text" autocomplete="family-name" required maxlength="80"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+        <div class="form-group"><label for="c-phone">Phone <span style="font-weight:400;color:var(--gray);">(optional)</span></label><input id="c-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+      </div>
+      <div class="form-group"><label for="c-goal">Your main goal</label>
+        <select id="c-goal" name="specialty_or_goal">
+          <option>Lose weight</option><option>Build muscle</option><option>Improve flexibility</option><option>Reduce stress</option><option>Prenatal fitness</option><option>Postpartum recovery</option><option>Injury rehabilitation</option><option>Train for competition</option><option>Senior fitness</option><option>General health</option>
+        </select>
+      </div>
+      <div class="hp-field" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit" class="btn btn-sage" style="width:100%;padding:16px;font-size:16px;justify-content:center;">Join the waitlist →</button>
+      <div class="form-msg" role="alert"></div>
+      <p class="consent">By joining, you agree that FitnessThyme may use your name, email, phone and goal to contact you about early access and to match you with trainers when we launch. You can unsubscribe at any time. See our <a onclick="openInfo('privacy')">Privacy Policy</a>.</p>
+    </form>
   </div>
 </div>
 
-<!-- ══ PROFILE PAGE ══ -->
-<div id="page-profile" class="page">
-  <div class="profile-header">
-    <div class="profile-inner">
-      <div class="profile-avatar" id="prof-avatar">MR</div>
-      <div class="profile-info">
-        <h1 id="prof-name">Maya Rodriguez</h1>
-        <div class="subtitle" id="prof-title">Certified Personal Trainer · Prenatal & Postpartum Specialist</div>
-        <div class="profile-meta">
-          <span><span class="stars">★★★★★</span> 4.9 (127 reviews)</span>
-          <span>📍 Austin, TX</span>
-          <span>💪 6 yrs experience</span>
-          <span>✓ Background verified</span>
-        </div>
-        <div class="profile-actions">
-          <button class="btn btn-primary btn-sm" onclick="openModal('book')">Book Session</button>
-          <button class="btn btn-outline btn-sm" onclick="openModal('trial')">☕ Free Intro Call</button>
-          <button class="btn btn-outline btn-sm" onclick="openProfileMessage()">💬 Message</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="profile-body">
-    <div>
-      <div class="card-section">
-        <h3>About</h3>
-        <p style="font-size:14px;color:#374151;line-height:1.7;">Maya is a NASM-certified personal trainer specializing in prenatal and postpartum fitness, with six years of experience helping women feel strong, capable, and confident through every stage of motherhood. She blends evidence-based programming with a calm, supportive style — meeting clients exactly where they are.</p>
-      </div>
-      <div class="card-section">
-        <h3>Specialties</h3>
-        <div class="specialty-grid">
-          <div class="specialty-chip selected">Prenatal Fitness</div>
-          <div class="specialty-chip selected">Postpartum Recovery</div>
-          <div class="specialty-chip selected">Strength Training</div>
-          <div class="specialty-chip selected">Mobility & Flexibility</div>
-          <div class="specialty-chip">Diastasis Recti</div>
-          <div class="specialty-chip">Pelvic Floor</div>
-        </div>
-      </div>
-      <div class="card-section">
-        <h3>Reviews</h3>
-        <div class="review-summary">
-          <div class="review-avg">
-            <div class="review-avg-num">4.9</div>
-            <div class="review-avg-stars">★★★★★</div>
-            <div class="review-avg-count">127 reviews</div>
-          </div>
-          <div class="review-bars">
-            <div class="review-bar-row"><span>5 stars</span><div class="review-bar-track"><div class="review-bar-fill" style="width:88%"></div></div><span>88%</span></div>
-            <div class="review-bar-row"><span>4 stars</span><div class="review-bar-track"><div class="review-bar-fill" style="width:9%"></div></div><span>9%</span></div>
-            <div class="review-bar-row"><span>3 stars</span><div class="review-bar-track"><div class="review-bar-fill" style="width:2%"></div></div><span>2%</span></div>
-            <div class="review-bar-row"><span>2 stars</span><div class="review-bar-track"><div class="review-bar-fill" style="width:1%"></div></div><span>1%</span></div>
-            <div class="review-bar-row"><span>1 star</span><div class="review-bar-track"><div class="review-bar-fill" style="width:0%"></div></div><span>0%</span></div>
-          </div>
-        </div>
-        <div id="reviews-list"></div>
-      </div>
-    </div>
-    <div>
-      <div class="card-section">
-        <h3>Book a Session</h3>
-        <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:8px;">Format</div>
-        <div class="session-types" style="margin-bottom:16px;">
-          <div class="session-type selected" onclick="selectType(this)"><h4>📹 Virtual</h4><p>Zoom</p></div>
-          <div class="session-type" onclick="selectType(this)"><h4>🏠 In-Person</h4><p>Austin, TX</p></div>
-        </div>
-        <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:10px;">Availability this week</div>
-        <div class="availability-grid">
-          <div class="avail-day"><div class="avail-label">M</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Mon','9am')">9am</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Mon','11am')">11am</div><div class="avail-slot avail-busy">2pm</div></div>
-          <div class="avail-day"><div class="avail-label">T</div><div class="avail-slot avail-busy">9am</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Tue','11am')">11am</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Tue','3pm')">3pm</div></div>
-          <div class="avail-day"><div class="avail-label">W</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Wed','10am')">10am</div><div class="avail-slot avail-busy">1pm</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Wed','4pm')">4pm</div></div>
-          <div class="avail-day"><div class="avail-label">T</div><div class="avail-slot avail-busy">9am</div><div class="avail-slot avail-busy">11am</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Thu','2pm')">2pm</div></div>
-          <div class="avail-day"><div class="avail-label">F</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Fri','9am')">9am</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Fri','10am')">10am</div><div class="avail-slot avail-busy">3pm</div></div>
-          <div class="avail-day"><div class="avail-label">S</div><div class="avail-slot avail-open" onclick="selectSlot(this,'Sat','10am')">10am</div><div class="avail-slot avail-busy">12pm</div><div class="avail-slot avail-busy">2pm</div></div>
-          <div class="avail-day"><div class="avail-label">S</div><div class="avail-slot avail-busy">10am</div><div class="avail-slot avail-busy">12pm</div><div class="avail-slot avail-busy">2pm</div></div>
-        </div>
-        <button class="booking-btn" onclick="openModal('book')">Confirm & Book Session</button>
-        <div class="profile-viewers" id="profile-viewers">👀 7 people viewed this profile today</div>
-        <div class="trial-banner">
-          <h4>☕ New here?</h4>
-          <p>Book a free 15-minute intro call first — no payment required.</p>
-          <button class="trial-btn" onclick="openModal('trial')">Schedule Free Intro</button>
-        </div>
-      </div>
-
-      <div class="card-section">
-        <h3>Pricing</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--gray-light);border-radius:8px;"><div><div style="font-weight:600;font-size:14px;">Single Session</div><div style="font-size:12px;color:var(--gray);">60 minutes</div></div><div style="font-weight:700;font-size:16px;">$75</div></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--sage-pale);border-radius:8px;border:1.5px solid var(--sage-light);"><div><div style="font-weight:600;font-size:14px;">4-Session Pack ⭐ Popular</div><div style="font-size:12px;color:var(--gray);">Save 15%</div></div><div style="font-weight:700;font-size:16px;">$255</div></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--gray-light);border-radius:8px;"><div><div style="font-weight:600;font-size:14px;">Monthly (8 sessions)</div><div style="font-size:12px;color:var(--gray);">Save 25%</div></div><div style="font-weight:700;font-size:16px;">$450</div></div>
-        </div>
-      </div>
-
-      <div class="card-section">
-        <h3>Credentials</h3>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
-          <div><span style="color:var(--sage);">✓</span> NASM Certified Personal Trainer</div>
-          <div><span style="color:var(--sage);">✓</span> Pre/Postnatal Fitness Specialist (CPPS)</div>
-          <div><span style="color:var(--sage);">✓</span> CPR / AED Certified</div>
-          <div><span style="color:var(--sage);">✓</span> BS in Kinesiology, UT Austin</div>
-          <div><span style="color:var(--sage);">✓</span> Background check verified</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ MESSAGES PAGE ══ -->
-<div id="page-messages" class="page">
-  <div class="messages-page">
-    <h1>Messages</h1>
-    <div class="messages-layout">
-      <div class="convo-list" id="convoList"></div>
-      <div class="chat-panel">
-        <div class="chat-header">
-          <h3 id="chatHeaderName">Maya Rodriguez</h3>
-          <button class="btn btn-sage btn-sm" onclick="showProfile('maya')">View Profile</button>
-        </div>
-        <div class="chat-thread" id="chatThread"></div>
-        <div class="chat-input">
-          <input type="text" id="chatInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendChat()" />
-          <button class="chat-send" onclick="sendChat()">Send</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ DASHBOARD PAGE ══ -->
-<div id="page-dashboard" class="page">
-  <div class="dash-page">
-    <h1>Welcome back 🌿</h1>
-    <p>Here's what's happening with your fitness journey.</p>
-
-    <div class="referral-banner">
-      <div>
-        <h3>Give a friend their first session free 🎁</h3>
-        <p>When they book their first session, you get $20 credit toward your next one.</p>
-        <div class="referral-link-row">
-          <input type="text" id="refLink" value="fitnessthyme.com/join?ref=USER123" readonly />
-        </div>
-      </div>
-      <div class="referral-actions">
-        <button class="ref-btn ref-btn-primary" id="copyRefBtn" onclick="copyReferral()">Copy Link</button>
-        <button class="ref-btn ref-btn-secondary" onclick="shareReferralEmail()">Share via Email</button>
-      </div>
-    </div>
-
-    <div class="dash-section">
-      <h2>Upcoming Sessions</h2>
-      <div class="upcoming-grid">
-        <div class="upcoming-card">
-          <div class="upcoming-head">
-            <div class="upcoming-av">MR</div>
-            <div class="upcoming-info"><div class="upcoming-name">Maya Rodriguez</div><div class="upcoming-type">📹 Virtual · Zoom</div></div>
-          </div>
-          <div class="upcoming-when">Wednesday, May 6 · 10:00 AM</div>
-          <div class="upcoming-actions">
-            <button class="btn btn-sage btn-sm">Join Session</button>
-            <button class="btn btn-outline btn-sm" style="color:var(--sage-dark);border-color:var(--sage-light);background:transparent;">Reschedule</button>
-          </div>
-        </div>
-        <div class="upcoming-card">
-          <div class="upcoming-head">
-            <div class="upcoming-av" style="background:var(--earth);">JK</div>
-            <div class="upcoming-info"><div class="upcoming-name">James Kwon</div><div class="upcoming-type">🏠 In-Person · Chicago</div></div>
-          </div>
-          <div class="upcoming-when">Friday, May 8 · 6:30 AM</div>
-          <div class="upcoming-actions">
-            <button class="btn btn-sage btn-sm">Get Directions</button>
-            <button class="btn btn-outline btn-sm" style="color:var(--sage-dark);border-color:var(--sage-light);background:transparent;">Reschedule</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dash-section">
-      <h2>Saved Trainers</h2>
-      <div class="saved-row" id="savedRow"></div>
-    </div>
-
-    <div class="dash-section">
-      <h2>Progress Notes</h2>
-      <textarea class="notes-input" id="noteInput" placeholder="How did today's session go? Note your energy, what you worked on, how you felt..."></textarea>
-      <div style="margin-top:10px;text-align:right;"><button class="btn btn-sage btn-sm" onclick="saveNote()">Save Note</button></div>
-      <div class="notes-list" id="notesList"></div>
-    </div>
-
-    <div class="dash-section">
-      <h2>My Match Profile</h2>
-      <div class="profile-summary">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-          <div style="font-size:14px;color:var(--gray);">Your quiz answers power your match scores.</div>
-          <button class="btn btn-sage btn-sm" onclick="retakeQuiz()">Edit / Retake Quiz</button>
-        </div>
-        <div class="profile-summary-grid" id="quizSummary"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ REGISTER PAGE ══ -->
+<!-- ══ TRAINER APPLICATION (route: /list-your-practice) ══ -->
 <div id="page-register" class="page">
   <div class="reg-banner">
-    <h1>Trainers on FitnessThyme average <em>8 new client inquiries</em> in their first 30 days.</h1>
-    <p class="reg-banner-sub">Stop chasing leads. Start growing the practice you actually want.</p>
+    <h1>Join as a <em>founding trainer</em></h1>
+    <p class="reg-banner-sub">We're opening early access to trainers, instructors, gyms and studios. Tell us about your practice and we'll be in touch as we open.</p>
     <div class="reg-stats">
-      <div><div class="reg-stat-num">4,200+</div><div class="reg-stat-label">Active Trainers</div></div>
-      <div><div class="reg-stat-num">52,000+</div><div class="reg-stat-label">Sessions Booked</div></div>
-      <div><div class="reg-stat-num">98%</div><div class="reg-stat-label">Match Satisfaction</div></div>
+      <div><div class="reg-stat-num" style="font-size:22px;">Be first</div><div class="reg-stat-label">to have a profile</div></div>
+      <div><div class="reg-stat-num" style="font-size:22px;">Pick</div><div class="reg-stat-label">your specialties</div></div>
+      <div><div class="reg-stat-num" style="font-size:22px;">Help shape</div><div class="reg-stat-label">what we build</div></div>
     </div>
-    <div class="reg-testimonial">
-      <p>"Since joining FitnessThyme I've replaced every cold inquiry with pre-matched clients who already understand my approach. My retention rate went from 60% to over 90%."</p>
-      <div class="who"><div class="who-av">PS</div><div><div style="font-weight:600;font-size:14px;">Priya S.</div><div style="font-size:12px;color:rgba(255,255,255,0.6);">Yoga & Meditation Coach</div></div></div>
-    </div>
-    <div class="reg-pulse">🟢 47 new clients joined FitnessThyme this week looking for a trainer like you.</div>
-    <div><a class="reg-anchor" onclick="document.getElementById('reg-form').scrollIntoView({behavior:'smooth'})">See how it works ↓</a></div>
+    <div><a class="reg-anchor" onclick="document.getElementById('reg-form').scrollIntoView({behavior:'smooth'})">Apply now ↓</a></div>
   </div>
 
   <div class="trainer-reg" id="reg-form">
-    <div class="reg-card">
-      <h3>Your Practice Info</h3>
-      <div class="form-row">
-        <div class="form-group"><label>First Name</label><input type="text" placeholder="First name" /></div>
-        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Last name" /></div>
+    <form onsubmit="submitSignup(event,'trainer')" novalidate>
+      <div class="reg-card">
+        <h3>About you</h3>
+        <div class="form-row">
+          <div class="form-group"><label for="t-first">First name</label><input id="t-first" name="first_name" type="text" autocomplete="given-name" required maxlength="80"></div>
+          <div class="form-group"><label for="t-last">Last name</label><input id="t-last" name="last_name" type="text" autocomplete="family-name" required maxlength="80"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label for="t-email">Email</label><input id="t-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+          <div class="form-group"><label for="t-phone">Phone <span style="font-weight:400;color:var(--gray);">(optional)</span></label><input id="t-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+        </div>
+        <div class="form-group"><label for="t-type">Type of practice</label>
+          <select id="t-type" name="practice_type"><option>Personal Trainer</option><option>Yoga Instructor</option><option>Pilates Instructor</option><option>Fitness Center</option><option>Gym</option><option>Nutritionist / Dietitian</option><option>Sports Coach</option><option>Physical Therapist</option></select>
+        </div>
       </div>
-      <div class="form-group"><label>Professional Title</label><input type="text" placeholder="e.g. Certified Personal Trainer..." /></div>
-      <div class="form-group"><label>Type of Practice</label>
-        <select><option>Personal Trainer</option><option>Yoga Instructor</option><option>Pilates Instructor</option><option>Fitness Center</option><option>Gym</option><option>Nutritionist / Dietitian</option><option>Sports Coach</option><option>Physical Therapist</option></select>
-      </div>
-      <div class="form-group"><label>Bio</label><textarea rows="4" placeholder="Describe your approach, your passion, who you work best with..."></textarea></div>
-    </div>
 
-    <div class="reg-card">
-      <h3>Your Specialties</h3>
-      <p style="font-size:14px;color:var(--gray);margin-bottom:14px;">Select all that apply — this powers our matching algorithm</p>
-      <div class="specialty-grid">
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Strength Training</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Weight Loss</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Yoga</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Pilates</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Prenatal</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Postpartum</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Senior Fitness</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Adaptive Fitness</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Boxing / MMA</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">HIIT / Cardio</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Injury Rehab</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Comp Prep</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Nutrition</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Mobility</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Meditation</div>
-        <div class="specialty-chip" onclick="this.classList.toggle('selected')">Running</div>
+      <div class="reg-card">
+        <h3>Your specialties</h3>
+        <p style="font-size:14px;color:var(--gray);margin-bottom:14px;">Select all that apply. This is how we'll match you with the right clients.</p>
+        <div class="specialty-grid" id="t-specialties">
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Strength Training</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Weight Loss</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Yoga</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Pilates</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Prenatal</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Postpartum</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Senior Fitness</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Adaptive Fitness</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Boxing / MMA</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">HIIT / Cardio</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Injury Rehab</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Comp Prep</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Nutrition</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Mobility</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Meditation</div>
+          <div class="specialty-chip" onclick="this.classList.toggle('selected')">Running</div>
+        </div>
+        <input type="hidden" name="specialty_or_goal" value="">
+        <div class="hp-field" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
       </div>
-    </div>
 
-    <div class="reg-card">
-      <h3>Pricing</h3>
-      <div class="form-row">
-        <div class="form-group"><label>Single session rate (USD)</label><input type="number" placeholder="$75" /></div>
-        <div class="form-group"><label>Session length</label><select><option>30 min</option><option>45 min</option><option>60 min</option><option>90 min</option></select></div>
-      </div>
-    </div>
-
-    <button class="btn btn-sage" style="width:100%;padding:16px;font-size:16px;justify-content:center;" onclick="openModal('reg-success')">Create My Profile →</button>
+      <button type="submit" class="btn btn-sage" style="width:100%;padding:16px;font-size:16px;justify-content:center;">Apply as a founding trainer →</button>
+      <div class="form-msg" role="alert"></div>
+      <p class="consent">By submitting, you agree that FitnessThyme may use your name, email, phone and specialties to contact you about early access and to list and match you with clients when we launch. You can unsubscribe at any time. See our <a onclick="openInfo('privacy')">Privacy Policy</a>.</p>
+    </form>
   </div>
 </div>
-
-<!-- ══ MODALS ══ -->
-
-<!-- Book modal with payment -->
-<div class="modal-overlay" id="modal-book">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('book')">✕</button>
-    <h2>Book a session</h2>
-    <p class="sub">Choose your session details and complete payment</p>
-    <div class="form-group"><label>Session Type</label>
-      <div class="session-types">
-        <div class="session-type selected" onclick="selectType(this)"><h4>📹 Virtual</h4><p>Zoom / Google Meet</p></div>
-        <div class="session-type" onclick="selectType(this)"><h4>🏠 In-Person</h4><p>Austin, TX</p></div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Preferred Date</label><input type="date" id="bookDate" /></div>
-      <div class="form-group"><label>Preferred Time</label><select id="bookTime"><option>9:00 AM</option><option>11:00 AM</option><option>2:00 PM</option><option>4:00 PM</option></select></div>
-    </div>
-    <div class="form-group"><label>Package</label>
-      <select><option>Single Session — $75</option><option>4-Pack — $255 (save 15%)</option><option>Monthly (8 sessions) — $450</option></select>
-    </div>
-
-    <div class="payment-section">
-      <h3>Payment Details</h3>
-      <div class="card-logos">
-        <span class="card-logo-pill logo-visa">VISA</span>
-        <span class="card-logo-pill logo-mc">MC</span>
-        <span class="card-logo-pill logo-amex">AMEX</span>
-      </div>
-      <div class="form-group"><label>Card Number</label><input type="text" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" /></div>
-      <div class="form-row">
-        <div class="form-group"><label>Expiry (MM/YY)</label><input type="text" id="cardExp" placeholder="12/27" maxlength="5" /></div>
-        <div class="form-group"><label>CVV</label><input type="text" id="cardCvv" placeholder="123" maxlength="4" /></div>
-      </div>
-      <div class="form-group"><label>Name on Card</label><input type="text" id="cardName" placeholder="Full name as shown on card" /></div>
-      <div class="secured-by">🔒 Secured by Stripe · Your payment info is encrypted</div>
-    </div>
-
-    <button class="booking-btn" onclick="confirmBooking()">Confirm & Pay →</button>
-  </div>
-</div>
-
-<!-- Trial intro modal -->
-<div class="modal-overlay" id="modal-trial">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('trial')">✕</button>
-    <h2>☕ Free 15-Min Intro Call</h2>
-    <p class="sub">Get to know your trainer before committing — no card required</p>
-    <div class="form-row">
-      <div class="form-group"><label>Your Name</label><input type="text" placeholder="First name" /></div>
-      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" /></div>
-    </div>
-    <div class="form-group"><label>Your main fitness goal</label>
-      <div class="goals-grid">
-        <div class="goal-chip" onclick="this.classList.toggle('selected')">Weight loss</div>
-        <div class="goal-chip" onclick="this.classList.toggle('selected')">Muscle gain</div>
-        <div class="goal-chip" onclick="this.classList.toggle('selected')">Prenatal</div>
-        <div class="goal-chip" onclick="this.classList.toggle('selected')">Postpartum</div>
-        <div class="goal-chip" onclick="this.classList.toggle('selected')">Flexibility</div>
-        <div class="goal-chip" onclick="this.classList.toggle('selected')">General health</div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Preferred date</label><input type="date" /></div>
-      <div class="form-group"><label>Preferred time</label><select><option>Morning (9–12)</option><option>Afternoon (12–5)</option><option>Evening (5–8)</option></select></div>
-    </div>
-    <button class="booking-btn" onclick="closeModal('trial');openModal('trial-success')">Schedule Free Intro →</button>
-    <div class="urgency-line">Your trainer typically responds within 2 hours.</div>
-  </div>
-</div>
-
-<!-- Signup modal -->
-<div class="modal-overlay" id="modal-signup">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('signup')">✕</button>
-    <h2>Create your account</h2>
-    <p class="sub">Find and book trainers that match your goals</p>
-    <div class="form-row">
-      <div class="form-group"><label>First Name</label><input type="text" /></div>
-      <div class="form-group"><label>Last Name</label><input type="text" /></div>
-    </div>
-    <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
-    <div class="form-group"><label>Password</label><input type="password" placeholder="Create a password" /></div>
-    <div class="form-group"><label>Re-enter Password</label><input type="password" placeholder="Confirm your password" /></div>
-    <div class="form-group"><label>I am a...</label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;">
-        <div class="session-type selected" onclick="selectType(this)"><h4>🧍 Client</h4><p>Looking for a trainer</p></div>
-        <div class="session-type" onclick="selectType(this)"><h4>💪 Trainer</h4><p>Building my practice</p></div>
-      </div>
-    </div>
-    <button class="booking-btn" onclick="closeModal('signup');markSignedIn();navTo('dashboard')">Create Account →</button>
-    <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:14px;">Already have an account? <a href="#" onclick="closeModal('signup');openModal('signin')" style="color:var(--sage);text-decoration:none;font-weight:500;">Sign in</a></p>
-  </div>
-</div>
-
-<!-- Signin modal -->
-<div class="modal-overlay" id="modal-signin">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('signin')">✕</button>
-    <h2>Welcome back 🌿</h2>
-    <p class="sub">Sign in to your FitnessThyme account</p>
-    <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
-    <div class="form-group"><label>Password</label><input type="password" placeholder="Your password" /></div>
-    <button class="booking-btn" onclick="closeModal('signin');markSignedIn();navTo('dashboard')">Sign In →</button>
-    <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:14px;">New here? <a href="#" onclick="closeModal('signin');openModal('signup')" style="color:var(--sage);text-decoration:none;font-weight:500;">Create an account</a></p>
-  </div>
-</div>
-
-<!-- Video modal -->
-<div class="modal-overlay" id="modal-video">
-  <div class="modal modal-wide">
-    <button class="modal-close" onclick="closeVideo()">✕</button>
-    <div class="video-wrap" id="videoWrap"></div>
-    <div class="video-modal-body"><h3 id="videoTitle">Trainer intro</h3><p style="font-size:13px;color:var(--gray);margin-top:4px;">A 90-second look at how I work and who I work best with.</p></div>
-  </div>
-</div>
-
-<!-- Book success -->
-<div class="modal-overlay" id="modal-book-success"><div class="modal"><div class="success-state"><div class="success-icon">✅</div><h3>Session booked!</h3><p>You're confirmed. Check your email for the calendar invite and Zoom link.</p><button class="booking-btn" style="margin-top:20px;" onclick="closeModal('book-success');navTo('dashboard')">Go to Dashboard</button></div></div></div>
-
-<!-- Trial success -->
-<div class="modal-overlay" id="modal-trial-success"><div class="modal"><div class="success-state"><div class="success-icon">☕</div><h3>Intro call scheduled!</h3><p>Your trainer will reach out within 24 hours to confirm. No payment needed — just a conversation.</p><button class="booking-btn" style="margin-top:20px;" onclick="closeModal('trial-success')">Back to Profile</button></div></div></div>
-
-<!-- Reg success -->
-<div class="modal-overlay" id="modal-reg-success"><div class="modal"><div class="success-state"><div class="success-icon">🌿</div><h3>Profile created!</h3><p>Welcome to FitnessThyme! Your profile is under review and will go live within 24 hours.</p><button class="booking-btn" style="margin-top:20px;" onclick="closeModal('reg-success');showPage('home')">Back to Home</button></div></div></div>
 
 <!-- ══ QUIZ ══ -->
 <div class="quiz-page" id="quizPage">
@@ -1053,12 +697,12 @@
   </div>
 </div>
 
-<!-- INFO PAGE -->
+<!-- ══ INFO PAGES ══ -->
 <div id="page-info" class="page">
   <div class="messages-page">
     <h1 id="info-title" style="margin-bottom:8px;"></h1>
-    <p id="info-sub" style="color:var(--text-muted);margin-bottom:32px;font-size:18px;"></p>
-    <div id="info-body" style="background:white;border:1px solid var(--border);border-radius:16px;padding:40px;line-height:1.7;color:var(--text);"></div>
+    <p id="info-sub" style="color:var(--gray);margin-bottom:32px;font-size:18px;"></p>
+    <div id="info-body" class="info-box"></div>
   </div>
 </div>
 
@@ -1066,94 +710,36 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand"><h3>🌿 Fitness<span>Thyme</span></h3><p>Connecting people with the right fitness guidance at the right time.</p></div>
-    <div class="footer-col"><h4>For Clients</h4><a href="/find-a-trainer">Find a Trainer</a><a href="/take-the-quiz">Take the Quiz</a><a href="/matching">How Matching Works</a><a href="/stories">Success Stories</a></div>
-    <div class="footer-col"><h4>For Trainers</h4><a href="/list-your-practice">List Your Practice</a><a href="/resources">Trainer Resources</a><a href="/pricing">Pricing & Plans</a><a href="/community">Trainer Community</a></div>
-    <div class="footer-col"><h4>Company</h4><a href="/about">About Us</a><a href="/blog">Blog</a><a href="/careers">Careers</a><a href="/contact">Contact</a></div>
+    <div class="footer-col"><h4>For clients</h4><a href="/find-a-trainer">Join the waitlist</a><a href="/take-the-quiz">Take the quiz</a><a href="/matching">How it works</a></div>
+    <div class="footer-col"><h4>For trainers</h4><a href="/list-your-practice">Apply as a founding trainer</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a></div>
   </div>
   <div class="footer-bottom"><span>© 2026 FitnessThyme. All rights reserved.</span><span><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/accessibility">Accessibility</a></span></div>
 </footer>
 
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="back-top" id="backTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-/* ════════ DATA ════════ */
-const TRAINERS = [
-  { id:'maya', initials:'MR', name:'Maya Rodriguez', title:'Certified Personal Trainer · Prenatal Specialist', loc:'Austin, TX', exp:6, rating:4.9, reviews:127, price:75, gradient:'linear-gradient(135deg,#2d5a4a,#4a8a6a)', tags:['Prenatal','Strength','Postpartum','Mobility'], specialties:['prenatal','postpartum','strength','mobility','weight loss','flexibility','general health'], formats:['virtual','in-person'], level:['beginner','some','intermediate'], badges:['top','virtual'] },
-  { id:'james', initials:'JK', name:'James Kwon', title:'Olympic Lifting Coach · Competition Prep', loc:'Chicago, IL', exp:10, rating:4.8, reviews:89, price:110, gradient:'linear-gradient(135deg,#3a4a2a,#6a7a3a)', tags:['Olympic Lifting','Powerlifting','Comp Prep'], specialties:['build muscle','strength','comp prep','athletic'], formats:['virtual','in-person'], level:['intermediate','advanced','athlete'], badges:['inperson','virtual'] },
-  { id:'priya', initials:'PS', name:'Priya Sharma', title:'500hr Yoga Teacher · Meditation Guide', loc:'Online Only', exp:8, rating:5.0, reviews:34, price:55, gradient:'linear-gradient(135deg,#4a2a5a,#8a4a9a)', tags:['Hatha Yoga','Meditation','Breathwork','Restorative'], specialties:['flexibility','stress relief','yoga','meditation','general health'], formats:['virtual'], level:['beginner','some','intermediate','advanced'], badges:['virtual','new'] },
-  { id:'marcus', initials:'MT', name:'Marcus Taylor', title:'NASM-CPT · Boxing & HIIT Specialist', loc:'Brooklyn, NY', exp:7, rating:4.7, reviews:62, price:85, gradient:'linear-gradient(135deg,#5a2a2a,#a04a4a)', tags:['Boxing','HIIT','Cardio','Conditioning'], specialties:['weight loss','build muscle','cardio','boxing','athletic'], formats:['in-person','virtual'], level:['some','intermediate','advanced'], badges:['inperson','top'] },
-  { id:'elena', initials:'EC', name:'Elena Chen', title:'Physical Therapist · Adaptive Fitness', loc:'Seattle, WA', exp:12, rating:4.9, reviews:104, price:120, gradient:'linear-gradient(135deg,#2a4a5a,#4a8a9a)', tags:['Rehab','Adaptive','Mobility','Senior'], specialties:['injury rehab','senior','adaptive','mobility','flexibility'], formats:['in-person','virtual'], level:['beginner','some'], badges:['inperson','top'] },
-  { id:'raj', initials:'RN', name:'Raj Nair', title:'Registered Dietitian · Sports Nutritionist', loc:'Online Only', exp:9, rating:4.8, reviews:71, price:95, gradient:'linear-gradient(135deg,#5a4a2a,#a08a4a)', tags:['Nutrition','Weight Loss','Performance'], specialties:['nutrition','weight loss','build muscle','athletic','general health'], formats:['virtual'], level:['beginner','some','intermediate','advanced','athlete'], badges:['virtual','new'] }
-];
-
-const MOMENTUM = ['Booked 6 times this week','4 spots left this month','2 new reviews this week','Booked 9 times this month','3 spots left this week','New 5★ review yesterday','Booked 11 times this month','5 spots left next week'];
-
-const REVIEWS = {
-  maya: [
-    { name:'Sarah L.', stars:5, goal:'Postpartum recovery', text:'Maya took the time to understand exactly where my body was after my second baby. Patient, knowledgeable, and never pushy.', result:'Returned to lifting 6 weeks postpartum, no pain', bestFor:'Moms in their first year postpartum.' },
-    { name:'Jenna K.', stars:5, goal:'Prenatal fitness', text:'She kept me moving safely all the way through my third trimester. I felt strong on labor day.', result:'Maintained strength through full pregnancy, easier recovery', bestFor:'Pregnant moms who want to keep training.' },
-    { name:'Olivia M.', stars:5, goal:'Build strength', text:'I came in nervous about lifting and left a year later squatting my bodyweight. She knows how to build confidence.', result:'Squatted bodyweight in 12 months', bestFor:'Beginners intimidated by the weight room.' },
-    { name:'Emily R.', stars:4, goal:'Diastasis recovery', text:'Genuine, gentle, and her programming actually closed my diastasis. Worth every dollar.', result:'Healed 3-finger diastasis in 5 months', bestFor:'Postpartum moms with core dysfunction.' }
-  ],
-  james: [
-    { name:'David M.', stars:5, goal:'Powerlifting', text:'James helped me hit my first competition total in 6 months. Direct, no fluff, world-class programming.', result:'1,200 lb total at first powerlifting meet', bestFor:'Lifters chasing a real number on the platform.' },
-    { name:'Tyler B.', stars:5, goal:'Olympic lifting', text:'Best technique coach I have ever worked with. Snatch went from a mess to a real lift in a season.', result:'Added 40 lb to snatch in 3 months', bestFor:'Lifters wanting clean Olympic technique.' },
-    { name:'Anna P.', stars:5, goal:'Strength', text:'Loved that he treated me like an athlete from day one. Pushed me hard but always smart.', result:'Deadlifted 2x bodyweight in under a year', bestFor:'Intermediate lifters ready to commit.' },
-    { name:'Marcus W.', stars:4, goal:'Comp prep', text:'Direct feedback every session. I leveled up faster than I thought possible.', result:'Qualified for state-level meet', bestFor:'Lifters with a competition on the calendar.' }
-  ],
-  priya: [
-    { name:'Lila C.', stars:5, goal:'Stress relief', text:'I sleep better and react less. Priya teaches yoga as a way of living, not just a workout.', result:'Cut anxiety meds in half (with my doctor)', bestFor:'High-stress professionals new to mindfulness.' },
-    { name:'Raj P.', stars:5, goal:'Flexibility', text:'I touched my toes for the first time in 20 years. Her cues are precise and kind.', result:'Touched toes for the first time in 20 years', bestFor:'Stiff beginners who want gentle progress.' },
-    { name:'Megan T.', stars:5, goal:'Meditation', text:'Started with 5 minutes a day. Now I sit for 30. The breathwork is life-changing.', result:'Built a daily 30-minute meditation practice', bestFor:'People who have failed at meditation before.' },
-    { name:'Aisha N.', stars:5, goal:'Restorative', text:'Restorative classes have been the only thing that helps my chronic fatigue.', result:'Reduced fatigue flare-ups by ~70%', bestFor:'Those recovering from burnout or illness.' }
-  ],
-  marcus: [
-    { name:'Devon S.', stars:5, goal:'Weight loss', text:'Lost 30 lbs in 5 months and finally enjoy working out. Marcus makes hard fun.', result:'Lost 30 lbs in 5 months', bestFor:'People who hate the gym but love a challenge.' },
-    { name:'Kayla J.', stars:5, goal:'Boxing', text:'Real boxing technique, not just a kickboxing-class workout. I sparred for the first time at month 4.', result:'First sparring match at month 4', bestFor:'Beginners who want real boxing skills.' },
-    { name:'Andre W.', stars:4, goal:'Conditioning', text:'My cardio is unrecognizable. Mile time dropped 90 seconds.', result:'Mile time dropped from 9:20 to 7:50', bestFor:'Anyone wanting serious conditioning.' },
-    { name:'Jordan L.', stars:5, goal:'HIIT', text:'High energy, accountable, makes you want to show up. The man is a coach.', result:'Lost 18 lbs and gained visible muscle', bestFor:'People who need accountability.' }
-  ],
-  elena: [
-    { name:'Robert F.', stars:5, goal:'Knee rehab', text:'Walking pain-free for the first time in three years. Elena bridges PT and fitness perfectly.', result:'Pain-free walking after 3 years of knee pain', bestFor:'People rehabbing chronic injury.' },
-    { name:'Margaret H.', stars:5, goal:'Senior fitness', text:'At 71 I can finally get up off the floor without help. Life-changing.', result:'Floor-to-stand without assistance at age 71', bestFor:'Active seniors wanting independence.' },
-    { name:'Carlos D.', stars:5, goal:'Adaptive', text:'She actually understands wheelchair athletics. Programming is real and challenging.', result:'Bench-press PR while wheelchair training', bestFor:'Adaptive athletes wanting real programming.' },
-    { name:'Linda P.', stars:4, goal:'Mobility', text:'Hip mobility went from terrible to genuinely usable. Worth every session.', result:'Hip flexion improved 35° in 4 months', bestFor:'Anyone with stiff hips or shoulders.' }
-  ],
-  raj: [
-    { name:'Mike B.', stars:5, goal:'Sports nutrition', text:'Raj took my marathon time from 4:10 to 3:42 in one training cycle. Fueling was the missing piece.', result:'Marathon time: 4:10 → 3:42', bestFor:'Endurance athletes.' },
-    { name:'Sara L.', stars:5, goal:'Weight loss', text:'No fads, no shame, just a plan I could actually live with. Down 24 lbs and not gaining it back.', result:'Lost 24 lbs sustainably over 7 months', bestFor:'People burned out on diets.' },
-    { name:'Owen H.', stars:5, goal:'Build muscle', text:'Gained 12 lbs of lean mass in 4 months. He makes the calories make sense.', result:'+12 lb lean mass in 4 months', bestFor:'Hard gainers wanting structure.' },
-    { name:'Priya G.', stars:4, goal:'General health', text:'Cholesterol numbers reversed in 90 days. My doctor was stunned.', result:'Total cholesterol dropped 48 points in 90 days', bestFor:'People with mild metabolic issues.' }
-  ]
-};
-
-const TICKER_ITEMS = ['🌿 Sarah in Austin just booked with Maya','David in Chicago completed his first session with James','Priya just received a 5★ review','Elena added 3 new availability slots','12 people are browsing trainers right now','Raj just connected with a new endurance client','Marcus opened 4 new spots for next week','New trainer Lila just joined in Portland'];
-
-/* ════════ STATE ════════ */
-const KEY = { quiz:'ft_quiz', signed:'ft_signed', saved:'ft_saved', notes:'ft_notes', chats:'ft_chats' };
-let currentTrainer = 'maya';
-let pendingSlot = null;
-
-function getStored(k, def){ try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
-function setStored(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
-
 /* ════════ SEO (per-route title, description, canonical, robots) ════════ */
 const SEO_SITE = 'https://fitnessthyme.com';
 const SEO_PAGES = {
   home:     { path:'/', title:'FitnessThyme — Find a Trainer Who Actually Gets You',
-              desc:'Find a personal trainer, yoga or Pilates instructor, or gym that fits your goals, training style and schedule. Take a short quiz, compare matches, and book a free intro call.' },
-  browse:   { path:'/find-a-trainer', title:'Find a Personal Trainer, Yoga or Pilates Instructor · FitnessThyme',
-              desc:'Browse trainers and instructors by specialty, format (in person or online), price and availability. Prenatal, strength, yoga, rehab, senior fitness and more.' },
-  register: { path:'/list-your-practice', title:'List Your Practice · FitnessThyme',
-              desc:'Trainers, instructors and gyms: create a profile, describe the clients you work best with, and get introduced to people looking for your specialty.' }
+              desc:'FitnessThyme is opening early access. Trainers, instructors and gyms can apply as founding members, and anyone looking for a trainer can join the waitlist to be matched by goals, style and schedule.' },
+  browse:   { path:'/find-a-trainer', title:'Join the Waitlist — Get Matched With a Trainer · FitnessThyme',
+              desc:'Join the FitnessThyme waitlist. Take a short quiz about your goals and training style and get matched as trainers, yoga and Pilates instructors and gyms open up.' },
+  register: { path:'/list-your-practice', title:'Apply as a Founding Trainer · FitnessThyme',
+              desc:'Trainers, instructors and gyms: apply for early access to FitnessThyme, describe your specialties and the clients you work best with, and get in at the start.' }
 };
-const SEO_PRIVATE = { messages:'/messages', dashboard:'/dashboard', profile:'/profile' };
+const INDEXABLE_INFO = ['matching','about'];
 function seoSet(sel, attr, val){ const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); }
 function updateSEO(id){
   let path = '/', title = null, desc = null, index = true;
   if (SEO_PAGES[id]) { ({path, title, desc} = SEO_PAGES[id]); }
-  else if (SEO_PRIVATE[id]) { path = SEO_PRIVATE[id]; index = false; title = 'FitnessThyme'; }
-  else if (id === 'info') { path = '/' + (window.currentInfoKey || ''); index = false; }
+  else if (id === 'info') {
+    const c = INFO_CONTENT[window.currentInfoKey]; path = '/' + (window.currentInfoKey || '');
+    index = INDEXABLE_INFO.includes(window.currentInfoKey);
+    if (c) { title = c.title + ' · FitnessThyme'; desc = c.sub; }
+  }
   if (title) document.title = title;
   seoSet('link[rel="canonical"]', 'href', SEO_SITE + path);
   seoSet('meta[name="robots"]', 'content', index ? 'index,follow' : 'noindex,follow');
@@ -1166,22 +752,16 @@ function updateSEO(id){
   }
 }
 
-/* ════════ NAV / PAGES ════════ */
+/* ════════ NAV / ROUTING ════════ */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const el = document.getElementById('page-'+id);
   if (el) el.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   document.getElementById('navLinks').classList.remove('open');
-  if (id==='browse') renderBrowse();
-  if (id==='messages') renderMessages();
-  if (id==='dashboard') renderDashboard();
   updateSEO(id);
 }
-const PAGE_PATHS = {
-  home: '/', browse: '/find-a-trainer', messages: '/messages',
-  dashboard: '/dashboard', profile: '/profile', register: '/list-your-practice'
-};
+const PAGE_PATHS = { home:'/', browse:'/find-a-trainer', register:'/list-your-practice' };
 const PATH_TO_PAGE = Object.fromEntries(Object.entries(PAGE_PATHS).map(([k,v])=>[v,k]));
 function navTo(id){
   const path = PAGE_PATHS[id] || '/';
@@ -1190,30 +770,35 @@ function navTo(id){
 }
 
 const INFO_CONTENT = {
-  matching: { title:'How Matching Works', sub:'Our 2-minute quiz finds your best-fit trainers in three steps.',
-    body:`<h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:12px;">1. Tell us about your goals</h3><p style="margin-bottom:24px;">Answer a short quiz covering your goal (weight loss, strength, prenatal, etc.), preferred format (in-person, virtual, hybrid), experience level, and budget.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:12px;">2. We score every trainer</h3><p style="margin-bottom:24px;">Our matching engine compares your answers against each trainer's specialties, formats, and rates — producing a 0–99 compatibility score.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:24px;">3. You browse and book</h3><p>Top matches surface first. Every trainer offers a free 15-minute intro call before you commit. No subscriptions, no lock-in.</p>` },
-  stories: { title:'Success Stories', sub:'Real outcomes from real members.',
-    body:`<blockquote style="border-left:3px solid var(--tan);padding-left:20px;margin-bottom:24px;font-style:italic;">"Lost 32 lbs in 8 months working with Maya. She actually built the plan around my postpartum recovery instead of generic templates." — <strong>Sarah K.</strong>, Austin TX</blockquote><blockquote style="border-left:3px solid var(--tan);padding-left:20px;margin-bottom:24px;font-style:italic;">"Hit my first muscle-up after 14 weeks with James. The video coaching format meant I could train at 5am before work." — <strong>Devon M.</strong>, Brooklyn NY</blockquote><blockquote style="border-left:3px solid var(--tan);padding-left:20px;font-style:italic;">"Came back from a torn ACL stronger than before thanks to Priya's rehab programming." — <strong>Aisha R.</strong>, Chicago IL</blockquote>` },
-  resources: { title:'Trainer Resources', sub:'Tools and guides to grow your practice on FitnessThyme.',
-    body:`<ul style="padding-left:20px;"><li style="margin-bottom:12px;"><strong>Profile playbook</strong> — how to write a bio that converts intro calls into clients.</li><li style="margin-bottom:12px;"><strong>Pricing calculator</strong> — model session, package, and subscription rates for your market.</li><li style="margin-bottom:12px;"><strong>Client retention guide</strong> — proven check-in cadences and program review templates.</li><li style="margin-bottom:12px;"><strong>Tax & business basics</strong> — 1099 reporting, LLC setup, and liability insurance partners.</li><li><strong>Continuing education</strong> — monthly CEU webinars from leading coaches.</li></ul>` },
-  pricing: { title:'Pricing & Plans', sub:'Simple, transparent — only pay when you earn.',
-    body:`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;"><div style="border:1px solid var(--border);border-radius:12px;padding:24px;"><h3 style="font-family:var(--serif);color:var(--sage-dark);">Starter</h3><p style="font-size:32px;font-weight:700;margin:8px 0;">Free</p><p style="color:var(--text-muted);margin-bottom:12px;">List your practice, take bookings, 12% platform fee.</p></div><div style="border:2px solid var(--sage);border-radius:12px;padding:24px;background:rgba(74,138,106,0.04);"><h3 style="font-family:var(--serif);color:var(--sage-dark);">Pro</h3><p style="font-size:32px;font-weight:700;margin:8px 0;">$29/mo</p><p style="color:var(--text-muted);margin-bottom:12px;">7% fee, priority placement, custom branding, advanced scheduling.</p></div><div style="border:1px solid var(--border);border-radius:12px;padding:24px;"><h3 style="font-family:var(--serif);color:var(--sage-dark);">Studio</h3><p style="font-size:32px;font-weight:700;margin:8px 0;">$99/mo</p><p style="color:var(--text-muted);margin-bottom:12px;">Multi-trainer accounts, team analytics, 5% fee, white-label client app.</p></div></div>` },
-  community: { title:'Trainer Community', sub:'A private network of 4,200+ vetted fitness professionals.',
-    body:`<p style="margin-bottom:20px;">Once you're verified on FitnessThyme, you join our private Slack and monthly virtual meetups. Topics range from program design and behavior change to scaling a six-figure practice.</p><p style="margin-bottom:20px;"><strong>What's inside:</strong></p><ul style="padding-left:20px;"><li style="margin-bottom:8px;">Peer-led workshops every other Thursday</li><li style="margin-bottom:8px;">Specialty channels (prenatal, strength, rehab, nutrition, business)</li><li style="margin-bottom:8px;">Annual in-person summit (next: Austin, Sept 2026)</li><li>Trainer-only discounts on equipment, software, and CEUs</li></ul>` },
-  about: { title:'About Us', sub:'Building the smarter way to find your fitness match.',
-    body:`<p style="margin-bottom:20px;">FitnessThyme was founded in 2024 by a team of trainers and engineers who were tired of watching great clients walk away from great coaches simply because they couldn't find each other. The fitness industry runs on referrals and Instagram DMs — that leaves a lot of people stuck with the wrong fit.</p><p style="margin-bottom:20px;">We built FitnessThyme to fix that. Our matching engine, structured reviews, and free intro calls make it easy to find a coach whose method actually fits your life — not just whoever happens to advertise loudest.</p><p>Today we serve 52,000+ members and 4,200+ verified trainers across the US, Canada, UK, and Australia.</p>` },
-  blog: { title:'Blog', sub:'Practical guidance for trainers and the people they coach.',
-    body:`<article style="border-bottom:1px solid var(--border);padding-bottom:20px;margin-bottom:20px;"><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:6px;">How to interview a trainer in 15 minutes</h3><p style="color:var(--text-muted);font-size:14px;margin-bottom:8px;">April 18, 2026 · 6 min read</p><p>The five questions that separate a good intro call from a great one — and the answers to listen for.</p></article><article style="border-bottom:1px solid var(--border);padding-bottom:20px;margin-bottom:20px;"><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:6px;">Postpartum strength training: what the research actually says</h3><p style="color:var(--text-muted);font-size:14px;margin-bottom:8px;">April 4, 2026 · 9 min read</p><p>A clear-eyed review of return-to-lifting protocols, with input from three of our prenatal specialists.</p></article><article><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:6px;">Pricing your sessions: a worksheet for new trainers</h3><p style="color:var(--text-muted);font-size:14px;margin-bottom:8px;">March 22, 2026 · 5 min read</p><p>How to set rates that respect your time and still convert intro calls into recurring clients.</p></article>` },
-  careers: { title:'Careers', sub:'Help us build the trust layer for the fitness industry.',
-    body:`<p style="margin-bottom:24px;">We're a remote-first team of 28 across product, engineering, design, and trainer success. Open roles below — if nothing fits, send us a note at <strong>careers@fitnessthyme.com</strong>.</p><div style="display:grid;gap:12px;"><div style="border:1px solid var(--border);border-radius:10px;padding:16px;"><strong>Senior Full-Stack Engineer</strong><br><span style="color:var(--text-muted);font-size:14px;">Remote (US) · Engineering</span></div><div style="border:1px solid var(--border);border-radius:10px;padding:16px;"><strong>Trainer Success Manager</strong><br><span style="color:var(--text-muted);font-size:14px;">Remote (US/CA) · Operations</span></div><div style="border:1px solid var(--border);border-radius:10px;padding:16px;"><strong>Product Designer</strong><br><span style="color:var(--text-muted);font-size:14px;">Remote (US) · Design</span></div><div style="border:1px solid var(--border);border-radius:10px;padding:16px;"><strong>Lifecycle Marketing Lead</strong><br><span style="color:var(--text-muted);font-size:14px;">Remote (US) · Growth</span></div></div>` },
-  privacy: { title:'Privacy Policy', sub:'Last updated April 12, 2026.',
-    body:`<p style="margin-bottom:20px;">FitnessThyme respects your privacy. This policy explains what we collect, why, and the choices you have.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">What we collect</h3><p style="margin-bottom:20px;">Account information (name, email, password hash), quiz responses, booking and message history, and payment metadata processed by our PCI-compliant partner. We do not store full card numbers on our servers.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">How we use it</h3><p style="margin-bottom:20px;">To match you with trainers, facilitate bookings and payments, send transactional notifications, and improve our matching algorithm in aggregate. We never sell personal data.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Your choices</h3><p style="margin-bottom:20px;">Export or delete your account at any time from your dashboard, or email <strong>privacy@fitnessthyme.com</strong>. We honor verified deletion requests within 30 days.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Cookies</h3><p>We use a small number of first-party cookies for session management and anonymous analytics. No third-party advertising trackers.</p>` },
-  terms: { title:'Terms of Service', sub:'Last updated April 12, 2026.',
-    body:`<h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Using FitnessThyme</h3><p style="margin-bottom:20px;">By creating an account you agree to use the platform lawfully and respectfully. Trainers must hold valid certifications and disclose any limitations of their practice. Clients are responsible for clearing exercise programs with a physician when appropriate.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Bookings & payments</h3><p style="margin-bottom:20px;">Sessions are booked directly between client and trainer. FitnessThyme processes payment, takes a platform fee, and disburses the remainder to the trainer on a weekly schedule. Cancellations within 24 hours of a session may incur a fee at the trainer's discretion.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Liability</h3><p style="margin-bottom:20px;">FitnessThyme verifies trainer credentials but is not a party to the coaching relationship. Coaching outcomes are not guaranteed. Use the platform at your own risk and consult a licensed medical professional before beginning a new program.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Termination</h3><p>We may suspend accounts that violate these terms or our community guidelines. You may close your account at any time.</p>` },
-  accessibility: { title:'Accessibility', sub:'We design FitnessThyme to be usable by everyone.',
-    body:`<p style="margin-bottom:20px;">FitnessThyme aims to meet WCAG 2.2 AA standards across our web and mobile experiences. Our team audits the platform quarterly with both automated tooling and manual screen-reader testing.</p><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">What we've built in</h3><ul style="padding-left:20px;margin-bottom:20px;"><li style="margin-bottom:8px;">Full keyboard navigation across all interactive elements</li><li style="margin-bottom:8px;">Semantic landmarks and ARIA labels for screen readers</li><li style="margin-bottom:8px;">Color contrast ratios verified against AA thresholds</li><li style="margin-bottom:8px;">Captions and transcripts on trainer intro videos</li><li>Adaptive Fitness category for trainers who specialize in disability and mobility coaching</li></ul><h3 style="font-family:var(--serif);color:var(--sage-dark);margin-bottom:8px;">Report a barrier</h3><p>If something on FitnessThyme isn't working for you, email <strong>accessibility@fitnessthyme.com</strong>. We respond within two business days and prioritize fixes that unblock real users.</p>` },
-  contact: { title:'Contact', sub:"We read every message — typical reply within one business day.",
-    body:`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:32px;"><div><h4 style="color:var(--sage-dark);margin-bottom:6px;">General</h4><p>hello@fitnessthyme.com</p></div><div><h4 style="color:var(--sage-dark);margin-bottom:6px;">Trainer support</h4><p>trainers@fitnessthyme.com</p></div><div><h4 style="color:var(--sage-dark);margin-bottom:6px;">Press</h4><p>press@fitnessthyme.com</p></div><div><h4 style="color:var(--sage-dark);margin-bottom:6px;">Mailing</h4><p>2120 E 6th St, Suite 200<br>Austin, TX 78702</p></div></div><p style="color:var(--text-muted);">Already a member? Use the in-app messaging to reach our concierge team 7 days a week.</p>` }
+  matching: { title:'How Matching Will Work', sub:'A short quiz and two-way profiles, so people and trainers find a good fit.',
+    body:`<p class="info-note">FitnessThyme is in early access. This describes how matching is designed to work once trainers are on the platform.</p>
+<h3>1. Tell us about your goals</h3><p>Clients answer a short quiz about their main goal, fitness level, preferred training style, format (in person or online) and budget.</p>
+<h3>2. Trainers describe who they work best with</h3><p>Trainers, instructors and gyms list their specialties, formats and the kinds of clients they help most, so fit is considered from both sides.</p>
+<h3>3. Compare matches and try an intro</h3><p>Clients will see trainers ranked by fit and can request a short intro call before committing to sessions.</p>
+<p>Want to be part of the start? <a href="/find-a-trainer" style="color:var(--sage);font-weight:500;">Join the waitlist</a> or <a href="/list-your-practice" style="color:var(--sage);font-weight:500;">apply as a founding trainer</a>.</p>` },
+  about: { title:'About FitnessThyme', sub:'Building a better way to find the right fitness professional.',
+    body:`<p>Many people choose a trainer by location or price alone and end up with a poor fit. FitnessThyme is an early-stage project to change that, by matching people with trainers, yoga and Pilates instructors, nutritionists and gyms based on goals, training style, schedule and format.</p>
+<p>We're opening early access to trainers and fitness businesses first, then to people looking for a trainer. If that sounds like you, we'd love to have you along from the start.</p>
+<p><a href="/list-your-practice" style="color:var(--sage);font-weight:500;">Apply as a founding trainer</a> · <a href="/find-a-trainer" style="color:var(--sage);font-weight:500;">Join the waitlist</a></p>` },
+  contact: { title:'Contact', sub:'Contact details are coming soon.',
+    body:`<p>We're still setting up our contact details. In the meantime, join the early-access list and we'll be in touch.</p>
+<p><a href="/find-a-trainer" style="color:var(--sage);font-weight:500;">I'm looking for a trainer</a> · <a href="/list-your-practice" style="color:var(--sage);font-weight:500;">I'm a trainer or gym</a></p>` },
+  privacy: { title:'Privacy Policy', sub:'Early-access draft. A full policy will be published before launch.',
+    body:`<p class="info-note">This is a short placeholder that describes what the site does today. It is not a complete legal policy.</p>
+<h3>What we collect</h3><p>When you join the waitlist or apply as a trainer, we collect what you enter in the form: your first and last name, email address, phone number (optional), whether you are a client or a trainer, and your goal or specialty. If you take the quiz, we also collect your answers about fitness level, training style, format and budget.</p>
+<h3>How we use it</h3><p>We use this information to contact you about early access and to match clients and trainers when FitnessThyme launches. We do not currently sell personal information.</p>
+<h3>Where it is stored</h3><p>Sign-ups are stored with MailerLite, the email service we use. This website is hosted by HostGator.</p>
+<h3>Your choices</h3><p>Every email we send includes an unsubscribe link. To ask us to correct or delete your information, use the details on our Contact page once they are published.</p>
+<h3>Cookies and tracking</h3><p>This site does not currently use analytics or advertising cookies.</p>` },
+  terms: { title:'Terms of Use', sub:'Early-access draft. Full terms will be published before launch.',
+    body:`<p class="info-note">This is a short placeholder, not a complete legal agreement.</p>
+<h3>Early access</h3><p>FitnessThyme is not yet open for bookings, payments or accounts. Joining the waitlist or applying as a trainer does not guarantee access, a match or a listing, and we may open access in stages.</p>
+<h3>Trainer applications</h3><p>Submitting an application does not guarantee that a profile will be published. We may review applications and ask for more information.</p>
+<h3>Not medical advice</h3><p>Information on this site is general and is not medical advice. Talk to a qualified health professional before starting or changing an exercise program.</p>
+<h3>Changes</h3><p>We may update these terms as FitnessThyme develops. The current version is always on this page.</p>` },
+  accessibility: { title:'Accessibility', sub:'We want FitnessThyme to be usable by everyone.',
+    body:`<p>FitnessThyme is a new site and we are still improving it. We want people of all abilities to be able to use it, and we will keep working on keyboard access, screen-reader support and readable contrast as we grow.</p>
+<p>If you run into a barrier on this site, please let us know once our contact details are published on the Contact page, and we will do our best to help and to fix it.</p>` }
 };
 function openInfo(key){
   const c = INFO_CONTENT[key]; if (!c) return;
@@ -1224,11 +809,10 @@ function openInfo(key){
   if (location.pathname !== path) history.pushState({}, '', path);
   window.currentInfoKey = key;
   showPage('info');
-  document.title = c.title + ' · FitnessThyme';
-  window.scrollTo({top:0,behavior:'smooth'});
 }
 function routeFromPath(){
-  const p = location.pathname;
+  const p = location.pathname.replace(/\/+$/,'') || '/';
+  if (p === '/take-the-quiz') { history.replaceState({}, '', '/'); showPage('home'); startQuiz(); return; }
   if (PATH_TO_PAGE[p]) { showPage(PATH_TO_PAGE[p]); return; }
   const key = p.replace(/^\//,'');
   if (INFO_CONTENT[key]) { openInfo(key); return; }
@@ -1241,41 +825,9 @@ document.addEventListener('click', (e)=>{
   const href = a.getAttribute('href');
   if (a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
   e.preventDefault();
-  if (href === '/take-the-quiz') { history.pushState({}, '', href); startQuiz(); return; }
+  if (href === '/take-the-quiz') { startQuiz(); return; }
   history.pushState({}, '', href);
   routeFromPath();
-});
-
-function markSignedIn(){ setStored(KEY.signed, true); refreshNav(); }
-function refreshNav(){
-  const signed = getStored(KEY.signed, false);
-  const quiz = getStored(KEY.quiz, null);
-  const dash = document.getElementById('nav-dashboard');
-  const cta = document.getElementById('nav-cta');
-  if (signed || quiz) { dash.classList.remove('hidden'); cta.textContent='My Dashboard'; cta.onclick=()=>navTo('dashboard'); }
-  else { dash.classList.add('hidden'); cta.textContent='Get Started'; cta.onclick=startQuiz; }
-  // hero greeting
-  const greeting = document.getElementById('hero-greeting');
-  if (quiz && quiz.goal) {
-    greeting.innerHTML = `Welcome back. Still working toward <strong>${quiz.goal.toLowerCase()}</strong>? Your matches are waiting.`;
-    greeting.classList.add('visible');
-  } else {
-    greeting.classList.remove('visible');
-  }
-}
-
-/* ════════ MODALS ════════ */
-function openModal(id){ document.getElementById('modal-'+id).classList.add('open'); }
-function closeModal(id){ document.getElementById('modal-'+id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click', e=>{ if (e.target===o) o.classList.remove('open'); });
-});
-document.addEventListener('keydown', e=>{
-  if (e.key==='Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(o=>o.classList.remove('open'));
-    const qp = document.getElementById('quizPage');
-    if (qp.classList.contains('active') && quizState.step>0) {} // keep quiz open by default
-  }
 });
 
 /* ════════ QUIZ ════════ */
@@ -1292,392 +844,141 @@ const QUIZ = [
     options:[{v:'One-on-one sessions'},{v:'Small group'},{v:'I like structure and a plan'},{v:'I prefer flexibility'},{v:'I want accountability check-ins'},{v:'I learn best by watching'},{v:'I want someone who pushes me hard'},{v:'I prefer a gentler, supportive style'}] },
   { key:'format', q:"What format works best for you?", type:'single', icons:true,
     options:[{v:'In-person only',i:'🏠'},{v:'Virtual only',i:'📹'},{v:'Either works for me',i:'🌐'}] },
-  { key:'days', q:"What days work for you?", type:'multi',
-    options:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(v=>({v})) },
   { key:'budget', q:"What's your budget per session?", type:'single',
-    options:[{v:'Under $50'},{v:'$50–$75'},{v:'$75–$100'},{v:'$100–$150'},{v:'$150+'}] },
-  { key:'notes', q:"Anything else we should know?", type:'text', placeholder:'injuries, preferences, things that have not worked before...' }
+    options:[{v:'Under $50'},{v:'$50–$75'},{v:'$75–$100'},{v:'$100–$150'},{v:'$150+'}] }
 ];
 const quizState = { step:0, answers:{} };
 
 function startQuiz(){
   quizState.step = 0;
-  quizState.answers = getStored(KEY.quiz, {}) || {};
+  quizState.answers = {};
   document.getElementById('quizPage').classList.add('active');
   renderQuiz();
 }
+function closeQuiz(){ document.getElementById('quizPage').classList.remove('active'); }
+function cancelQuiz(){ closeQuiz(); }
 
 function renderQuiz(){
   const fill = document.getElementById('quizProgressFill');
   const total = QUIZ.length;
-  fill.style.width = ((quizState.step)/total*100) + '%';
-  if (quizState.step >= total) { renderQuizLoading(); return; }
+  fill.style.width = (Math.min(quizState.step,total)/total*100) + '%';
+  if (quizState.step >= total) { renderQuizContact(); return; }
   const q = QUIZ[quizState.step];
-  const container = document.getElementById('quizStep');
-  let inner = `<div class="quiz-step quiz-step-anim"><div class="quiz-step-label">Step ${quizState.step+1} of ${total}</div><h2>${q.q}</h2>`;
-  if (q.type === 'text') {
-    const cur = quizState.answers[q.key] || '';
-    inner += `<textarea class="notes-input" id="qtext" placeholder="${q.placeholder||''}">${cur}</textarea>`;
-  } else {
-    inner += `<div class="quiz-options">`;
-    const cur = quizState.answers[q.key];
-    q.options.forEach(opt=>{
-      const isSel = q.type==='multi' ? Array.isArray(cur) && cur.includes(opt.v) : cur===opt.v;
-      inner += `<div class="quiz-option ${isSel?'selected':''}" onclick="selectQuiz('${q.key}','${opt.v.replace(/'/g,"\\'")}','${q.type}')">${q.icons&&opt.i?'<span class="quiz-option-icon">'+opt.i+'</span>':''}${opt.v}</div>`;
-    });
-    inner += `</div>`;
-  }
-  inner += `<div class="quiz-actions">`;
-  inner += quizState.step>0 ? `<button class="quiz-back" onclick="quizBack()">← Back</button>` : `<button class="quiz-skip" onclick="cancelQuiz()">Skip for now</button>`;
-  inner += `<button class="quiz-next" onclick="quizNext()">${quizState.step===total-1?'See My Matches →':'Continue →'}</button></div></div>`;
-  container.innerHTML = inner;
+  const cur = quizState.answers[q.key];
+  let inner = `<div class="quiz-step quiz-step-anim"><div class="quiz-step-label">Step ${quizState.step+1} of ${total}</div><h2>${q.q}</h2><div class="quiz-options">`;
+  q.options.forEach((opt, idx)=>{
+    const isSel = q.type==='multi' ? Array.isArray(cur) && cur.includes(opt.v) : cur===opt.v;
+    inner += `<div class="quiz-option ${isSel?'selected':''}" data-idx="${idx}">${q.icons&&opt.i?'<span class="quiz-option-icon">'+opt.i+'</span>':''}${opt.v}</div>`;
+  });
+  inner += `</div><div class="quiz-actions">`;
+  inner += quizState.step>0 ? `<button class="quiz-back" onclick="quizBack()">← Back</button>` : `<button class="quiz-skip" onclick="cancelQuiz()">Not now</button>`;
+  inner += `<button class="quiz-next" onclick="quizNext()">Continue →</button></div></div>`;
+  document.getElementById('quizStep').innerHTML = inner;
+  document.querySelectorAll('#quizStep .quiz-option').forEach(el=>{
+    el.addEventListener('click', ()=> selectQuiz(q, q.options[+el.dataset.idx].v));
+  });
 }
-
-function selectQuiz(key, val, type){
-  if (type==='multi') {
-    const cur = Array.isArray(quizState.answers[key]) ? [...quizState.answers[key]] : [];
+function selectQuiz(q, val){
+  if (q.type==='multi') {
+    const cur = Array.isArray(quizState.answers[q.key]) ? [...quizState.answers[q.key]] : [];
     const i = cur.indexOf(val);
     if (i>-1) cur.splice(i,1); else cur.push(val);
-    quizState.answers[key] = cur;
+    quizState.answers[q.key] = cur;
   } else {
-    quizState.answers[key] = val;
+    quizState.answers[q.key] = val;
   }
   renderQuiz();
 }
 function quizBack(){ if (quizState.step>0){ quizState.step--; renderQuiz(); } }
-function quizNext(){
-  const q = QUIZ[quizState.step];
-  if (q.type==='text') quizState.answers[q.key] = document.getElementById('qtext').value || '';
-  quizState.step++;
-  renderQuiz();
-}
-function cancelQuiz(){ document.getElementById('quizPage').classList.remove('active'); }
+function quizNext(){ quizState.step++; renderQuiz(); }
 
-function renderQuizLoading(){
-  document.getElementById('quizStep').innerHTML = `<div class="quiz-loading"><h2>Finding your matches…</h2><p style="color:var(--gray);font-size:14px;margin-bottom:18px;">Scoring 4,200+ trainers against your profile</p><div class="quiz-loading-bar"><div class="quiz-loading-fill" id="qLoad"></div></div></div>`;
-  setTimeout(()=>{ document.getElementById('qLoad').style.width='100%'; document.getElementById('quizProgressFill').style.width='100%'; }, 50);
-  setTimeout(()=>{
-    setStored(KEY.quiz, quizState.answers);
-    document.getElementById('quizPage').classList.remove('active');
-    refreshNav();
-    navTo('browse');
-  }, 1600);
+function quizSummary(){
+  const a = quizState.answers;
+  const parts = [a.goal||'', a.level||'', a.format||'', a.budget||''];
+  if (Array.isArray(a.style) && a.style.length) parts.push('Style: ' + a.style.join(', '));
+  return parts.filter(Boolean).join(' | ').slice(0, 250);
 }
-
-function retakeQuiz(){
-  localStorage.removeItem(KEY.quiz);
-  refreshNav();
-  startQuiz();
-}
-
-/* ════════ MATCH SCORING ════════ */
-function matchScore(trainer, quiz){
-  if (!quiz || !quiz.goal) return null;
-  let score = 50;
-  const goal = (quiz.goal||'').toLowerCase();
-  const goalKeywords = {
-    'lose weight':['weight loss'],'build muscle':['build muscle','strength'],'improve flexibility':['flexibility','yoga','mobility'],
-    'reduce stress':['stress relief','meditation','yoga'],'prenatal fitness':['prenatal'],'postpartum recovery':['postpartum'],
-    'injury rehabilitation':['injury rehab','rehab'],'train for competition':['comp prep','athletic'],'senior fitness':['senior'],
-    'general health':['general health']
-  };
-  const wanted = goalKeywords[goal] || [goal];
-  if (wanted.some(w => trainer.specialties.some(s=>s.includes(w)))) score += 28;
-  if (quiz.format==='In-person only' && trainer.formats.includes('in-person')) score += 8;
-  if (quiz.format==='Virtual only' && trainer.formats.includes('virtual')) score += 8;
-  if (quiz.format==='Either works for me') score += 6;
-  if (quiz.level) {
-    const lv = quiz.level.toLowerCase();
-    const map = {'complete beginner':'beginner','some experience':'some','intermediate':'intermediate','advanced':'advanced','athlete':'athlete'};
-    if (trainer.level.includes(map[lv])) score += 6;
-  }
-  if (quiz.budget) {
-    const inBudget = (b,p)=>({'Under $50':p<50,'$50–$75':p<=75,'$75–$100':p<=100,'$100–$150':p<=150,'$150+':true})[b];
-    if (inBudget(quiz.budget, trainer.price)) score += 8;
-  }
-  return Math.min(99, score);
-}
-
-/* ════════ TRAINER CARD RENDER ════════ */
-function trainerCardHTML(t, opts={}){
-  const quiz = getStored(KEY.quiz, null);
-  const score = opts.showMatch ? matchScore(t, quiz) : null;
-  const saved = (getStored(KEY.saved, []) || []).includes(t.id);
-  const momentum = MOMENTUM[Math.abs(t.id.charCodeAt(0)+t.id.charCodeAt(1))%MOMENTUM.length];
-  const badges = t.badges.map(b=>{
-    if (b==='top') return '<span class="badge badge-top">⭐ Top Rated</span>';
-    if (b==='virtual') return '<span class="badge badge-virtual">📹 Virtual</span>';
-    if (b==='inperson') return '<span class="badge badge-inperson">🏠 In-Person</span>';
-    if (b==='new') return '<span class="badge badge-new">✨ New</span>';
-    return '';
-  }).join('');
-  return `
-    <div class="trainer-card">
-      <div class="card-top" style="background:${t.gradient};" onclick="showProfile('${t.id}')">
-        ${score!==null?`<div class="badge-match">${score}% Match</div>`:''}
-        <div class="card-badges">${badges}</div>
-        <div class="card-avatar">${t.initials}</div>
-        <div class="card-video" onclick="event.stopPropagation();openVideo('${t.id}','${t.name}')"><div class="card-video-play">▶</div></div>
-        <div class="card-video-label">90-sec intro</div>
-        <button class="card-save ${saved?'saved':''}" onclick="event.stopPropagation();toggleSave('${t.id}',this)">${saved?'♥':'♡'}</button>
+function renderQuizContact(){
+  document.getElementById('quizProgressFill').style.width = '100%';
+  document.getElementById('quizStep').innerHTML = `<div class="quiz-step quiz-step-anim">
+    <div class="quiz-step-label">Last step</div>
+    <h2>Where should we reach you?</h2>
+    <p style="font-size:14px;color:var(--gray);margin:-6px 0 18px;">We're signing up our first trainers now. Leave your details and we'll contact you as matches become available.</p>
+    <form id="quizForm" onsubmit="submitSignup(event,'client')" novalidate>
+      <div class="form-row">
+        <div class="form-group"><label for="q-first">First name</label><input id="q-first" name="first_name" type="text" autocomplete="given-name" required maxlength="80"></div>
+        <div class="form-group"><label for="q-last">Last name</label><input id="q-last" name="last_name" type="text" autocomplete="family-name" required maxlength="80"></div>
       </div>
-      <div class="card-body" onclick="showProfile('${t.id}')">
-        <div class="card-name">${t.name}</div>
-        <div class="card-title">${t.title}</div>
-        <div class="card-momentum">🔥 ${momentum}</div>
-        <div class="card-meta">
-          <span><span class="stars">★★★★★</span> ${t.rating} (${t.reviews})</span>
-          <span>📍 ${t.loc}</span>
-          <span>💪 ${t.exp} yrs</span>
-        </div>
-        <div class="card-tags">${t.tags.map(x=>`<span class="tag">${x}</span>`).join('')}</div>
-        <div class="card-footer">
-          <div class="card-price">From <strong>$${t.price}</strong><span style="color:var(--gray);font-size:12px;">/session</span></div>
-          <button class="btn btn-sage btn-sm">View Profile</button>
-        </div>
+      <div class="form-row">
+        <div class="form-group"><label for="q-email">Email</label><input id="q-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+        <div class="form-group"><label for="q-phone">Phone <span style="font-weight:400;color:var(--gray);">(optional)</span></label><input id="q-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
       </div>
-    </div>`;
+      <input type="hidden" name="specialty_or_goal" value="">
+      <div class="hp-field" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="quiz-actions" style="margin-top:6px;">
+        <button type="button" class="quiz-back" onclick="quizBack()">← Back</button>
+        <button type="submit" class="quiz-next">Join the waitlist →</button>
+      </div>
+      <div class="form-msg" role="alert"></div>
+      <p class="consent">By joining, you agree that FitnessThyme may use your name, email, phone and quiz answers to contact you about early access and to match you with trainers when we launch. You can unsubscribe at any time. See our <a onclick="closeQuiz();openInfo('privacy')">Privacy Policy</a>.</p>
+    </form></div>`;
+  document.querySelector('#quizForm [name="specialty_or_goal"]').value = quizSummary();
 }
 
-function renderFeatured(){
-  document.getElementById('featured-trainers').innerHTML = TRAINERS.slice(0,3).map(t=>trainerCardHTML(t,{showMatch:false})).join('');
+/* ════════ SIGN-UP FORMS → /api/subscribe.php → MailerLite ════════ */
+function thanksHTML(kind, inQuiz){
+  const isTrainer = kind === 'trainer';
+  const title = isTrainer ? 'Thanks, your application is in!' : "You're on the list!";
+  const text = isTrainer
+    ? "We've received your details and will be in touch as we open early access to founding trainers."
+    : "Thanks for joining. We'll contact you as trainers come on board and matches become available.";
+  const btn = inQuiz ? `<button class="btn btn-sage" onclick="closeQuiz();navTo('home')">Back to home</button>` : `<button class="btn btn-sage" onclick="navTo('home')">Back to home</button>`;
+  return `<div class="thanks"><div class="success-icon">🌿</div><h3>${title}</h3><p>${text}</p>${btn}</div>`;
 }
+async function submitSignup(e, kind){
+  e.preventDefault();
+  const form = e.target;
+  const msg = form.querySelector('.form-msg');
+  const btn = form.querySelector('button[type="submit"]');
+  const fd = new FormData(form);
+  const v = n => String(fd.get(n) || '').trim();
+  msg.className = 'form-msg'; msg.textContent = '';
+  if (!v('first_name') || !v('last_name')) { msg.className='form-msg error'; msg.textContent='Please enter your first and last name.'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))) { msg.className='form-msg error'; msg.textContent='Please enter a valid email address.'; return; }
 
-function renderBrowse(){
-  const quiz = getStored(KEY.quiz, null);
-  const list = [...TRAINERS];
-  if (quiz) list.sort((a,b)=> (matchScore(b,quiz)||0)-(matchScore(a,quiz)||0));
-  document.getElementById('browse-trainers').innerHTML = list.map(t=>trainerCardHTML(t,{showMatch:!!quiz})).join('');
-  document.getElementById('resultCount').textContent = list.length;
-  document.getElementById('matchedTagline').style.display = quiz ? 'inline' : 'none';
-  document.getElementById('retakeBtn').style.display = quiz ? 'inline-block' : 'none';
-}
-
-/* ════════ SAVE / VIDEO ════════ */
-function toggleSave(id, btn){
-  const s = getStored(KEY.saved, []) || [];
-  const i = s.indexOf(id);
-  if (i>-1) { s.splice(i,1); btn.classList.remove('saved'); btn.textContent='♡'; }
-  else { s.push(id); btn.classList.add('saved'); btn.textContent='♥'; }
-  setStored(KEY.saved, s);
-}
-function openVideo(id, name){
-  document.getElementById('videoTitle').textContent = name + ' — Intro';
-  document.getElementById('videoWrap').innerHTML = `<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" allow="autoplay" allowfullscreen></iframe>`;
-  openModal('video');
-}
-function closeVideo(){ document.getElementById('videoWrap').innerHTML=''; closeModal('video'); }
-
-/* ════════ PROFILE ════════ */
-function showProfile(id){
-  currentTrainer = id;
-  const t = TRAINERS.find(x=>x.id===id) || TRAINERS[0];
-  document.getElementById('prof-avatar').textContent = t.initials;
-  document.getElementById('prof-name').textContent = t.name;
-  document.getElementById('prof-title').textContent = t.title;
-  // viewers
-  const views = 5 + Math.abs(t.id.charCodeAt(0))%12;
-  document.getElementById('profile-viewers').textContent = `👀 ${views} people viewed this profile today`;
-  // reviews
-  const r = REVIEWS[id] || REVIEWS.maya;
-  document.getElementById('reviews-list').innerHTML = r.map(rv=>`
-    <div class="review-card">
-      <div class="review-header"><span class="reviewer">${rv.name} <span class="stars">${'★'.repeat(rv.stars)}</span></span><span class="review-goal">Goal: ${rv.goal}</span></div>
-      <div class="review-text">"${rv.text}"</div>
-      <div class="review-result">Result: ${rv.result}</div>
-      <div class="review-bestfor">Best for: ${rv.bestFor}</div>
-    </div>
-  `).join('');
-  showPage('profile');
-}
-function openProfileMessage(){
-  activeConvo = currentTrainer;
-  const chats = getChats();
-  if (!chats[currentTrainer]) {
-    const t = TRAINERS.find(x=>x.id===currentTrainer);
-    chats[currentTrainer] = [{ from:'trainer', text:`Hi! I'm ${t.name.split(' ')[0]} — happy to answer any questions before you book. What are you working on?`, t:'Just now' }];
-    saveChats(chats);
+  let specialty = v('specialty_or_goal');
+  if (kind === 'trainer') {
+    const chips = [...document.querySelectorAll('#t-specialties .specialty-chip.selected')].map(c=>c.textContent.trim());
+    specialty = (v('practice_type') + (chips.length ? ': ' + chips.join(', ') : '')).slice(0, 250);
   }
-  navTo('messages');
-}
+  const payload = { kind, first_name:v('first_name'), last_name:v('last_name'), email:v('email'), phone:v('phone'), specialty_or_goal:specialty, website:v('website') };
 
-/* ════════ BOOKING ════════ */
-function selectType(el){
-  const wrap = el.parentElement;
-  wrap.querySelectorAll('.session-type').forEach(t=>t.classList.remove('selected'));
-  el.classList.add('selected');
-}
-function selectSlot(el, day, time){
-  if (!el.classList.contains('avail-open')) return;
-  document.querySelectorAll('.avail-slot').forEach(s=>s.classList.remove('selected'));
-  el.classList.add('selected');
-  pendingSlot = { day, time };
-  // pre-fill book modal time
-  const bookTime = document.getElementById('bookTime');
-  if (bookTime) {
-    const opt = Array.from(bookTime.options).find(o=>o.value.toLowerCase().startsWith(time.replace(/[ap]m/,'').trim()));
-    if (opt) bookTime.value = opt.value;
+  const label = btn.textContent; btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const res = await fetch('/api/subscribe.php', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    let data = null; try { data = await res.json(); } catch(_) {}
+    if (res.ok && data && data.ok) {
+      const inQuiz = form.id === 'quizForm';
+      if (inQuiz) document.getElementById('quizStep').innerHTML = thanksHTML(kind, true);
+      else form.outerHTML = thanksHTML(kind, false);
+      return;
+    }
+    const code = data && data.error;
+    msg.className = 'form-msg error';
+    msg.textContent = code === 'email_invalid' ? 'That email address doesn’t look right. Please check it and try again.'
+      : code === 'phone_invalid' ? 'That phone number doesn’t look right. Please check it or leave it blank.'
+      : code === 'too_many_requests' ? 'Too many attempts. Please try again in a little while.'
+      : 'We couldn’t save your details just now. Please try again in a moment.';
+  } catch (err) {
+    msg.className = 'form-msg error';
+    msg.textContent = 'We couldn’t reach the server. Please check your connection and try again.';
   }
-}
-function confirmBooking(){
-  const fields = ['cardNum','cardExp','cardCvv','cardName'];
-  for (const f of fields) {
-    const el = document.getElementById(f);
-    if (!el.value.trim()) { el.focus(); el.style.borderColor='var(--red)'; setTimeout(()=>el.style.borderColor='', 1500); return; }
-  }
-  closeModal('book');
-  openModal('book-success');
+  btn.disabled = false; btn.textContent = label;
 }
 
-/* card number formatting */
-document.addEventListener('input', e=>{
-  if (e.target.id==='cardNum') {
-    let v = e.target.value.replace(/\D/g,'').slice(0,16);
-    e.target.value = v.replace(/(.{4})/g,'$1 ').trim();
-  }
-  if (e.target.id==='cardExp') {
-    let v = e.target.value.replace(/\D/g,'').slice(0,4);
-    if (v.length>2) v = v.slice(0,2)+'/'+v.slice(2);
-    e.target.value = v;
-  }
-  if (e.target.id==='cardCvv') {
-    e.target.value = e.target.value.replace(/\D/g,'').slice(0,4);
-  }
-});
+/* ════════ MODAL-STYLE ESCAPE + SCROLL EFFECTS ════════ */
+document.addEventListener('keydown', e=>{ if (e.key==='Escape') closeQuiz(); });
 
-/* ════════ MESSAGES ════════ */
-const DEFAULT_CHATS = {
-  maya: [
-    { from:'trainer', text:"Hi! Excited to chat. I saw you're interested in postpartum work — when did baby arrive?", t:'10:04 AM' },
-    { from:'client', text:"About 4 months ago. Cleared by my OB last week.", t:'10:08 AM' },
-    { from:'trainer', text:"Perfect timing. Want to start with a 15-minute intro call this week?", t:'10:09 AM' }
-  ],
-  james: [
-    { from:'trainer', text:"Welcome! What's the meet you're targeting?", t:'Yesterday' },
-    { from:'client', text:"USAPL Spring Open in March.", t:'Yesterday' },
-    { from:'trainer', text:"Good runway. Send me your latest 1RMs and we'll build you a 12-week block.", t:'Today' }
-  ]
-};
-let activeConvo = 'maya';
-
-function getChats(){ return getStored(KEY.chats, DEFAULT_CHATS) || DEFAULT_CHATS; }
-function saveChats(c){ setStored(KEY.chats, c); }
-
-function renderMessages(){
-  const chats = getChats();
-  const trainers = Object.keys(chats).filter(id => TRAINERS.some(t=>t.id===id));
-  if (!trainers.includes(activeConvo) && trainers.length) activeConvo = trainers[0];
-  document.getElementById('convoList').innerHTML = trainers.map(id=>{
-    const t = TRAINERS.find(x=>x.id===id);
-    const msgs = chats[id]||[];
-    const last = msgs[msgs.length-1] || {text:'',t:''};
-    return `<div class="convo-item ${id===activeConvo?'active':''}" onclick="selectConvo('${id}')">
-      <div class="convo-avatar">${t.initials}</div>
-      <div class="convo-meta"><div class="convo-name">${t.name}</div><div class="convo-preview">${last.text}</div></div>
-      <div class="convo-time">${last.t}</div>
-    </div>`;
-  }).join('');
-  renderThread();
-}
-function selectConvo(id){ activeConvo = id; renderMessages(); }
-function renderThread(){
-  const t = TRAINERS.find(x=>x.id===activeConvo);
-  document.getElementById('chatHeaderName').textContent = t.name;
-  const msgs = getChats()[activeConvo] || [];
-  const wrap = document.getElementById('chatThread');
-  wrap.innerHTML = msgs.map(m=>`<div class="chat-bubble from-${m.from}">${m.text}</div>`).join('');
-  wrap.scrollTop = wrap.scrollHeight;
-}
-function sendChat(){
-  const inp = document.getElementById('chatInput');
-  const text = inp.value.trim();
-  if (!text) return;
-  const chats = getChats();
-  if (!chats[activeConvo]) chats[activeConvo] = [];
-  const now = new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-  chats[activeConvo].push({ from:'client', text, t:now });
-  saveChats(chats);
-  inp.value = '';
-  renderMessages();
-}
-
-/* ════════ DASHBOARD ════════ */
-function renderDashboard(){
-  // saved trainers
-  const saved = getStored(KEY.saved, []) || [];
-  const row = document.getElementById('savedRow');
-  if (!saved.length) {
-    row.innerHTML = `<div class="saved-empty">You haven't saved any trainers yet — tap the heart on any trainer card to save them here.</div>`;
-  } else {
-    row.innerHTML = saved.map(id=>{
-      const t = TRAINERS.find(x=>x.id===id); if (!t) return '';
-      return `<div class="saved-card" onclick="showProfile('${t.id}')">
-        <div class="saved-av">${t.initials}</div>
-        <div class="saved-name">${t.name}</div>
-        <div class="saved-title">${t.title}</div>
-        <div class="saved-rate">★ ${t.rating} · From $${t.price}</div>
-      </div>`;
-    }).join('');
-  }
-  // notes
-  renderNotes();
-  // quiz summary
-  const quiz = getStored(KEY.quiz, null);
-  const sum = document.getElementById('quizSummary');
-  if (!quiz) { sum.innerHTML = `<div class="profile-summary-item"><div class="profile-summary-label">No quiz yet</div><div class="profile-summary-value">Take the quiz to personalize your matches.</div></div>`; }
-  else {
-    const fields = [
-      ['Goal', quiz.goal],['Level', quiz.level],['Format', quiz.format],['Budget', quiz.budget],
-      ['Days', Array.isArray(quiz.days)?quiz.days.join(', '):quiz.days],
-      ['Style', Array.isArray(quiz.style)?quiz.style.slice(0,2).join(', ')+(quiz.style.length>2?'…':''):quiz.style]
-    ].filter(([_,v])=>v);
-    sum.innerHTML = fields.map(([l,v])=>`<div class="profile-summary-item"><div class="profile-summary-label">${l}</div><div class="profile-summary-value">${v}</div></div>`).join('');
-  }
-}
-function saveNote(){
-  const inp = document.getElementById('noteInput');
-  const text = inp.value.trim();
-  if (!text) return;
-  const notes = getStored(KEY.notes, []) || [];
-  notes.unshift({ text, t: new Date().toLocaleString() });
-  setStored(KEY.notes, notes);
-  inp.value = '';
-  renderNotes();
-}
-function renderNotes(){
-  const notes = getStored(KEY.notes, []) || [];
-  document.getElementById('notesList').innerHTML = notes.map(n=>`<div class="note-card"><div class="note-time">${n.t}</div><div class="note-text">${n.text}</div></div>`).join('');
-}
-
-/* ════════ REFERRAL ════════ */
-function copyReferral(){
-  const v = document.getElementById('refLink').value;
-  navigator.clipboard?.writeText(v);
-  const btn = document.getElementById('copyRefBtn');
-  const orig = btn.textContent;
-  btn.textContent = 'Copied! ✓';
-  setTimeout(()=>btn.textContent=orig, 2000);
-}
-function shareReferralEmail(){
-  const link = document.getElementById('refLink').value;
-  const subject = encodeURIComponent("Try FitnessThyme — your first session is on me");
-  const body = encodeURIComponent(`I've been using FitnessThyme to find a trainer that actually fits, and you can get your first session free with my link:\n\nhttps://${link}\n\n— enjoy 🌿`);
-  window.location.href = `mailto:?subject=${subject}&body=${body}`;
-}
-
-/* ════════ TICKER ════════ */
-function renderTicker(){
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
-  document.getElementById('tickerTrack').innerHTML = items.map(i=>`<span class="ticker-item">${i}</span>`).join('');
-}
-
-/* ════════ FILTERS ════════ */
-function toggleFilter(el){
-  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-}
-
-/* ════════ SCROLL EFFECTS ════════ */
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
 }, { threshold: 0.12 });
@@ -1689,9 +990,6 @@ window.addEventListener('scroll', ()=>{
 });
 
 /* ════════ INIT ════════ */
-renderFeatured();
-renderTicker();
-refreshNav();
 routeFromPath();
 </script>
 </body>
