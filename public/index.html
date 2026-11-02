@@ -502,6 +502,7 @@
   <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
   <div class="nav-links" id="navLinks">
     <button class="nav-btn" onclick="openInfo('matching')">How it works</button>
+    <a class="nav-btn" href="/guides" style="text-decoration:none">Guides</a>
     <button class="nav-btn" onclick="navTo('register')">For trainers</button>
     <button class="nav-btn primary" onclick="navTo('browse')">Join the waitlist</button>
   </div>
@@ -710,7 +711,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand"><h3>🌿 Fitness<span>Thyme</span></h3><p>Connecting people with the right fitness guidance at the right time.</p></div>
-    <div class="footer-col"><h4>For clients</h4><a href="/find-a-trainer">Join the waitlist</a><a href="/take-the-quiz">Take the quiz</a><a href="/matching">How it works</a></div>
+    <div class="footer-col"><h4>For clients</h4><a href="/find-a-trainer">Join the waitlist</a><a href="/take-the-quiz">Take the quiz</a><a href="/matching">How it works</a><a href="/guides">Guides</a></div>
     <div class="footer-col"><h4>For trainers</h4><a href="/list-your-practice">Apply as a founding trainer</a></div>
     <div class="footer-col"><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a></div>
   </div>
@@ -823,6 +824,7 @@ document.addEventListener('click', (e)=>{
   const a = e.target.closest('a[href^="/"]');
   if (!a) return;
   const href = a.getAttribute('href');
+  if (href === '/guides' || href.startsWith('/guides/')) return; // static pages: let the browser navigate
   if (a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
   e.preventDefault();
   if (href === '/take-the-quiz') { startQuiz(); return; }
