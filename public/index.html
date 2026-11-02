@@ -3,7 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FitnessThyme — Find Your Perfect Trainer</title>
+<title>FitnessThyme — Find a Trainer Who Actually Gets You</title>
+<meta name="description" content="Find a personal trainer, yoga or Pilates instructor, or gym that fits your goals, training style and schedule. Take a short quiz, compare matches, and book a free intro call.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#2d4a2d">
+<link rel="canonical" href="https://fitnessthyme.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235a7a5a'/%3E%3Ctext x='32' y='46' font-family='Georgia,serif' font-size='40' font-weight='700' text-anchor='middle' fill='%23faf8f3'%3EF%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FitnessThyme">
+<meta property="og:title" content="FitnessThyme — Find a Trainer Who Actually Gets You">
+<meta property="og:description" content="Match with trainers, yoga and Pilates instructors, and gyms based on your goals, training style and schedule. In person or online.">
+<meta property="og:url" content="https://fitnessthyme.com/">
+<meta property="og:image" content="https://fitnessthyme.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FitnessThyme — Find a Trainer Who Actually Gets You">
+<meta name="twitter:description" content="Match with trainers, yoga and Pilates instructors, and gyms based on your goals, training style and schedule.">
+<meta name="twitter:image" content="https://fitnessthyme.com/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"FitnessThyme","url":"https://fitnessthyme.com/"},{"@type":"Organization","name":"FitnessThyme","url":"https://fitnessthyme.com/"}]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1119,6 +1137,35 @@ let pendingSlot = null;
 function getStored(k, def){ try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
 function setStored(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
 
+/* ════════ SEO (per-route title, description, canonical, robots) ════════ */
+const SEO_SITE = 'https://fitnessthyme.com';
+const SEO_PAGES = {
+  home:     { path:'/', title:'FitnessThyme — Find a Trainer Who Actually Gets You',
+              desc:'Find a personal trainer, yoga or Pilates instructor, or gym that fits your goals, training style and schedule. Take a short quiz, compare matches, and book a free intro call.' },
+  browse:   { path:'/find-a-trainer', title:'Find a Personal Trainer, Yoga or Pilates Instructor · FitnessThyme',
+              desc:'Browse trainers and instructors by specialty, format (in person or online), price and availability. Prenatal, strength, yoga, rehab, senior fitness and more.' },
+  register: { path:'/list-your-practice', title:'List Your Practice · FitnessThyme',
+              desc:'Trainers, instructors and gyms: create a profile, describe the clients you work best with, and get introduced to people looking for your specialty.' }
+};
+const SEO_PRIVATE = { messages:'/messages', dashboard:'/dashboard', profile:'/profile' };
+function seoSet(sel, attr, val){ const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); }
+function updateSEO(id){
+  let path = '/', title = null, desc = null, index = true;
+  if (SEO_PAGES[id]) { ({path, title, desc} = SEO_PAGES[id]); }
+  else if (SEO_PRIVATE[id]) { path = SEO_PRIVATE[id]; index = false; title = 'FitnessThyme'; }
+  else if (id === 'info') { path = '/' + (window.currentInfoKey || ''); index = false; }
+  if (title) document.title = title;
+  seoSet('link[rel="canonical"]', 'href', SEO_SITE + path);
+  seoSet('meta[name="robots"]', 'content', index ? 'index,follow' : 'noindex,follow');
+  seoSet('meta[property="og:url"]', 'content', SEO_SITE + path);
+  if (title) { seoSet('meta[property="og:title"]', 'content', title); seoSet('meta[name="twitter:title"]', 'content', title); }
+  if (desc) {
+    seoSet('meta[name="description"]', 'content', desc);
+    seoSet('meta[property="og:description"]', 'content', desc);
+    seoSet('meta[name="twitter:description"]', 'content', desc);
+  }
+}
+
 /* ════════ NAV / PAGES ════════ */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1129,6 +1176,7 @@ function showPage(id){
   if (id==='browse') renderBrowse();
   if (id==='messages') renderMessages();
   if (id==='dashboard') renderDashboard();
+  updateSEO(id);
 }
 const PAGE_PATHS = {
   home: '/', browse: '/find-a-trainer', messages: '/messages',
@@ -1174,8 +1222,9 @@ function openInfo(key){
   document.getElementById('info-body').innerHTML = c.body;
   const path = '/'+key;
   if (location.pathname !== path) history.pushState({}, '', path);
-  document.title = c.title + ' · FitnessThyme';
+  window.currentInfoKey = key;
   showPage('info');
+  document.title = c.title + ' · FitnessThyme';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function routeFromPath(){
