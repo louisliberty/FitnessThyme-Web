@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FitnessThyme — Find a Trainer Who Actually Gets You</title>
-<meta name="description" content="FitnessThyme is opening early access. Trainers, instructors and gyms can apply as founding members, and anyone looking for a trainer can join the waitlist to be matched by goals, style and schedule.">
+<title>FitnessThyme — Fitness Coaching Guides and Trainer Matching</title>
+<meta name="description" content="Plain-language guides to choosing online fitness coaching, with prices and sources, plus early access to a trainer-matching service. Join the waitlist or apply as a founding trainer.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#2d4a2d">
 <link rel="canonical" href="https://fitnessthyme.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235a7a5a'/%3E%3Ctext x='32' y='46' font-family='Georgia,serif' font-size='40' font-weight='700' text-anchor='middle' fill='%23faf8f3'%3EF%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FitnessThyme">
-<meta property="og:title" content="FitnessThyme — Find a Trainer Who Actually Gets You">
+<meta property="og:title" content="FitnessThyme — Fitness Coaching Guides and Trainer Matching">
 <meta property="og:description" content="Early access now open. Match with trainers, yoga and Pilates instructors and gyms by goals, training style and schedule, in person or online.">
 <meta property="og:url" content="https://fitnessthyme.com/">
 <meta property="og:image" content="https://fitnessthyme.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FitnessThyme — Find a Trainer Who Actually Gets You">
+<meta name="twitter:title" content="FitnessThyme — Fitness Coaching Guides and Trainer Matching">
 <meta name="twitter:description" content="Match with trainers, yoga and Pilates instructors, and gyms based on your goals, training style and schedule.">
 <meta name="twitter:image" content="https://fitnessthyme.com/og-image.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"FitnessThyme","url":"https://fitnessthyme.com/"},{"@type":"Organization","name":"FitnessThyme","url":"https://fitnessthyme.com/"}]}</script>
@@ -501,8 +501,8 @@
   <div class="nav-logo" onclick="navTo('home')"><span aria-hidden="true">🌿</span><span class="wm">Fitness<span>Thyme</span></span></div>
   <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
   <div class="nav-links" id="navLinks">
-    <button class="nav-btn" onclick="openInfo('matching')">How it works</button>
     <a class="nav-btn" href="/guides" style="text-decoration:none">Guides</a>
+    <button class="nav-btn" onclick="openInfo('matching')">How matching works</button>
     <button class="nav-btn" onclick="navTo('register')">For trainers</button>
     <button class="nav-btn primary" onclick="navTo('browse')">Join the waitlist</button>
   </div>
@@ -512,18 +512,33 @@
 <div id="page-home" class="page active">
 
   <div class="hero">
-    <div class="hero-badge">✦ Early access — founding trainers welcome</div>
-    <h1>Find a trainer who <em>actually</em> gets you</h1>
-    <p>FitnessThyme is a new way to match with personal trainers, yoga and Pilates instructors, and gyms based on your goals, training style, and schedule — in person or online. We're opening early access now.</p>
+    <div class="hero-badge">✦ Guides now live · Trainer matching in early access</div>
+    <h1>Find the right fitness coaching, <em>without the guesswork</em></h1>
+    <p>Plain-language guides to online coaching and training: what it costs, how to choose, and what to ask before you pay. We're also building a service that matches you with trainers, and early access is open.</p>
     <div class="hero-cta">
-      <button class="btn btn-primary" onclick="startQuiz()">I'm looking for a trainer →</button>
-      <button class="btn btn-outline" onclick="navTo('register')">I'm a trainer or gym</button>
+      <a class="btn btn-primary" href="/guides">Read the guides →</a>
+      <button class="btn btn-outline" onclick="startQuiz()">Join the matching waitlist</button>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">Goal-first</div><div class="hero-stat-label">matching</div></div>
-      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">In person</div><div class="hero-stat-label">and online</div></div>
-      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">Free intro</div><div class="hero-stat-label">calls, at launch</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">Prices</div><div class="hero-stat-label">compared, with sources</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">Clear</div><div class="hero-stat-label">questions to ask first</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" style="font-size:24px;">No hype</div><div class="hero-stat-label">and no health claims</div></div>
     </div>
+  </div>
+
+  <div class="section reveal" style="padding-bottom: 40px;">
+    <div class="section-header">
+      <div class="section-tag">Start here</div>
+      <h2>Guides to choosing coaching</h2>
+      <p class="lead">Written by the FitnessThyme editorial team from published sources, with the sources listed on every page.</p>
+    </div>
+    <div class="cats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));max-width:1000px;margin:0 auto;">
+      <a class="cat-card" href="/guides/how-to-choose-an-online-personal-trainer/" style="text-decoration:none;color:inherit"><div class="cat-icon">✅</div><h4>How to choose a trainer</h4><p>A practical checklist</p></a>
+      <a class="cat-card" href="/guides/how-much-does-online-personal-training-cost/" style="text-decoration:none;color:inherit"><div class="cat-icon">💲</div><h4>What it costs</h4><p>Published prices compared</p></a>
+      <a class="cat-card" href="/guides/caliber-vs-future-vs-trainwell/" style="text-decoration:none;color:inherit"><div class="cat-icon">⚖️</div><h4>Caliber vs. Future vs. Trainwell</h4><p>How they differ</p></a>
+      <a class="cat-card" href="/guides/questions-before-hiring-an-online-coach/" style="text-decoration:none;color:inherit"><div class="cat-icon">❓</div><h4>10 questions to ask</h4><p>Before you pay</p></a>
+    </div>
+    <p style="text-align:center;margin-top:20px;"><a href="/guides/" style="color:var(--sage-dark);font-weight:600;">See all guides →</a></p>
   </div>
 
   <div class="section reveal" style="padding-bottom: 40px;">
@@ -724,8 +739,8 @@
 /* ════════ SEO (per-route title, description, canonical, robots) ════════ */
 const SEO_SITE = 'https://fitnessthyme.com';
 const SEO_PAGES = {
-  home:     { path:'/', title:'FitnessThyme — Find a Trainer Who Actually Gets You',
-              desc:'FitnessThyme is opening early access. Trainers, instructors and gyms can apply as founding members, and anyone looking for a trainer can join the waitlist to be matched by goals, style and schedule.' },
+  home:     { path:'/', title:'FitnessThyme — Fitness Coaching Guides and Trainer Matching',
+              desc:'Plain-language guides to choosing online fitness coaching, with prices and sources, plus early access to a trainer-matching service. Join the waitlist or apply as a founding trainer.' },
   browse:   { path:'/find-a-trainer', title:'Join the Waitlist — Get Matched With a Trainer · FitnessThyme',
               desc:'Join the FitnessThyme waitlist. Take a short quiz about your goals and training style and get matched as trainers, yoga and Pilates instructors and gyms open up.' },
   register: { path:'/list-your-practice', title:'Apply as a Founding Trainer · FitnessThyme',
